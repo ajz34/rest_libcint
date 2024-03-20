@@ -203,6 +203,15 @@ impl CINTR2CDATA {
 
         self.c_opt = (unsafe {std::ptr::null::<CINTOpt>() as *mut CINTOpt}, 0,0);
     }
+
+    pub fn initial_r2c_with_ecp(&mut self,
+                atm: &Vec<Vec<i32>>, natm:i32,
+                bas: &Vec<Vec<i32>>, nbas:i32,
+                ecp: &Vec<Vec<i32>>, necp:i32,
+                env: &Vec<f64>) {
+        initial_r2c(&mut self, atm, natm, bas, nbas, ecp);
+    }
+
     pub fn final_c2r(&mut self) {
         ///```println!("Clean the unsafe data and transfer the ownership of the raw pointers in CINTR2CDATA to Rust");```
         unsafe {
