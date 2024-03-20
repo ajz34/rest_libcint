@@ -209,7 +209,7 @@ impl CINTR2CDATA {
                 bas: &Vec<Vec<i32>>, nbas:i32,
                 ecp: &Vec<Vec<i32>>, necp:i32,
                 env: &Vec<f64>) {
-        initial_r2c(&mut self, atm, natm, bas, nbas, ecp);
+        self.initial_r2c(atm, natm, bas, nbas, env);
     }
 
     pub fn final_c2r(&mut self) {
