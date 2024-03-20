@@ -114,6 +114,7 @@ pub enum IJOPT {
     Ovlp,
     Kinetic,
     Nuclear,
+    UNKNOWN
 }
 
 pub enum IJIPOPT {
@@ -492,7 +493,8 @@ impl CINTR2CDATA {
         } else if op_name.to_lowercase() ==String::from("nuclear") {
             IJOPT::Nuclear
         } else {
-            panic!("Error:: Unknown operator for GTO-ij integrals {}", op_name)
+            IJOPT::UNKNOWN
+            //panic!("Error:: Unknown operator for GTO-ij integrals {}", op_name)
         };
         let mut di: i32 = self.cint_cgto_rust(i);
         let mut dj: i32 = self.cint_cgto_rust(j);
@@ -558,6 +560,7 @@ impl CINTR2CDATA {
                                         self.c_opt.0),
                     }
                 },
+                IJOPT::UNKNOWN => {1}
             };
             let shls = Vec::from_raw_parts(c_shls, shls_len, shls_cap);
             new_buf = Vec::from_raw_parts(c_buf, buf_len, buf_cap);
