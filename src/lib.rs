@@ -342,6 +342,13 @@ impl CINTR2CDATA {
                                         self.c_env.0)
         }
     }
+    pub fn cint1e_ecp_optimizer_rust(&mut self){
+        self.cint_del_optimizer_rust();
+        //self.cint_init_2e_optimizer_rust();
+        unsafe {
+            self.c_opt.0 = std::ptr::null::<CINTOpt>() as *mut CINTOpt                            
+        }
+    }
     pub fn cint_cgto_rust(&self, index: i32) -> i32 {
         let mut dim: i32;
         unsafe {
