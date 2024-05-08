@@ -131,9 +131,9 @@ pub enum IP3C2E {
 
 #[derive(Clone)]
 pub struct CINTR2CDATA {
-    c_atm: (*const i32, usize, usize),
-    c_bas: (*const i32, usize, usize),
-    c_env: (*const f64, usize, usize),
+    c_atm: (*mut i32, usize, usize),
+    c_bas: (*mut i32, usize, usize),
+    c_env: (*mut f64, usize, usize),
     c_nbas: c_int,
     c_natm: c_int,
     c_opt: (*mut CINTOpt, usize, usize),
@@ -145,9 +145,9 @@ impl CINTR2CDATA {
     /// create a new, empty CINTR2CDATA.
     pub fn new() -> CINTR2CDATA {
         CINTR2CDATA { 
-            c_atm: (unsafe {std::ptr::null::<i32>() as *const i32}, 0,0),
-            c_bas: (unsafe {std::ptr::null::<i32>() as *const i32}, 0,0),
-            c_env: (unsafe {std::ptr::null::<f64>() as *const f64}, 0,0),
+            c_atm: (unsafe {std::ptr::null::<i32>() as *mut i32}, 0,0),
+            c_bas: (unsafe {std::ptr::null::<i32>() as *mut i32}, 0,0),
+            c_env: (unsafe {std::ptr::null::<f64>() as *mut f64}, 0,0),
             c_ao_loc: (unsafe {std::ptr::null::<i32>() as *const i32}, 0,0),
             c_opt: (unsafe {std::ptr::null::<CINTOpt>() as *mut CINTOpt}, 0,0),
             c_nbas: 0 as c_int,
@@ -186,17 +186,17 @@ impl CINTR2CDATA {
         let mut env_f= env.clone();
         env_f.shrink_to_fit();
         let mut env_f = ManuallyDrop::new(env_f);
-        self.c_env = (env_f.as_ptr(), env_f.len(), env_f.capacity());
+        self.c_env = (env_f.as_mut_ptr(), env_f.len(), env_f.capacity());
 
         let mut bas_f= bas.clone().into_iter().flatten().collect::<Vec<i32>>();
         bas_f.shrink_to_fit();
         let mut bas_f = ManuallyDrop::new(bas_f);
-        self.c_bas = (bas_f.as_ptr(), bas_f.len(), bas_f.capacity());
+        self.c_bas = (bas_f.as_mut_ptr(), bas_f.len(), bas_f.capacity());
 
         let mut atm_f = atm.clone().into_iter().flatten().collect::<Vec<i32>>();
         atm_f.shrink_to_fit();
         let mut atm_f = ManuallyDrop::new(atm_f);
-        self.c_atm = (atm_f.as_ptr(), atm_f.len(), atm_f.capacity());
+        self.c_atm = (atm_f.as_mut_ptr(), atm_f.len(), atm_f.capacity());
 
         self.c_natm = natm as c_int;
         self.c_nbas = nbas as c_int;
@@ -718,7 +718,7 @@ impl CINTR2CDATA {
                                                             self.c_bas.0,self.c_nbas,
                                                             self.c_env.0,
                                                             self.c_opt.0),
-                        CintType::Cartesian => cint::int3c2e_ip1_cart(c_buf, c_shls,
+                        CintType::Cartesian => cint::cint3c2e_ip1_cart(c_buf, c_shls,
                                                             self.c_atm.0, self.c_natm,
                                                             self.c_bas.0,self.c_nbas,
                                                             self.c_env.0,
@@ -726,12 +726,12 @@ impl CINTR2CDATA {
                     }},
                 IP3C2E::IP2 => {
                     match self.cint_type {
-                        CintType::Spheric => cint::int3c2e_ip2_sph(c_buf, c_shls,
+                        CintType::Spheric => cint::cint3c2e_ip2_sph(c_buf, c_shls,
                                                             self.c_atm.0, self.c_natm,
                                                             self.c_bas.0,self.c_nbas,
                                                             self.c_env.0,
                                                             self.c_opt.0),
-                        CintType::Cartesian => cint::int3c2e_ip2_cart(c_buf, c_shls,
+                        CintType::Cartesian => cint::cint3c2e_ip2_cart(c_buf, c_shls,
                                                             self.c_atm.0, self.c_natm,
                                                             self.c_bas.0,self.c_nbas,
                                                             self.c_env.0,
