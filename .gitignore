@@ -1,6 +1,7 @@
 /target
 Cargo.lock
 github-token
+.ipynb_checkpoints
 
 # additional from https://github.com/github/gitignore/blob/main/Rust.gitignore
 

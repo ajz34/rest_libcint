@@ -142,6 +142,8 @@ pub struct CINTR2CDATA {
     cint_type: CintType,
 }
 
+mod cint_optimizer_rust;
+
 impl CINTR2CDATA {
     /// create a new, empty CINTR2CDATA.
     pub fn new() -> CINTR2CDATA {
@@ -226,130 +228,6 @@ impl CINTR2CDATA {
     pub fn cint_del_optimizer_rust(&mut self) {
         unsafe{
             CINTdel_optimizer(&mut self.c_opt.0);
-        }
-    }
-    pub fn cint2c2e_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_2e_optimizer_rust();
-        unsafe {
-            cint::cint2c2e_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint2c2e_ip1_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_2e_optimizer_rust();
-        unsafe {
-            cint::cint2c2e_ip1_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint3c2e_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_2e_optimizer_rust();
-        unsafe {
-            cint::cint3c2e_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint3c2e_ip1_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        unsafe {
-            cint::int3c2e_ip1_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint3c2e_ip2_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        unsafe {
-            cint::int3c2e_ip2_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint2e_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_2e_optimizer_rust();
-        unsafe {
-            cint::cint2e_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint1e_ovlp_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_optimizer_rust();
-        unsafe {
-            cint::cint1e_ovlp_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint1e_nuc_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_optimizer_rust();
-        unsafe {
-            cint::cint1e_nuc_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn cint1e_kin_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        //self.cint_init_optimizer_rust();
-        unsafe {
-            cint::int1e_kin_optimizer(&mut self.c_opt.0, 
-                                       self.c_atm.0, self.c_natm, 
-                                       self.c_bas.0, self.c_nbas, 
-                                       self.c_env.0);
-        }
-    }
-    pub fn int1e_ipovlp_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        unsafe {
-            cint::int1e_ipovlp_optimizer(&mut self.c_opt.0, 
-                                        self.c_atm.0, self.c_natm, 
-                                        self.c_bas.0, self.c_nbas, 
-                                        self.c_env.0)
-        }
-    }
-    pub fn int1e_ipkin_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        unsafe {
-            cint::int1e_ipkin_optimizer(&mut self.c_opt.0, 
-                                        self.c_atm.0, self.c_natm, 
-                                        self.c_bas.0, self.c_nbas, 
-                                        self.c_env.0)
-        }
-    }
-    pub fn int1e_ipnuc_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        unsafe {
-            cint::int1e_ipnuc_optimizer(&mut self.c_opt.0, 
-                                        self.c_atm.0, self.c_natm, 
-                                        self.c_bas.0, self.c_nbas, 
-                                        self.c_env.0)
-        }
-    }
-    pub fn int1e_iprinv_optimizer_rust(&mut self){
-        self.cint_del_optimizer_rust();
-        unsafe {
-            cint::int1e_iprinv_optimizer(&mut self.c_opt.0, 
-                                        self.c_atm.0, self.c_natm, 
-                                        self.c_bas.0, self.c_nbas, 
-                                        self.c_env.0)
         }
     }
     pub fn cint1e_ecp_optimizer_rust(&mut self){
@@ -878,7 +756,7 @@ pub fn test_1() {
     //=============================================================================
     // for int1e_nuc
     //=============================================================================
-    cint_data.cint1e_nuc_optimizer_rust();
+    cint_data.int1e_nuc_optimizer_rust();
     let op = String::from("nuclear");
     let buf = cint_data.cint_ij(0,1,&op);
     println!("nuc: {:?}", &buf);
@@ -893,7 +771,7 @@ pub fn test_1() {
     //=============================================================================
     // for cint3c2e_ip
     //=============================================================================
-    cint_data.cint3c2e_ip1_optimizer_rust();
+    cint_data.int3c2e_ip1_optimizer_rust();
     let op = String::from("ip1");
     let buf = cint_data.cint_ip_3c2e(0,1,1, &op);
     println!("3c2e_ip1: {:?}", &buf);
