@@ -10,10 +10,10 @@ macro_rules! impl_intor_optimizer {
             self.cint_del_optimizer_rust();
             unsafe {
                 cint::$optim_cint(
-                    &mut self.c_opt, 
-                    self.c_atm.0, self.c_natm, 
-                    self.c_bas.0, self.c_nbas, 
-                    self.c_env.0);
+                    &mut self.c_opt,
+                    self.c_atm.as_mut_ptr(), self.c_natm,
+                    self.c_bas.as_mut_ptr(), self.c_nbas,
+                    self.c_env.as_mut_ptr());
             }
         }
     };
