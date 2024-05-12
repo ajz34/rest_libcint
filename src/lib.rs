@@ -142,7 +142,7 @@ pub struct CINTR2CDATA {
     c_env: Vec<f64>,
 }
 
-mod cint_optimizer_rust;
+mod cint_wrapper;
 
 impl CINTR2CDATA {
     /// create a new, empty CINTR2CDATA.

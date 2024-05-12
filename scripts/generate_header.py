@@ -31,6 +31,69 @@ with open(f"{dir_libcint_src}/CMakeLists.txt", "r") as f:
     raw_cmakelists = f.read()
 # -
 
+# ### obtain known intors
+
+# -- configure list of integrals known to `cint_funcs.h` --
+# known intor of `cint_funcs.h`
+known_intor = []
+for line in raw_cint_funcs_h.split("\n"):
+    if line.startswith("extern CINTOptimizerFunction"):
+        known_intor.append(line.strip().replace(";", "").split()[-1].replace("_optimizer", ""))
+known_intor = sorted(set(known_intor))
+
+# +
+# -- configure list of integrals known to source code, autocode included --
+# all intor generated in source code (autocode included)
+# pattern: ALL_CINT(<intor>)
+# pattern: ALL_CINT1E(<intor>)
+# actual_intor = []
+# for src_path in list(glob.iglob(f"{dir_libcint_src}/src/**/*.c", recursive=True)):
+#     with open(src_path, "r") as f:
+#         for line in f.readlines():
+#             if line.startswith("ALL_CINT(") or line.startswith("ALL_CINT1E("):
+#                 actual_intor.append(line.split("(")[-1].replace(")", "").replace(";", "").strip())
+# actual_intor = sorted(set(actual_intor))
+
+# +
+# -- configure list of integrals known to source code, autocode included --
+# all intor generated in source code (autocode included)
+# pattern: 
+#   CACHE_SIZE_T <intor>(...
+#   FINT ng[] = {...};
+# pattern rule:
+#   <intor> ends with _sph, _cart, _spinor; no # in <intor>
+
+actual_intor = {}
+valid_suffix = ("_sph", "_cart", "_spinor")
+for src_path in list(glob.iglob(f"{dir_libcint_src}/src/**/*.c", recursive=True)):
+    with open(src_path, "r") as f:
+        lines = f.readlines()
+        for n, line in enumerate(lines):
+            if line.startswith("CACHE_SIZE_T int"):
+                # match pattern for intor
+                intor = line.split("(")[0].split()[-1].strip()
+                is_intor_valid = False
+                for suffix in valid_suffix:
+                    if intor.endswith(suffix):
+                        intor = intor.replace(suffix, "")
+                        is_intor_valid = True
+                if "#" in intor or intor in actual_intor or not is_intor_valid:
+                    continue
+                # match pattern for ng
+                ng = None
+                for l in lines[n:n+5]:
+                    if l.strip().startswith("FINT ng[]"):
+                        ng = [int(i) for i in l.strip().replace(";", "").replace("}", "").split("{")[-1].split(",")]
+                if ng is None:
+                    raise ValueError(f"{intor}")
+                actual_intor[intor] = ng
+# -
+
+# assert known intors are all included in all intors
+assert len(set(known_intor) - set(actual_intor)) == 0
+
+# ## `bindgen` auto-generation
+
 # ### configure `cint.h`
 
 # -- configure version of cint.h --
@@ -50,57 +113,46 @@ cint_h = raw_cint_h_in \
     .replace("#cmakedefine I8", "/* #undef I8 */") \
     .replace("#cmakedefine CACHE_SIZE_I8", "/* #undef CACHE_SIZE_I8 */")
 
-# ### obtain known intors
-
-## -- configure list of integrals known to `cint_funcs.h` --
-# known intor of `cint_funcs.h`
-known_intor = []
-for line in raw_cint_funcs_h.split("\n"):
-    if line.startswith("extern CINTOptimizerFunction"):
-        known_intor.append(line.strip().replace(";", "").split()[-1].replace("_optimizer", ""))
-known_intor = sorted(set(known_intor))
-
-## -- configure list of integrals known to source code, autocode included --
-# all intor generated in source code (autocode included)
-actual_intor = []
-for src_path in list(glob.iglob(f"{dir_libcint_src}/src/**/*.c", recursive=True)):
-    with open(src_path, "r") as f:
-        for line in f.readlines():
-            if line.startswith("ALL_CINT(") or line.startswith("ALL_CINT1E("):
-                actual_intor.append(line.split("(")[-1].replace(")", "").replace(";", "").strip())
-actual_intor = sorted(set(actual_intor))
-
-# assert known intors are all included in all intors
-assert len(set(known_intor) - set(actual_intor)) == 0
-
-# ## `bindgen` auto-generation
-
 # ### configure `cint_funcs.h`
 
-# +
+# necessary header (modified from libcint 6.1.1)
+cint_funcs = """
+#include "cint.h"
+
+#if !defined HAVE_DEFINED_CINTINTEGRALFUNCTION
+#define HAVE_DEFINED_CINTINTEGRALFUNCTION
+typedef void CINTOptimizerFunction(
+            CINTOpt **opt,
+            FINT *atm, FINT natm, FINT *bas, FINT nbas, double *env);
+typedef CACHE_SIZE_T CINTIntegralFunctionReal(
+            double *out, FINT *dims, FINT *shls,
+            FINT *atm, FINT natm, FINT *bas, FINT nbas, double *env,
+            CINTOpt *opt, double *cache);
+typedef CACHE_SIZE_T CINTIntegralFunctionComplex(
+            double complex *out, FINT *dims, FINT *shls,
+            FINT *atm, FINT natm, FINT *bas, FINT nbas, double *env,
+            CINTOpt *opt, double *cache);
+#endif
+"""
+
 # for unknown intors (mostly not in autocode, but in main source code), generate signature for header
 token = """
-extern CINTOptimizerFunction {0:}_optimizer;
-extern CINTIntegralFunction {0:}_cart;
-extern CINTIntegralFunction {0:}_sph;
-extern CINTIntegralFunction {0:}_spinor;
+extern CINTOptimizerFunction       {0:}_optimizer;
+extern CINTIntegralFunctionReal    {0:}_cart;
+extern CINTIntegralFunctionReal    {0:}_sph;
+extern CINTIntegralFunctionComplex {0:}_spinor;
 """
-cint_funcs = raw_cint_funcs_h + "".join([token.format(intor) for intor in sorted(set(actual_intor) - set(known_intor))])    
+cint_funcs = cint_funcs + "".join([token.format(intor) for intor in sorted(set(actual_intor))])
 cint_funcs = cint_funcs.replace("#include <cint.h>", "#include \"cint.h\"")
 
 # libcint2 interface compability
-cint_funcs += """
-typedef CACHE_SIZE_T CCINTIntegralFunction(double *out, FINT *shls,
-                                  FINT *atm, FINT natm, FINT *bas, FINT nbas, double *env,
-                                  CINTOpt *opt);
-"""
 token = """
-extern CINTOptimizerFunction c{0:}_optimizer;
-extern CCINTIntegralFunction c{0:}_cart;
-extern CCINTIntegralFunction c{0:}_sph;
-extern CCINTIntegralFunction c{0:}_spinor;
+extern CINTOptimizerFunction       c{0:}_optimizer;
+extern CINTIntegralFunctionReal    c{0:}_cart;
+extern CINTIntegralFunctionReal    c{0:}_sph;
+extern CINTIntegralFunctionComplex c{0:}_spinor;
 """
-cint_funcs = cint_funcs + "".join([token.format(intor) for intor in sorted(actual_intor)])
+cint_funcs = cint_funcs + "".join([token.format(intor) for intor in sorted(actual_intor) if intor not in ["int2e"]])
 
 # +
 with open("cint.h", "w") as f:
@@ -144,12 +196,184 @@ with open("cint.rs", "w") as f:
 subprocess.run(["mv", "cint.rs", "../src"])
 subprocess.run(["rm", "cint.h", "cint_funcs.h"])
 
-# ## Auto-generate intor_optimizer
+# ## Auto-generate `cint_wrapper.rs`
+
+# ### IntorBase
+
+# +
+# initial information
+
+token_wrapper = """
+/* Generated by python scripts for libcint low-level wrapper. */
+/* Should not modify manually. */
+
+use crate::cint;
+use crate::cint::CINTOpt;
+use std::os::raw::c_int;
+"""
+
+# +
+# IntorBase: basic definition
+
+token_wrapper += """
+pub trait IntorBase {
+    unsafe fn optimizer(
+        opt: *mut *mut CINTOpt,
+        atm: *mut c_int,
+        natm: c_int,
+        bas: *mut c_int,
+        nbas: c_int,
+        env: *mut f64);
+    unsafe fn integral_sph(
+        out: *mut f64,
+        dims: *mut c_int,
+        shls: *mut c_int,
+        atm: *mut c_int,
+        natm: c_int,
+        bas: *mut c_int,
+        nbas: c_int,
+        env: *mut f64,
+        opt: *mut CINTOpt,
+        cache: *mut f64) -> c_int;
+    unsafe fn integral_cart(
+        out: *mut f64,
+        dims: *mut c_int,
+        shls: *mut c_int,
+        atm: *mut c_int,
+        natm: c_int,
+        bas: *mut c_int,
+        nbas: c_int,
+        env: *mut f64,
+        opt: *mut CINTOpt,
+        cache: *mut f64) -> c_int;
+    unsafe fn integral_spinor(
+        out: *mut cint::__BindgenComplex<f64>,
+        dims: *mut c_int,
+        shls: *mut c_int,
+        atm: *mut c_int,
+        natm: c_int,
+        bas: *mut c_int,
+        nbas: c_int,
+        env: *mut f64,
+        opt: *mut CINTOpt,
+        cache: *mut f64) -> c_int;
+    fn n_comp() -> i32;
+    fn n_spinor_comp() -> i32;
+    fn ng() -> Vec<i32>;
+    fn intor_type() -> &'static str;
+    fn name() -> &'static str;
+}
+
+macro_rules! impl_intorbase {
+    (
+        $intor: ident,
+        $optimizer: ident,
+        $integral_sph: ident,
+        $integral_cart: ident,
+        $integral_spinor: ident,
+        $n_comp: expr,
+        $n_spinor_comp: expr,
+        $ng: expr,
+        $intor_type: literal,
+        $name: literal
+    ) => {
+#[allow(non_camel_case_types)]
+pub struct $intor;
+impl IntorBase for $intor {
+    unsafe fn optimizer(
+            opt: *mut *mut CINTOpt,
+            atm: *mut c_int,
+            natm: c_int,
+            bas: *mut c_int,
+            nbas: c_int,
+            env: *mut f64) {
+        cint::$optimizer(opt, atm, natm, bas, nbas, env)
+    }
+    unsafe fn integral_sph(
+            out: *mut f64,
+            dims: *mut c_int,
+            shls: *mut c_int,
+            atm: *mut c_int,
+            natm: c_int,
+            bas: *mut c_int,
+            nbas: c_int,
+            env: *mut f64,
+            opt: *mut CINTOpt,
+            cache: *mut f64) -> c_int {
+        cint::$integral_sph(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
+    }
+    unsafe fn integral_cart(
+            out: *mut f64,
+            dims: *mut c_int,
+            shls: *mut c_int,
+            atm: *mut c_int,
+            natm: c_int,
+            bas: *mut c_int,
+            nbas: c_int,
+            env: *mut f64,
+            opt: *mut CINTOpt,
+            cache: *mut f64) -> c_int {
+        cint::$integral_cart(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
+    }
+    unsafe fn integral_spinor(
+        out: *mut cint::__BindgenComplex<f64>,
+            dims: *mut c_int,
+            shls: *mut c_int,
+            atm: *mut c_int,
+            natm: c_int,
+            bas: *mut c_int,
+            nbas: c_int,
+            env: *mut f64,
+            opt: *mut CINTOpt,
+            cache: *mut f64) -> c_int {
+        cint::$integral_spinor(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
+    }
+    fn n_comp() -> i32 { $n_comp }
+    fn n_spinor_comp() -> i32 { $n_spinor_comp }
+    fn ng() -> Vec<i32> { $ng }
+    fn intor_type() -> &'static str { $intor_type }
+    fn name() -> &'static str { $name }
+}
+    };
+}
+"""
+
+
+# +
+# IntorBase: macro expansion
+
+def gen_impl_intorbase(intor):
+    token = """impl_intorbase!(
+    {0:},
+    {0:}_optimizer,
+    {0:}_sph,
+    {0:}_cart,
+    {0:}_spinor,
+    {2:}, {3:}, vec!{4:},
+    "{1:}", "{0:}");\n"""
+    intor_type = intor[:5]
+    if intor_type == "int2e":
+        intor_type = "int4c"
+    if intor_type == "int1e":
+        intor_type = "int2c"
+    ng = actual_intor[intor]
+    assert len(ng) == 8
+    comp_1e, comp_2e, comp_tensor = ng[-3:]
+    comp_all = max(comp_1e, 1) * max(comp_2e, 1) * comp_tensor
+    token = token.format(intor, intor_type, comp_tensor, comp_all, ng)
+    return token
+
+for intor in actual_intor:
+    token_wrapper += gen_impl_intorbase(intor)
+# -
+
+# ### (fallback support) Optimizer
 
 token_optimizer = """
 /* Generated by python scripts for optimizer. */
 /* Should not modify manually. */
-use crate::cint;
+/* The following code will possibly to be deprecated. */
+
 use crate::CINTR2CDATA;
 
 /// optimizer macro rules
@@ -169,15 +393,32 @@ macro_rules! impl_intor_optimizer {
 }
 
 impl CINTR2CDATA {
-SUBSTITUTE_OPTIMIZER
+SUBSTITUTE_OPTIMIZER_FN
+
+    pub fn get_optimizer_fn(intor: &'static str) -> fn(&mut CINTR2CDATA) {
+        match intor {
+SUBSTITUTE_OPTIMIZER_MATCH
+            _ => panic!("optimizer {intor} not found"),
+        }
+    }
+
+    pub fn optimizer(&mut self, intor: &'static str) {
+        CINTR2CDATA::get_optimizer_fn(intor)(self)
+    }
 }
-""".strip()
+"""
 
 token_sub = "\n".join([
-    "    impl_intor_optimizer!(\"INTOR\", INTOR_optimizer_rust, INTOR_optimizer);" \
-    .replace("INTOR", intor)
+    "    impl_intor_optimizer!(\"INTOR\", INTOR_optimizer_rust, INTOR_optimizer);".replace("INTOR", intor)
     for intor in actual_intor
 ])
+token_optimizer = token_optimizer.replace("SUBSTITUTE_OPTIMIZER_FN", token_sub)
 
-with open("../src/cint_optimizer_rust.rs", "w") as f:
-    f.write(token_optimizer.replace("SUBSTITUTE_OPTIMIZER", token_sub))
+token_sub = "\n".join([
+    "            \"INTOR\" => CINTR2CDATA::INTOR_optimizer_rust,".replace("INTOR", intor)
+    for intor in actual_intor
+])
+token_optimizer = token_optimizer.replace("SUBSTITUTE_OPTIMIZER_MATCH", token_sub)
+
+with open("../src/cint_wrapper.rs", "w") as f:
+    f.write(token_wrapper + token_optimizer)
