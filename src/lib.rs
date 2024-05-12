@@ -626,6 +626,34 @@ impl CINTR2CDATA {
                 self.c_env.as_mut_ptr());
         }
     }
+
+    pub fn max_cache_size<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> i32
+    where
+        T: IntorBase
+    {
+        let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap();
+        let shls_max = shls_slice.iter().map(|x| x[1]).min().unwrap();
+        let cache_size = (shls_min..shls_max).into_iter().map(|shl| {
+            let mut shls = [shl; 4];
+            match self.cint_type {
+                CintType::Spheric => unsafe {
+                    T::integral_sph(
+                        null_mut(), null_mut(), shls.as_mut_ptr(),
+                        self.c_atm.as_mut_ptr(), self.c_natm,
+                        self.c_bas.as_mut_ptr(), self.c_nbas,
+                        self.c_env.as_mut_ptr(), null_mut(), null_mut())
+                    },
+                CintType::Cartesian => unsafe {
+                    T::integral_cart(
+                        null_mut(), null_mut(), shls.as_mut_ptr(),
+                        self.c_atm.as_mut_ptr(), self.c_natm,
+                        self.c_bas.as_mut_ptr(), self.c_nbas,
+                        self.c_env.as_mut_ptr(), null_mut(), null_mut())
+                    },
+            }
+        }).max().unwrap();
+        cache_size
+    }
 }
 
 #[test]
@@ -668,6 +696,8 @@ fn test_trait_intorbase() {
     cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
     cint_data.optimizer::<int2e>();
     println!("{:?}", unsafe{*cint_data.c_opt});
+    let shls_slice = vec![[0, 2], [0, 3], [2, 5], [3, 7]];
+    println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
 }
 
 //pub fn cint2e_sph_rust(mut buf: Vec<f64>, mut shls: Vec<i32>, 
