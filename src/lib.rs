@@ -98,9 +98,8 @@
 
 #![allow(unused)]
 use std::process::exit;
-use std::{os::raw::c_int, ptr::null};
+use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
-use std::ptr::null_mut;
 
 mod cint;
 use crate::cint::{CINTOpt,CINTdel_optimizer};
@@ -222,16 +221,16 @@ impl CINTR2CDATA {
         unsafe {
             match self.cint_type {
                 CintType::Spheric => cint::int2c2e_sph(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
                 CintType::Cartesian => cint::int2c2e_cart(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
             };
             //println!("debug 1 {}", &c_buf.read());
@@ -253,16 +252,16 @@ impl CINTR2CDATA {
         unsafe {
             match self.cint_type {
                 CintType::Spheric => cint::int2c2e_ip1_sph(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
                 CintType::Cartesian => cint::int2c2e_ip1_cart(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
             };
             //println!("debug 1 {}", &c_buf.read());
@@ -285,16 +284,16 @@ impl CINTR2CDATA {
         unsafe {
             match self.cint_type {
                 CintType::Spheric => cint::int3c2e_sph(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
                 CintType::Cartesian => cint::int3c2e_cart(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
             };
             //println!("debug 1 {}", &c_buf.read());
@@ -323,16 +322,16 @@ impl CINTR2CDATA {
         unsafe {
             match self.cint_type {
                 CintType::Spheric => cint::int2e_sph(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
                 CintType::Cartesian => cint::int2e_cart(
-                    c_buf, null_mut(), c_shls,
-                    self.c_atm.as_mut_ptr(), self.c_natm,
-                    self.c_bas.as_mut_ptr(), self.c_nbas,
-                    self.c_env.as_mut_ptr(),
+                    c_buf, null(), c_shls,
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
             };
             //println!("debug 1 {}", &c_buf.read());
@@ -380,48 +379,48 @@ impl CINTR2CDATA {
                 IJOPT::Ovlp => {
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_ovlp_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_ovlp_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 },
                 IJOPT::Kinetic => {    
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_kin_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_kin_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 },
                 IJOPT::Nuclear => {    
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_nuc_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_nuc_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 },
@@ -466,64 +465,64 @@ impl CINTR2CDATA {
                 IJIPOPT::IPOvlp => {
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_ipovlp_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_ipovlp_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 },
                 IJIPOPT::IPKin => {
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_ipkin_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_ipkin_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 },
                 IJIPOPT::IPNuc => {
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_ipnuc_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_ipnuc_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 },
                 IJIPOPT::IPRInv => {
                     match self.cint_type {
                         CintType::Spheric => cint::int1e_iprinv_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int1e_iprinv_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }
                 }
@@ -563,31 +562,31 @@ impl CINTR2CDATA {
                 IP3C2E::IP1 => {
                     match self.cint_type {
                         CintType::Spheric => cint::int3c2e_ip1_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int3c2e_ip1_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }},
                 IP3C2E::IP2 => {
                     match self.cint_type {
                         CintType::Spheric => cint::int3c2e_ip2_sph(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                         CintType::Cartesian => cint::int3c2e_ip2_cart(
-                            c_buf, null_mut(), c_shls,
-                            self.c_atm.as_mut_ptr(), self.c_natm,
-                            self.c_bas.as_mut_ptr(), self.c_nbas,
-                            self.c_env.as_mut_ptr(),
+                            c_buf, null(), c_shls,
+                            self.c_atm.as_ptr(), self.c_natm,
+                            self.c_bas.as_ptr(), self.c_nbas,
+                            self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
                     }},
             };
@@ -621,9 +620,9 @@ impl CINTR2CDATA {
             cint::CINTdel_optimizer(&mut self.c_opt);
             T::optimizer(
                 &mut self.c_opt,
-                self.c_atm.as_mut_ptr(), self.c_natm,
-                self.c_bas.as_mut_ptr(), self.c_nbas,
-                self.c_env.as_mut_ptr());
+                self.c_atm.as_ptr(), self.c_natm,
+                self.c_bas.as_ptr(), self.c_nbas,
+                self.c_env.as_ptr());
         }
     }
 
@@ -638,17 +637,17 @@ impl CINTR2CDATA {
             match self.cint_type {
                 CintType::Spheric => unsafe {
                     T::integral_sph(
-                        null_mut(), null_mut(), shls.as_mut_ptr(),
-                        self.c_atm.as_mut_ptr(), self.c_natm,
-                        self.c_bas.as_mut_ptr(), self.c_nbas,
-                        self.c_env.as_mut_ptr(), null_mut(), null_mut())
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut())
                     },
                 CintType::Cartesian => unsafe {
                     T::integral_cart(
-                        null_mut(), null_mut(), shls.as_mut_ptr(),
-                        self.c_atm.as_mut_ptr(), self.c_natm,
-                        self.c_bas.as_mut_ptr(), self.c_nbas,
-                        self.c_env.as_mut_ptr(), null_mut(), null_mut())
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut())
                     },
             }
         }).max().unwrap();

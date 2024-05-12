@@ -9,43 +9,43 @@ use std::os::raw::c_int;
 pub trait IntorBase {
     unsafe fn optimizer(
         opt: *mut *mut CINTOpt,
-        atm: *mut c_int,
+        atm: *const c_int,
         natm: c_int,
-        bas: *mut c_int,
+        bas: *const c_int,
         nbas: c_int,
-        env: *mut f64);
+        env: *const f64);
     unsafe fn integral_sph(
         out: *mut f64,
-        dims: *mut c_int,
-        shls: *mut c_int,
-        atm: *mut c_int,
+        dims: *const c_int,
+        shls: *const c_int,
+        atm: *const c_int,
         natm: c_int,
-        bas: *mut c_int,
+        bas: *const c_int,
         nbas: c_int,
-        env: *mut f64,
-        opt: *mut CINTOpt,
+        env: *const f64,
+        opt: *const CINTOpt,
         cache: *mut f64) -> c_int;
     unsafe fn integral_cart(
         out: *mut f64,
-        dims: *mut c_int,
-        shls: *mut c_int,
-        atm: *mut c_int,
+        dims: *const c_int,
+        shls: *const c_int,
+        atm: *const c_int,
         natm: c_int,
-        bas: *mut c_int,
+        bas: *const c_int,
         nbas: c_int,
-        env: *mut f64,
-        opt: *mut CINTOpt,
+        env: *const f64,
+        opt: *const CINTOpt,
         cache: *mut f64) -> c_int;
     unsafe fn integral_spinor(
         out: *mut cint::__BindgenComplex<f64>,
-        dims: *mut c_int,
-        shls: *mut c_int,
-        atm: *mut c_int,
+        dims: *const c_int,
+        shls: *const c_int,
+        atm: *const c_int,
         natm: c_int,
-        bas: *mut c_int,
+        bas: *const c_int,
         nbas: c_int,
-        env: *mut f64,
-        opt: *mut CINTOpt,
+        env: *const f64,
+        opt: *const CINTOpt,
         cache: *mut f64) -> c_int;
     fn n_comp() -> i32;
     fn n_spinor_comp() -> i32;
@@ -72,49 +72,49 @@ pub struct $intor;
 impl IntorBase for $intor {
     unsafe fn optimizer(
             opt: *mut *mut CINTOpt,
-            atm: *mut c_int,
+            atm: *const c_int,
             natm: c_int,
-            bas: *mut c_int,
+            bas: *const c_int,
             nbas: c_int,
-            env: *mut f64) {
+            env: *const f64) {
         cint::$optimizer(opt, atm, natm, bas, nbas, env)
     }
     unsafe fn integral_sph(
             out: *mut f64,
-            dims: *mut c_int,
-            shls: *mut c_int,
-            atm: *mut c_int,
+            dims: *const c_int,
+            shls: *const c_int,
+            atm: *const c_int,
             natm: c_int,
-            bas: *mut c_int,
+            bas: *const c_int,
             nbas: c_int,
-            env: *mut f64,
-            opt: *mut CINTOpt,
+            env: *const f64,
+            opt: *const CINTOpt,
             cache: *mut f64) -> c_int {
         cint::$integral_sph(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
     }
     unsafe fn integral_cart(
             out: *mut f64,
-            dims: *mut c_int,
-            shls: *mut c_int,
-            atm: *mut c_int,
+            dims: *const c_int,
+            shls: *const c_int,
+            atm: *const c_int,
             natm: c_int,
-            bas: *mut c_int,
+            bas: *const c_int,
             nbas: c_int,
-            env: *mut f64,
-            opt: *mut CINTOpt,
+            env: *const f64,
+            opt: *const CINTOpt,
             cache: *mut f64) -> c_int {
         cint::$integral_cart(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
     }
     unsafe fn integral_spinor(
         out: *mut cint::__BindgenComplex<f64>,
-            dims: *mut c_int,
-            shls: *mut c_int,
-            atm: *mut c_int,
+            dims: *const c_int,
+            shls: *const c_int,
+            atm: *const c_int,
             natm: c_int,
-            bas: *mut c_int,
+            bas: *const c_int,
             nbas: c_int,
-            env: *mut f64,
-            opt: *mut CINTOpt,
+            env: *const f64,
+            opt: *const CINTOpt,
             cache: *mut f64) -> c_int {
         cint::$integral_spinor(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
     }
