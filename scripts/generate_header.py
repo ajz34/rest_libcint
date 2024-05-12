@@ -394,17 +394,6 @@ macro_rules! impl_intor_optimizer {
 
 impl CINTR2CDATA {
 SUBSTITUTE_OPTIMIZER_FN
-
-    pub fn get_optimizer_fn(intor: &'static str) -> fn(&mut CINTR2CDATA) {
-        match intor {
-SUBSTITUTE_OPTIMIZER_MATCH
-            _ => panic!("optimizer {intor} not found"),
-        }
-    }
-
-    pub fn optimizer(&mut self, intor: &'static str) {
-        CINTR2CDATA::get_optimizer_fn(intor)(self)
-    }
 }
 """
 
@@ -413,12 +402,6 @@ token_sub = "\n".join([
     for intor in actual_intor
 ])
 token_optimizer = token_optimizer.replace("SUBSTITUTE_OPTIMIZER_FN", token_sub)
-
-token_sub = "\n".join([
-    "            \"INTOR\" => CINTR2CDATA::INTOR_optimizer_rust,".replace("INTOR", intor)
-    for intor in actual_intor
-])
-token_optimizer = token_optimizer.replace("SUBSTITUTE_OPTIMIZER_MATCH", token_sub)
 
 with open("../src/cint_wrapper.rs", "w") as f:
     f.write(token_wrapper + token_optimizer)
