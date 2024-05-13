@@ -639,7 +639,9 @@ impl CINTR2CDATA {
     /// let mut cint_data = CINTR2CDATA::new();
     /// cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
     /// let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
+    /// // maximum cache for the given shells
     /// println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
+    /// // maximum cache for the whole molecule
     /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
     /// ```
     pub fn max_cache_size<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> i32
@@ -669,6 +671,43 @@ impl CINTR2CDATA {
         }).max().unwrap();
         cache_size
     }
+
+    /// Smallest unit of electron-integral function from libcint.
+    /// 
+    /// This is not a safe wrapper function, though it is pure rust. Use with caution.
+    /// 
+    /// * `out` -
+    ///     Output integral buffer, need to be allocated enough space before calling this function.
+    /// * `shls_slice` -
+    ///     shell slice, which size should be (n_center, 2); dimension check should be performed
+    ///     before calling this function.
+    /// * `cache` -
+    ///     Cache buffer, need to be allocated enough space before calling this function; simply
+    ///     using `null_mut()` also works, which lets libcint manages cache and efficiency decreases.
+    ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
+    pub unsafe fn integral_block<T> (&mut self, out: &mut Vec<f64>, shls_slice: &Vec<[i32; 2]>, cache: &mut Vec<f64>)
+    where
+        T: IntorBase
+    {
+        let shls = shls_slice.clone().into_iter().flatten().collect::<Vec<i32>>();
+        match self.cint_type {
+            CintType::Spheric => unsafe {
+                T::integral_sph(
+                    out.as_mut_ptr(), null(), shls.as_ptr(),
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(), self.c_opt, cache.as_mut_ptr())
+                },
+            CintType::Cartesian => unsafe {
+                T::integral_cart(
+                    out.as_mut_ptr(), null(), shls.as_ptr(),
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(), self.c_opt, cache.as_mut_ptr())
+                },
+        };
+    }
+}
 
 #[test]
 fn test_trait_intorbase() {
