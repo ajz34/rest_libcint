@@ -97,6 +97,7 @@
 //! ```
 
 #![allow(unused)]
+use core::panic;
 use std::process::exit;
 use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
@@ -626,12 +627,27 @@ impl CINTR2CDATA {
         }
     }
 
+    /// Obtain cache size for integral.
+    /// 
+    /// This function should be used with the shell slice one desired.
+    /// 
+    /// If the shell slice is not known to you currently (molecule information has passed into
+    /// `CINTR2CDATA`), just pass empty `shls_slice = vec![]`, then it should give the maximum
+    /// cache size for this molecule/intor.
+    /// 
+    /// ```no_run
+    /// let mut cint_data = CINTR2CDATA::new();
+    /// cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
+    /// let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
+    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
+    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
+    /// ```
     pub fn max_cache_size<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> i32
     where
         T: IntorBase
     {
-        let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap();
-        let shls_max = shls_slice.iter().map(|x| x[1]).min().unwrap();
+        let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap_or(0);
+        let shls_max = shls_slice.iter().map(|x| x[1]).max().unwrap_or(self.c_nbas);
         let cache_size = (shls_min..shls_max).into_iter().map(|shl| {
             let mut shls = [shl; 4];
             match self.cint_type {
@@ -653,7 +669,6 @@ impl CINTR2CDATA {
         }).max().unwrap();
         cache_size
     }
-}
 
 #[test]
 fn test_trait_intorbase() {
@@ -695,8 +710,9 @@ fn test_trait_intorbase() {
     cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
     cint_data.optimizer::<int2e>();
     println!("{:?}", unsafe{*cint_data.c_opt});
-    let shls_slice = vec![[0, 2], [0, 3], [2, 5], [3, 7]];
+    let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
     println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
+    println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
 }
 
 //pub fn cint2e_sph_rust(mut buf: Vec<f64>, mut shls: Vec<i32>, 
