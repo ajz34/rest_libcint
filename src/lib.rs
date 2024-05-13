@@ -98,6 +98,7 @@
 
 #![allow(unused)]
 use core::panic;
+use std::collections::btree_map::Range;
 use std::process::exit;
 use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
@@ -644,7 +645,7 @@ impl CINTR2CDATA {
     /// // maximum cache for the whole molecule
     /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
     /// ```
-    pub fn max_cache_size<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> i32
+    pub fn max_cache_size<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
     where
         T: IntorBase
     {
@@ -658,18 +659,59 @@ impl CINTR2CDATA {
                         null_mut(), null(), shls.as_mut_ptr(),
                         self.c_atm.as_ptr(), self.c_natm,
                         self.c_bas.as_ptr(), self.c_nbas,
-                        self.c_env.as_ptr(), null(), null_mut())
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
                     },
                 CintType::Cartesian => unsafe {
                     T::integral_cart(
                         null_mut(), null(), shls.as_mut_ptr(),
                         self.c_atm.as_ptr(), self.c_natm,
                         self.c_bas.as_ptr(), self.c_nbas,
-                        self.c_env.as_ptr(), null(), null_mut())
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
                     },
             }
         }).max().unwrap();
         cache_size
+    }
+
+    /// Size (number of atomic orbitals) of spherical CGTO at certain basis index.
+    /// 
+    /// Given `None` input, this function will return the maximum size of CGTO,
+    /// which may be helpful for allocating output buffer size. 
+    pub fn cgto_size_sph(&self, id_bas: Option<i32>) -> usize {
+        use cint::{ANG_OF, NCTR_OF, BAS_SLOTS};
+        let loc_ang = ANG_OF as usize;
+        let loc_nctr = NCTR_OF as usize;
+        let loc_bas = BAS_SLOTS as usize;
+        match id_bas {
+            Some(id_bas) => {
+                let id_bas = id_bas as usize;
+                let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
+                let nang = self.c_bas[id_bas * loc_bas + loc_ang] * 2 + 1;
+                (nctr * nang) as usize
+            },
+            None => (0..self.c_nbas).map(|i| self.cgto_size_sph(Some(i))).max().unwrap()
+        }
+    }
+
+    /// Size (number of atomic orbitals) of cartesian CGTO at certain basis index.
+    /// 
+    /// Given `None` input, this function will return the maximum size of CGTO,
+    /// which may be helpful for allocating output buffer size.
+    pub fn cgto_size_cart(&self, id_bas: Option<i32>) -> usize {
+        use cint::{ANG_OF, NCTR_OF, BAS_SLOTS};
+        let loc_ang = ANG_OF as usize;
+        let loc_nctr = NCTR_OF as usize;
+        let loc_bas = BAS_SLOTS as usize;
+        match id_bas {
+            Some(id_bas) => {
+                let id_bas = id_bas as usize;
+                let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
+                let l = self.c_bas[id_bas * loc_bas + loc_ang];
+                let nang = (l + 1) * (l + 2) / 2;
+                (nctr * nang) as usize
+            },
+            None => (0..self.c_nbas).map(|i| self.cgto_size_cart(Some(i))).max().unwrap()
+        }
     }
 
     /// Smallest unit of electron-integral function from libcint.
@@ -750,8 +792,10 @@ fn test_trait_intorbase() {
     cint_data.optimizer::<int2e>();
     println!("{:?}", unsafe{*cint_data.c_opt});
     let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
-    println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
-    println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
+    assert_eq!(cint_data.max_cache_size::<int2e>(&shls_slice), 445);
+    assert_eq!(cint_data.max_cache_size::<int2e>(&vec![]), 1341);
+    assert_eq!(cint_data.cgto_size_sph(Some(1)), 1);
+    assert_eq!(cint_data.cgto_size_sph(None), 3);
 }
 
 //pub fn cint2e_sph_rust(mut buf: Vec<f64>, mut shls: Vec<i32>, 
