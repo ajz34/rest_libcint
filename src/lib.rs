@@ -105,8 +105,7 @@ use std::mem::ManuallyDrop;
 use itertools::Itertools;
 
 mod cint;
-use ndarray::prelude::*;
-use ndarray::{SliceArg, SliceInfoElem, SliceInfo};
+use ndarray::{prelude::*, IxDynImpl, OwnedRepr, SliceArg, SliceInfoElem, SliceInfo};
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
@@ -674,7 +673,7 @@ impl CINTR2CDATA {
                     },
             }
         }).max().unwrap();
-        cache_size
+        return cache_size;
     }
 
     /// Size (number of atomic orbitals) of spherical CGTO at certain basis index.
@@ -689,7 +688,7 @@ impl CINTR2CDATA {
         let id_bas = id_bas as usize;
         let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
         let nang = self.c_bas[id_bas * loc_bas + loc_ang] * 2 + 1;
-        (nctr * nang) as usize
+        return (nctr * nang) as usize;
     }
 
     /// Size (number of atomic orbitals) of cartesian CGTO at certain basis index.
@@ -705,11 +704,11 @@ impl CINTR2CDATA {
         let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
         let l = self.c_bas[id_bas * loc_bas + loc_ang];
         let nang = (l + 1) * (l + 2) / 2;
-        (nctr * nang) as usize
+        return (nctr * nang) as usize;
     }
 
     pub fn cgto_size(&self, id_bas: i32) -> usize {
-        match self.cint_type {
+        return match self.cint_type {
             CintType::Spheric => self.cgto_size_sph(id_bas),
             CintType::Cartesian => self.cgto_size_cart(id_bas),
         }
@@ -722,42 +721,42 @@ impl CINTR2CDATA {
         for idx in (0..size_vec.len() as usize) {
             loc[idx + 1] = loc[idx] + size_vec[idx]; 
         }
-        loc
+        return loc;
     }
 
     /// Location of atomic orbitals, for specified slice of shell.
     pub fn cgto_loc_slice(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
         let loc = self.cgto_loc();
-        loc[shl_slice[0] as usize .. shl_slice[1] as usize + 1].to_vec()
+        return loc[shl_slice[0] as usize .. shl_slice[1] as usize + 1].to_vec();
     }
 
     /// Location of atomic orbitals, for specified slices of shell.
     pub fn cgto_loc_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
-        shl_slices.iter().map(|shl_slice| self.cgto_loc_slice(shl_slice)).collect()
+        return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice(shl_slice)).collect();
     }
 
     /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
     /// for specified slice of shell.
     pub fn cgto_loc_slice_relative(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
         let loc_slice = self.cgto_loc_slice(shl_slice);
-        loc_slice.iter().map(|x| x - loc_slice[0]).collect()
+        return loc_slice.iter().map(|x| x - loc_slice[0]).collect();
     }
 
     /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
     /// for specified slice of shell.
     pub fn cgto_loc_slices_relative(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
-        shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect()
+        return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect();
     }
 
     /// Range of atomic orbitals, for specified slice of shell.
     pub fn cgto_range_slice(&self, shl_slice: &[i32; 2]) -> std::ops::Range<usize> {
         let loc = self.cgto_loc_slice(shl_slice);
-        loc.first().unwrap().clone()..loc.last().unwrap().clone()
+        return loc.first().unwrap().clone()..loc.last().unwrap().clone();
     }
 
     /// Range of atomic orbitals, for specified slices of shell.
     pub fn cgto_range_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<std::ops::Range<usize>> {
-        shl_slices.iter().map(|shl_slice| self.cgto_range_slice(shl_slice)).collect()
+        return shl_slices.iter().map(|shl_slice| self.cgto_range_slice(shl_slice)).collect();
     }
 
     /// Shape of integral (in atomic orbital basis), for specified slices of shell.
@@ -766,12 +765,12 @@ impl CINTR2CDATA {
         T: IntorBase
     {
         let n_comp = T::n_comp();
-        let mut shape = if (n_comp > 1) { vec![n_comp] } else { vec![] };
-        shape.append(&mut shl_slices.iter().map(|shl_slice| {
+        let mut shape = shl_slices.iter().map(|shl_slice| {
             let loc = self.cgto_loc_slice(shl_slice);
             loc.last().unwrap().clone() - loc.first().unwrap().clone() as usize
-        }).collect());
-        shape
+        }).collect::<Vec<_>>();
+        if n_comp > 1 { shape.push(n_comp) };
+        return shape;
     }
 
     /// Smallest unit of electron-integral function from libcint.
@@ -813,6 +812,10 @@ impl CINTR2CDATA {
         };
     }
 
+    /// Integral driver.
+    /// 
+    /// This driver will change value of `out` inplace. Dimension of `out` should be deliberatly devined.
+    /// This driver only handle cases of serial (single-threaded), s1 (one-fold symmetry).
     pub fn integral_s1_serial_inplace<T, D> (&mut self, out: &mut ArrayViewMut<f64, D>, shl_slices: &Vec<[i32; 2]>)
     where
         T: IntorBase,
@@ -832,34 +835,49 @@ impl CINTR2CDATA {
         let n_comp = T::n_comp();
         let with_comp_expand = (n_comp == 1 && out.ndim() == n_center + 1 && out.shape()[0] == 1);
         let with_comp = n_comp > 1 || with_comp_expand;
-        let ao_loc_rel = self.cgto_loc_slices_relative(shl_slices);
-        let mut ao_shape = if with_comp_expand { vec![1] } else { vec![] };
-        ao_shape.append(&mut self.shape_of_integral::<T>(shl_slices));
+        let cgto_locs_rel = self.cgto_loc_slices_relative(shl_slices);
+        let mut cgto_shape = self.shape_of_integral::<T>(shl_slices);
+        if with_comp_expand { cgto_shape.push(n_comp) };
         let out_shape = out.shape();
         assert_eq!(
-            ao_shape, out_shape,
-            "argument `out` shape {out_shape:?} is not the same to expected shape {ao_shape:?}");
+            cgto_shape, out_shape,
+            "argument `out` shape {out_shape:?} is not the same to expected cgto/ao shape {cgto_shape:?}");
+
+        // == shell indices intermediates ==
+        // cgto_ranges: used for shape of out[range0, range1, ...]
+        // cgto_sizes: used for shape specification
+        let mut cgto_ranges = vec![vec![]; n_center];
+        let mut cgto_sizes = vec![vec![]; n_center];
+        for (idx_center, &[shl0, shl1]) in shl_slices.iter().enumerate() {
+            for idx in 0..(shl1 - shl0) {
+                let idx = idx as usize;
+                let cgto_loc_rel = &cgto_locs_rel[idx_center];
+                cgto_ranges[idx_center].push(cgto_loc_rel[idx]..cgto_loc_rel[idx+1]);
+                cgto_sizes[idx_center].push(cgto_loc_rel[idx+1] - cgto_loc_rel[idx]);
+            }
+        }
+        let range_init = if with_comp { vec![(0..n_comp)] } else { vec![] };
+        let shape_init = if with_comp { vec![n_comp] } else { vec![] };
     
         // == buffer allocation ==
-        // cache buffer allocation
         let cache_size = self.size_of_cache::<T>(shl_slices);
+        let buf_size: usize = n_comp * cgto_sizes.iter().map(|cgto_size| cgto_size.iter().max().unwrap() ).product::<usize>();
+        // for parallel code, these should be defined inside spawned thread 
+        // cache buffer allocation
         let mut cache = Vec::<f64>::with_capacity(cache_size);
         unsafe { cache.set_len(cache_size) };
-        // output buffer allocation; required output buffer size will only be smaller than cache
-        let buf_size: usize = n_comp * shl_slices.iter().map(|&[shl0, shl1]| {
-            (shl0..shl1).map(|idx| self.cgto_size(idx)).max().unwrap()
-        }).product::<usize>();
+        // output buffer allocation
         let mut buf = Vec::<f64>::with_capacity(buf_size);
         unsafe { buf.set_len(buf_size) };
         let mut buf = Array::from_vec(buf);
 
-        // // == shell indices intermediates ==
-        // // ao_ranges: used for shape of out[range0, range1, ...]
-        // let ao_ranges = shl_slices.map(|&[shl0, shl1]| (shl0..shl1).iter)
+        // == optimizer ==
+        self.optimizer::<T>();
 
         // == integral ==
-        let shl_ranges = shl_slices.iter().map(|shl_slice| shl_slice[0]..shl_slice[1]).multi_cartesian_product();
-        for shl_indices in shl_ranges {
+        let shl_iterator = shl_slices.iter().map(|shl_slice| shl_slice[0]..shl_slice[1]).multi_cartesian_product();
+        let idx_iterator = shl_slices.iter().map(|shl_slice| 0..(shl_slice[1] - shl_slice[0]) as usize).multi_cartesian_product();
+        for (idx_indices, shl_indices) in std::iter::zip(idx_iterator, shl_iterator) {
             unsafe {
                 self.integral_block::<T>(
                     buf.as_slice_memory_order_mut().unwrap(),
@@ -867,20 +885,41 @@ impl CINTR2CDATA {
                     cache.as_mut_slice());
             }
 
-            let block_slc = shl_indices.iter().enumerate().map(|(n, idx)| {
-                let idx_0: usize = (idx - shl_slices[n][0]).try_into().unwrap();
-                [ao_loc_rel[n][idx_0], ao_loc_rel[n][idx_0 + 1]]
-            }).collect::<Vec<[usize; 2]>>();
-            let mut block_shape = block_slc.iter().rev().map(|&[r0, r1]| (r1 - r0)).collect::<Vec<usize>>();
-            let block_size = block_shape.iter().product::<usize>() * T::n_comp();
-            let slc_info = SliceInfo::<_, D, D>::try_from(
-                block_slc.iter().map(|&[r0, r1]| (r0..r1).into()).collect::<Vec<_>>()
-            ).unwrap();
-
-            let block_reshaped = &buf.slice(s![0..block_size]);
-            let block_reshaped = block_reshaped.into_dimensionality::<IxDyn>().unwrap().into_shape(block_shape).unwrap().reversed_axes();
-            out.slice_mut(slc_info).assign(&block_reshaped.clone());
+            let mut range = vec![];
+            let mut shape = vec![];
+            for (n, &idx) in idx_indices.iter().enumerate() {
+                let idx = idx as usize;
+                range.push(cgto_ranges[n][idx].clone());
+                shape.push(cgto_sizes[n][idx]);
+            }
+            if with_comp {
+                range.push((0..n_comp));
+                shape.push(n_comp);
+            }
+            let slc = SliceInfo::<_, D, D>::try_from(range.into_iter().map(|v| v.into()).collect::<Vec<_>>()).unwrap();
+            let size = shape.iter().product::<usize>();
+            // f-contiguous reshape from buffer
+            shape.reverse();
+            let buf_shaped = &buf.slice(s![0..size]).into_dimensionality::<IxDyn>().unwrap().into_shape(shape).unwrap().reversed_axes();
+            out.slice_mut(slc).assign(buf_shaped);
         }
+    }
+
+    pub fn integral_s1_serial<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> ArrayBase<OwnedRepr<f64>, Dim<IxDynImpl>>
+    where
+        T: IntorBase,
+    {
+        let shl_slices = match shl_slices {
+            Some(shl_slices) => shl_slices.clone(),
+            None => vec![[0, self.c_nbas]; T::n_center()],
+        };
+        let shape = self.shape_of_integral::<T>(&shl_slices);
+        let size = shape.iter().product::<usize>();
+        let mut out_buf = Vec::<f64>::with_capacity(size);
+        unsafe { out_buf.set_len(size) };
+        let mut out = Array::from_shape_vec(shape.f(), out_buf).unwrap();
+        self.integral_s1_serial_inplace::<T, _>(&mut out.view_mut(), &shl_slices);
+        return out;
     }
 }
 

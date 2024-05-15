@@ -8,6 +8,78 @@ mod test_h2o2_631g {
     use super::*;
     use approx::assert_abs_diff_eq;
 
+    #[test]
+    fn test_integral_s1_serial_int3c2e_ip1() {
+
+        let shl_slices = vec![[2, 6], [4, 14], [0, 8]];
+
+        let mut cint_data = initialize();
+
+        let out = cint_data.integral_s1_serial::<int3c2e_ip1>(Some(&shl_slices));
+        let out_multiplier = Array::<f64, _>::linspace(0., 10., out.len());
+        let out_multiplier = out_multiplier.into_shape(out.shape()).unwrap();
+        
+        assert_abs_diff_eq!(out.sum(), -217.0493972185929, epsilon=1e-12);
+        assert_abs_diff_eq!((out * out_multiplier).sum(), -1435.5638714741315, epsilon=1e-12);
+        
+        let out = cint_data.integral_s1_serial::<int3c2e_ip1>(None);
+        let out_multiplier = Array::<f64, _>::linspace(0., 10., out.len());
+        let out_multiplier = out_multiplier.into_shape(out.shape()).unwrap();
+        
+        assert_abs_diff_eq!(out.sum(), -60.66622177750967, epsilon=1e-12);
+        assert_abs_diff_eq!((out * out_multiplier).sum(), 1478.8773869408533, epsilon=1e-12);
+    }
+
+    #[test]
+    fn test_integral_s1_serial_inplace_int3c2e() {
+
+        let shl_slices = vec![[7, 14], [0, 10], [3, 12]];
+        let ao_ranges = vec![[11, 22], [0, 18], [3, 20]];
+        let nao = 22;
+
+        let mut cint_data = initialize();
+        let mut out = Array::<f64, _>::zeros([nao, nao, nao].f());
+        let out_multiplier = Array::<f64, _>::linspace(0., 10., nao * nao * nao).into_shape((nao, nao, nao)).unwrap();
+
+        let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
+            ao_ranges.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
+        ).unwrap();
+        let mut out_view = out.slice_mut(slc_info);
+
+        cint_data.optimizer::<int3c2e>();
+        cint_data.integral_s1_serial_inplace::<int3c2e, _> (&mut out_view, &shl_slices);
+        
+        assert_abs_diff_eq!(out.sum(), 258.83910807865027, epsilon=1e-12);
+        assert_abs_diff_eq!((out * out_multiplier).sum(), 1727.3637003278836, epsilon=1e-12);
+    }
+
+    #[test]
+    fn test_integral_s1_serial_inplace_int3c2e_ip1() {
+
+        let shl_slices = vec![[2, 6], [4, 14], [0, 8]];
+        let ao_ranges = vec![[2, 10], [6, 22], [0, 12]];
+        let nao = 22;
+
+        let mut cint_data = initialize();
+        let mut out = Array::<f64, _>::zeros([nao, nao, nao, 3].f()).into_dimensionality::<IxDyn>().unwrap();
+        let out_multiplier = Array::<f64, _>::linspace(0., 10., nao * nao * nao * 3);
+        let out_multiplier = out_multiplier.into_shape((nao, nao, nao, 3)).unwrap();
+        let out_multiplier = out_multiplier.into_dimensionality::<IxDyn>().unwrap();
+
+        let mut slc_info = ao_ranges.iter().map(|slc| (slc[0]..slc[1])).collect::<Vec<_>>();
+        slc_info.push(0..3);
+        let slc_info = SliceInfo::<_, Ix4, Ix4>::try_from(
+            slc_info.iter().map(|range| range.clone().into()).collect::<Vec<_>>()
+        ).unwrap();
+        let mut out_view = out.slice_mut(slc_info);
+
+        cint_data.optimizer::<int3c2e_ip1>();
+        cint_data.integral_s1_serial_inplace::<int3c2e_ip1, _> (&mut out_view, &shl_slices);
+        
+        assert_abs_diff_eq!(out.sum(), -217.0493972185929, epsilon=1e-12);
+        assert_abs_diff_eq!((out * out_multiplier).sum(), -733.3508220023117, epsilon=1e-12);
+    }
+
     fn initialize() -> CINTR2CDATA {
         // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
         let c_atm = vec![
@@ -71,29 +143,6 @@ mod test_h2o2_631g {
             2.7000580000000002e-01,  5.6780702217958712e-01];
         let mut cint_data = CINTR2CDATA::new();
         cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
-        cint_data
-    }
-
-    #[test]
-    fn test_integral_3c() {
-
-        let shl_slices = vec![[7, 14], [0, 10], [3, 12]];
-        let ao_ranges = vec![[11, 22], [0, 18], [3, 20]];
-        let nao = 22;
-
-        let mut cint_data = initialize();
-        let mut out = Array::<f64, _>::zeros([nao, nao, nao].f());
-        let out_multiplier = Array::<f64, _>::linspace(0., 10., nao * nao * nao).into_shape((nao, nao, nao)).unwrap();
-
-        let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
-            ao_ranges.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
-        ).unwrap();
-        let mut out_view = out.slice_mut(slc_info);
-
-        cint_data.optimizer::<int3c2e>();
-        cint_data.integral_s1_serial_inplace::<int3c2e, _> (&mut out_view, &shl_slices);
-        
-        assert_abs_diff_eq!(out.sum(), 258.83910807865027, epsilon=1e-12);
-        assert_abs_diff_eq!((out * out_multiplier).sum(), 1727.3637003278836, epsilon=1e-12);
+        return cint_data;
     }
 }
