@@ -4,7 +4,7 @@ use rest_libcint::CINTR2CDATA;
 use rest_libcint::cint_wrapper::*;
 
 #[cfg(test)]
-mod test_h2o_631g {
+mod test_h2o2_631g {
     use super::*;
     use approx::assert_abs_diff_eq;
 
@@ -12,18 +12,26 @@ mod test_h2o_631g {
         // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
         let c_atm = vec![
             vec![ 8, 20,  1, 23,  0,  0],
-            vec![ 1, 24,  1, 27,  0,  0],
-            vec![ 1, 28,  1, 31,  0,  0]];
+            vec![ 8, 24,  1, 27,  0,  0],
+            vec![ 1, 28,  1, 31,  0,  0],
+            vec![ 1, 32,  1, 35,  0,  0],
+        ];
         let c_bas = vec![
-            vec![ 0,  0,  6,  1,  0, 32, 38,  0],
-            vec![ 0,  0,  3,  1,  0, 44, 47,  0],
-            vec![ 0,  0,  1,  1,  0, 50, 51,  0],
-            vec![ 0,  1,  3,  1,  0, 52, 55,  0],
-            vec![ 0,  1,  1,  1,  0, 58, 59,  0],
-            vec![ 1,  0,  3,  1,  0, 60, 63,  0],
-            vec![ 1,  0,  1,  1,  0, 66, 67,  0],
-            vec![ 2,  0,  3,  1,  0, 60, 63,  0],
-            vec![ 2,  0,  1,  1,  0, 66, 67,  0]];
+            vec![ 0,  0,  6,  1,  0, 44, 50,  0],
+            vec![ 0,  0,  3,  1,  0, 56, 59,  0],
+            vec![ 0,  0,  1,  1,  0, 62, 63,  0],
+            vec![ 0,  1,  3,  1,  0, 64, 67,  0],
+            vec![ 0,  1,  1,  1,  0, 70, 71,  0],
+            vec![ 1,  0,  6,  1,  0, 44, 50,  0],
+            vec![ 1,  0,  3,  1,  0, 56, 59,  0],
+            vec![ 1,  0,  1,  1,  0, 62, 63,  0],
+            vec![ 1,  1,  3,  1,  0, 64, 67,  0],
+            vec![ 1,  1,  1,  1,  0, 70, 71,  0],
+            vec![ 2,  0,  3,  1,  0, 36, 39,  0],
+            vec![ 2,  0,  1,  1,  0, 42, 43,  0],
+            vec![ 3,  0,  3,  1,  0, 36, 39,  0],
+            vec![ 3,  0,  1,  1,  0, 42, 43,  0],
+        ];
         let c_env = vec![
             0.0000000000000000e+00,  0.0000000000000000e+00,
             0.0000000000000000e+00,  0.0000000000000000e+00,
@@ -37,10 +45,16 @@ mod test_h2o_631g {
             0.0000000000000000e+00,  0.0000000000000000e+00,
             0.0000000000000000e+00,  0.0000000000000000e+00,
             0.0000000000000000e+00,  0.0000000000000000e+00,
-            1.7763425570911580e+00,  0.0000000000000000e+00,
+            0.0000000000000000e+00,  1.8897261245650618e+00,
+            1.8897261245650618e+00,  0.0000000000000000e+00,
+            0.0000000000000000e+00,  3.7794522491301237e+00,
             0.0000000000000000e+00,  0.0000000000000000e+00,
-           -4.4476065664656128e-01,  0.0000000000000000e+00,
-            1.7197618551510188e+00,  0.0000000000000000e+00,
+            3.7794522491301237e+00,  0.0000000000000000e+00,
+            3.7794522491301237e+00,  0.0000000000000000e+00,
+            1.8731137000000000e+01,  2.8253936999999998e+00,
+            6.4012170000000002e-01,  7.6192621981653486e-01,
+            1.2923709967021120e+00,  1.4713190025449527e+00,
+            1.6127780000000000e-01,  6.4297778342414225e-01,
             5.4846716999999999e+03,  8.2523495000000003e+02,
             1.8804696000000001e+02,  5.2964500000000001e+01,
             1.6897570000000002e+01,  5.7996353000000003e+00,
@@ -54,12 +68,7 @@ mod test_h2o_631g {
             1.5539616000000001e+01,  3.5999336000000000e+00,
             1.0137617999999999e+00,  6.3793073366236994e+00,
             4.9149097473185055e+00,  2.1579105461599575e+00,
-            2.7000580000000002e-01,  5.6780702217958712e-01,
-            1.8731137000000000e+01,  2.8253936999999998e+00,
-            6.4012170000000002e-01,  7.6192621981653486e-01,
-            1.2923709967021120e+00,  1.4713190025449527e+00,
-            1.6127780000000000e-01,  6.4297778342414225e-01,
-        ];
+            2.7000580000000002e-01,  5.6780702217958712e-01];
         let mut cint_data = CINTR2CDATA::new();
         cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
         cint_data
@@ -67,28 +76,24 @@ mod test_h2o_631g {
 
     #[test]
     fn test_integral_3c() {
+
+        let shl_slices = vec![[7, 14], [0, 10], [3, 12]];
+        let ao_ranges = vec![[11, 22], [0, 18], [3, 20]];
+        let nao = 22;
+
         let mut cint_data = initialize();
-        println!("{:?}", cint_data.cgto_loc());
-        let shls_slice = vec![[1, 4], [0, 5], [3, 9]];
-        let aos_slice = shls_slice.iter().map(|shl_slice|
-            cint_data.cgto_loc_slice(&shl_slice)
-        ).collect::<Vec<Vec<usize>>>();
-        println!("{:?}", aos_slice);
-        let mut out = Array::<f64, _>::zeros([13, 13, 13].f());
-        let out_multipilar = Array::<f64, _>::linspace(0., 10., 13*13*13).into_shape((13, 13, 13)).unwrap();
-        
-        let ao_slc: Vec<[usize; 2]> = vec![[1, 6], [0, 9], [3, 13]];
+        let mut out = Array::<f64, _>::zeros([nao, nao, nao].f());
+        let out_multiplier = Array::<f64, _>::linspace(0., 10., nao * nao * nao).into_shape((nao, nao, nao)).unwrap();
 
         let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
-            ao_slc.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
+            ao_ranges.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
         ).unwrap();
         let mut out_view = out.slice_mut(slc_info);
-        println!("{:?}", (&out_view.as_ptr()));
 
         cint_data.optimizer::<int3c2e>();
-        cint_data.integral_s1_serial_inplace::<int3c2e, _> (&mut out_view, &shls_slice);
-        println!("{:?}", out);
-        assert_abs_diff_eq!(out.sum(), 176.47588268341633, epsilon=1e-12);
-        assert_abs_diff_eq!((out * out_multipilar).sum(), 417.9461528210677, epsilon=1e-12);
+        cint_data.integral_s1_serial_inplace::<int3c2e, _> (&mut out_view, &shl_slices);
+        
+        assert_abs_diff_eq!(out.sum(), 258.83910807865027, epsilon=1e-12);
+        assert_abs_diff_eq!((out * out_multiplier).sum(), 1727.3637003278836, epsilon=1e-12);
     }
 }

@@ -102,6 +102,7 @@ use std::collections::btree_map::Range;
 use std::process::exit;
 use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
+use itertools::Itertools;
 
 mod cint;
 use ndarray::prelude::*;
@@ -852,33 +853,33 @@ impl CINTR2CDATA {
         unsafe { buf.set_len(buf_size) };
         let mut buf = Array::from_vec(buf);
 
+        // // == shell indices intermediates ==
+        // // ao_ranges: used for shape of out[range0, range1, ...]
+        // let ao_ranges = shl_slices.map(|&[shl0, shl1]| (shl0..shl1).iter)
+
         // == integral ==
-        for i in shl_slices[0][0]..shl_slices[0][1] {
-            for j in shl_slices[1][0]..shl_slices[1][1] {
-                for k in shl_slices[2][0]..shl_slices[2][1] {
-                    unsafe {
-                        self.integral_block::<T>(
-                            buf.as_slice_memory_order_mut().unwrap(),
-                            &[i, j, k],
-                            cache.as_mut_slice());
-                    }
-
-                    let block_slc = [i, j, k].iter().enumerate().map(|(n, idx)| {
-                        let idx_0: usize = (idx - shl_slices[n][0]).try_into().unwrap();
-                        [ao_loc_rel[n][idx_0], ao_loc_rel[n][idx_0 + 1]]
-                    }).collect::<Vec<[usize; 2]>>();
-                    let mut block_shape = block_slc.iter().rev().map(|&[r0, r1]| (r1 - r0)).collect::<Vec<usize>>();
-                    let block_size = block_shape.iter().product::<usize>() * T::n_comp();
-                    let slc_info = SliceInfo::<_, D, D>::try_from(
-                        block_slc.iter().map(|&[r0, r1]| (r0..r1).into()).collect::<Vec<_>>()
-                    ).unwrap();
-
-                    let block_reshaped = &buf.slice(s![0..block_size]);
-                    let block_reshaped = block_reshaped.into_dimensionality::<IxDyn>().unwrap().into_shape(block_shape).unwrap().reversed_axes();
-                    println!("{:?}", block_reshaped);
-                    out.slice_mut(slc_info).assign(&block_reshaped.clone());
-                }
+        let shl_ranges = shl_slices.iter().map(|shl_slice| shl_slice[0]..shl_slice[1]).multi_cartesian_product();
+        for shl_indices in shl_ranges {
+            unsafe {
+                self.integral_block::<T>(
+                    buf.as_slice_memory_order_mut().unwrap(),
+                    &shl_indices,
+                    cache.as_mut_slice());
             }
+
+            let block_slc = shl_indices.iter().enumerate().map(|(n, idx)| {
+                let idx_0: usize = (idx - shl_slices[n][0]).try_into().unwrap();
+                [ao_loc_rel[n][idx_0], ao_loc_rel[n][idx_0 + 1]]
+            }).collect::<Vec<[usize; 2]>>();
+            let mut block_shape = block_slc.iter().rev().map(|&[r0, r1]| (r1 - r0)).collect::<Vec<usize>>();
+            let block_size = block_shape.iter().product::<usize>() * T::n_comp();
+            let slc_info = SliceInfo::<_, D, D>::try_from(
+                block_slc.iter().map(|&[r0, r1]| (r0..r1).into()).collect::<Vec<_>>()
+            ).unwrap();
+
+            let block_reshaped = &buf.slice(s![0..block_size]);
+            let block_reshaped = block_reshaped.into_dimensionality::<IxDyn>().unwrap().into_shape(block_shape).unwrap().reversed_axes();
+            out.slice_mut(slc_info).assign(&block_reshaped.clone());
         }
     }
 }
