@@ -6,6 +6,7 @@ use rest_libcint::cint_wrapper::*;
 #[cfg(test)]
 mod test_h2o_631g {
     use super::*;
+    use approx::assert_abs_diff_eq;
 
     fn initialize() -> CINTR2CDATA {
         // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
@@ -69,19 +70,14 @@ mod test_h2o_631g {
         let mut cint_data = initialize();
         println!("{:?}", cint_data.cgto_loc());
         let shls_slice = vec![[1, 4], [0, 5], [3, 9]];
-        // let shls_slice = vec![[0, 9], [0, 9], [0, 9]];
         let aos_slice = shls_slice.iter().map(|shl_slice|
             cint_data.cgto_loc_slice(&shl_slice)
         ).collect::<Vec<Vec<usize>>>();
         println!("{:?}", aos_slice);
-        let mut out = Array::<f64, _>::zeros(vec![13, 13, 13].f());
+        let mut out = Array::<f64, _>::zeros([13, 13, 13].f());
         let out_multipilar = Array::<f64, _>::linspace(0., 10., 13*13*13).into_shape((13, 13, 13)).unwrap();
         
         let ao_slc: Vec<[usize; 2]> = vec![[1, 6], [0, 9], [3, 13]];
-        // let ao_slc: Vec<[usize; 2]> = vec![[0, 13], [0, 13], [0, 13]];
-        // let ao_slc = ao_slc.iter().map(|slc| slc[0]..slc[1])
-        println!("{:?}", (&out.as_ptr()));
-        // let out_view = out.slice(SliceInfo::new([0, 1]));
 
         let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
             ao_slc.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
@@ -90,12 +86,9 @@ mod test_h2o_631g {
         println!("{:?}", (&out_view.as_ptr()));
 
         cint_data.optimizer::<int3c2e>();
-        cint_data.integral_3c_inplace::<int3c2e> (&mut out_view, &shls_slice);
+        cint_data.integral_s1_serial_inplace::<int3c2e, _> (&mut out_view, &shls_slice);
         println!("{:?}", out);
-        println!("{:?}", out.sum());
-        println!("{:?}", (out * out_multipilar).sum());
-
-        let t = cint_data.cint_3c2e(1, 0, 8);
-        print!("{:?}", t);
+        assert_abs_diff_eq!(out.sum(), 176.47588268341633, epsilon=1e-12);
+        assert_abs_diff_eq!((out * out_multipilar).sum(), 417.9461528210677, epsilon=1e-12);
     }
 }

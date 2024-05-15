@@ -105,7 +105,7 @@ use std::mem::ManuallyDrop;
 
 mod cint;
 use ndarray::prelude::*;
-use ndarray::SliceInfo;
+use ndarray::{SliceArg, SliceInfoElem, SliceInfo};
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
@@ -648,7 +648,7 @@ impl CINTR2CDATA {
     /// // maximum cache for the whole molecule
     /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
     /// ```
-    pub fn max_cache_size<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
+    pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
     where
         T: IntorBase
     {
@@ -730,11 +730,47 @@ impl CINTR2CDATA {
         loc[shl_slice[0] as usize .. shl_slice[1] as usize + 1].to_vec()
     }
 
+    /// Location of atomic orbitals, for specified slices of shell.
+    pub fn cgto_loc_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+        shl_slices.iter().map(|shl_slice| self.cgto_loc_slice(shl_slice)).collect()
+    }
+
     /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
     /// for specified slice of shell.
     pub fn cgto_loc_slice_relative(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
         let loc_slice = self.cgto_loc_slice(shl_slice);
         loc_slice.iter().map(|x| x - loc_slice[0]).collect()
+    }
+
+    /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
+    /// for specified slice of shell.
+    pub fn cgto_loc_slices_relative(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+        shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect()
+    }
+
+    /// Range of atomic orbitals, for specified slice of shell.
+    pub fn cgto_range_slice(&self, shl_slice: &[i32; 2]) -> std::ops::Range<usize> {
+        let loc = self.cgto_loc_slice(shl_slice);
+        loc.first().unwrap().clone()..loc.last().unwrap().clone()
+    }
+
+    /// Range of atomic orbitals, for specified slices of shell.
+    pub fn cgto_range_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<std::ops::Range<usize>> {
+        shl_slices.iter().map(|shl_slice| self.cgto_range_slice(shl_slice)).collect()
+    }
+
+    /// Shape of integral (in atomic orbital basis), for specified slices of shell.
+    pub fn shape_of_integral<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    where
+        T: IntorBase
+    {
+        let n_comp = T::n_comp();
+        let mut shape = if (n_comp > 1) { vec![n_comp] } else { vec![] };
+        shape.append(&mut shl_slices.iter().map(|shl_slice| {
+            let loc = self.cgto_loc_slice(shl_slice);
+            loc.last().unwrap().clone() - loc.first().unwrap().clone() as usize
+        }).collect());
+        shape
     }
 
     /// Smallest unit of electron-integral function from libcint.
@@ -776,40 +812,50 @@ impl CINTR2CDATA {
         };
     }
 
-    pub fn integral_3c_inplace<T> (&mut self, out: &mut ArrayViewMut<f64, Ix3>, shls_slice: &Vec<[i32; 2]>)
+    pub fn integral_s1_serial_inplace<T, D> (&mut self, out: &mut ArrayViewMut<f64, D>, shl_slices: &Vec<[i32; 2]>)
     where
-        T: IntorBase
+        T: IntorBase,
+        D: Dimension,
+        SliceInfo<Vec<SliceInfoElem>, D, D>: SliceArg<D>
     {
-        // sanity check
+        // == dimension check: shl_slices (n_centers) ==
+        let intor_name = T::name();
         let n_center = T::n_center();
-        assert_eq!(n_center, 3);
-        // expand optional parameters
-        assert_eq!(shls_slice.len(), n_center);
-        // dimension check
-        let ao_loc_rel = shls_slice.iter().map(|shl_slice|
-            self.cgto_loc_slice_relative(&shl_slice)
-        ).collect::<Vec<Vec<usize>>>();
-        let ao_shape = ao_loc_rel.iter().map(|loc|
-            loc.last().unwrap().clone()
-        ).collect::<Vec<usize>>();
+        assert_eq!(
+            shl_slices.len(), n_center,
+            "length of shl_slices {shl_slices:?} should be the same to {n_center} centers of {intor_name}.");
+
+        // == determine shape of output tensor ==
+        // for example, when n_center == 3, then (n_comp, nao_1, nao_2, nao_3); f-contiguous recommanded
+        // the first dimension (n_comp) may be marginalized out, if n_comp == 1
+        let n_comp = T::n_comp();
+        let with_comp_expand = (n_comp == 1 && out.ndim() == n_center + 1 && out.shape()[0] == 1);
+        let with_comp = n_comp > 1 || with_comp_expand;
+        let ao_loc_rel = self.cgto_loc_slices_relative(shl_slices);
+        let mut ao_shape = if with_comp_expand { vec![1] } else { vec![] };
+        ao_shape.append(&mut self.shape_of_integral::<T>(shl_slices));
         let out_shape = out.shape();
-        assert_eq!(ao_shape, out_shape);
+        assert_eq!(
+            ao_shape, out_shape,
+            "argument `out` shape {out_shape:?} is not the same to expected shape {ao_shape:?}");
     
+        // == buffer allocation ==
         // cache buffer allocation
-        let cache_size = self.max_cache_size::<T>(shls_slice);
+        let cache_size = self.size_of_cache::<T>(shl_slices);
         let mut cache = Vec::<f64>::with_capacity(cache_size);
         unsafe { cache.set_len(cache_size) };
         // output buffer allocation; required output buffer size will only be smaller than cache
-        let buf_size: usize = shls_slice.iter().map(|&[shl0, shl1]| {
+        let buf_size: usize = n_comp * shl_slices.iter().map(|&[shl0, shl1]| {
             (shl0..shl1).map(|idx| self.cgto_size(idx)).max().unwrap()
-        }).product::<usize>() * T::n_comp();
+        }).product::<usize>();
         let mut buf = Vec::<f64>::with_capacity(buf_size);
         unsafe { buf.set_len(buf_size) };
-        let mut buf = Array::from_shape_vec((buf_size, 1).f(), buf).unwrap();
+        let mut buf = Array::from_vec(buf);
 
-        for i in shls_slice[0][0]..shls_slice[0][1] {
-            for j in shls_slice[1][0]..shls_slice[1][1] {
-                for k in shls_slice[2][0]..shls_slice[2][1] {
+        // == integral ==
+        for i in shl_slices[0][0]..shl_slices[0][1] {
+            for j in shl_slices[1][0]..shl_slices[1][1] {
+                for k in shl_slices[2][0]..shl_slices[2][1] {
                     unsafe {
                         self.integral_block::<T>(
                             buf.as_slice_memory_order_mut().unwrap(),
@@ -818,16 +864,16 @@ impl CINTR2CDATA {
                     }
 
                     let block_slc = [i, j, k].iter().enumerate().map(|(n, idx)| {
-                        let idx_0: usize = (idx - shls_slice[n][0]).try_into().unwrap();
+                        let idx_0: usize = (idx - shl_slices[n][0]).try_into().unwrap();
                         [ao_loc_rel[n][idx_0], ao_loc_rel[n][idx_0 + 1]]
                     }).collect::<Vec<[usize; 2]>>();
                     let mut block_shape = block_slc.iter().rev().map(|&[r0, r1]| (r1 - r0)).collect::<Vec<usize>>();
                     let block_size = block_shape.iter().product::<usize>() * T::n_comp();
-                    let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
+                    let slc_info = SliceInfo::<_, D, D>::try_from(
                         block_slc.iter().map(|&[r0, r1]| (r0..r1).into()).collect::<Vec<_>>()
                     ).unwrap();
 
-                    let block_reshaped = &buf.slice(s![0..block_size, ..]);
+                    let block_reshaped = &buf.slice(s![0..block_size]);
                     let block_reshaped = block_reshaped.into_dimensionality::<IxDyn>().unwrap().into_shape(block_shape).unwrap().reversed_axes();
                     println!("{:?}", block_reshaped);
                     out.slice_mut(slc_info).assign(&block_reshaped.clone());
@@ -844,44 +890,13 @@ mod simple_test_integral {
     use super::*;
 
     #[test]
-    fn test_integral_3c() {
-        let mut cint_data = initialize_test_h2o_631g();
-        println!("{:?}", cint_data.cgto_loc());
-        let shls_slice = vec![[1, 4], [0, 5], [3, 9]];
-        // let shls_slice = vec![[0, 9], [0, 9], [0, 9]];
-        let aos_slice = shls_slice.iter().map(|shl_slice|
-            cint_data.cgto_loc_slice(&shl_slice)
-        ).collect::<Vec<Vec<usize>>>();
-        println!("{:?}", aos_slice);
-        let mut out = Array::<f64, _>::zeros(vec![13, 13, 13].f());
-        let mut out_multipilar = Array::<f64, _>::linspace(0., 10., 13*13*13).into_shape((13, 13, 13)).unwrap();
-        
-        let ao_slc: Vec<[usize; 2]> = vec![[1, 6], [0, 9], [3, 13]];
-        // let ao_slc: Vec<[usize; 2]> = vec![[0, 13], [0, 13], [0, 13]];
-        // let ao_slc = ao_slc.iter().map(|slc| slc[0]..slc[1])
-        println!("{:?}", (&out.as_ptr()));
-        // let out_view = out.slice(SliceInfo::new([0, 1]));
-
-        let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
-            ao_slc.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
-        ).unwrap();
-        let mut out_view = out.slice_mut(slc_info);
-        println!("{:?}", (&out_view.as_ptr()));
-
-        cint_data.integral_3c_inplace::<int3c2e> (&mut out_view, &shls_slice);
-        println!("{:?}", out);
-        println!("{:?}", out.sum());
-        println!("{:?}", (out * out_multipilar).sum());
-    }
-
-    #[test]
     fn test_trait_intorbase() {
         let mut cint_data = initialize_test_h2o_631g();
         cint_data.optimizer::<int2e>();
         println!("{:?}", unsafe{*cint_data.c_opt});
         let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
-        assert_eq!(cint_data.max_cache_size::<int2e>(&shls_slice), 445);
-        assert_eq!(cint_data.max_cache_size::<int2e>(&vec![]), 1341);
+        assert_eq!(cint_data.size_of_cache::<int2e>(&shls_slice), 445);
+        assert_eq!(cint_data.size_of_cache::<int2e>(&vec![]), 1341);
         assert_eq!(cint_data.cgto_size_sph(1), 1);
         assert_eq!(cint_data.cgto_size_sph(3), 3);
     }

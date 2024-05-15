@@ -13,3 +13,6 @@ dunce = "1.0.0"
 
 [dependencies]
 ndarray = { version = "0.15.6", features = ["rayon"] }
+
+[dev-dependencies]
+approx = "0.5.1"
