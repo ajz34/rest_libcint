@@ -104,6 +104,9 @@ use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
 
 mod cint;
+use ndarray::prelude::*;
+use ndarray::SliceInfo;
+
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
 #[derive(Clone,Copy)]
@@ -143,7 +146,7 @@ pub struct CINTR2CDATA {
     c_env: Vec<f64>,
 }
 
-mod cint_wrapper;
+pub mod cint_wrapper;
 use crate::cint_wrapper::*;
 
 impl CINTR2CDATA {
@@ -676,42 +679,62 @@ impl CINTR2CDATA {
     /// Size (number of atomic orbitals) of spherical CGTO at certain basis index.
     /// 
     /// Given `None` input, this function will return the maximum size of CGTO,
-    /// which may be helpful for allocating output buffer size. 
-    pub fn cgto_size_sph(&self, id_bas: Option<i32>) -> usize {
+    /// which may be helpful for allocating output buffer size of [`Self::integral_block`].
+    pub fn cgto_size_sph(&self, id_bas: i32) -> usize {
         use cint::{ANG_OF, NCTR_OF, BAS_SLOTS};
         let loc_ang = ANG_OF as usize;
         let loc_nctr = NCTR_OF as usize;
         let loc_bas = BAS_SLOTS as usize;
-        match id_bas {
-            Some(id_bas) => {
-                let id_bas = id_bas as usize;
-                let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
-                let nang = self.c_bas[id_bas * loc_bas + loc_ang] * 2 + 1;
-                (nctr * nang) as usize
-            },
-            None => (0..self.c_nbas).map(|i| self.cgto_size_sph(Some(i))).max().unwrap()
-        }
+        let id_bas = id_bas as usize;
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
+        let nang = self.c_bas[id_bas * loc_bas + loc_ang] * 2 + 1;
+        (nctr * nang) as usize
     }
 
     /// Size (number of atomic orbitals) of cartesian CGTO at certain basis index.
     /// 
     /// Given `None` input, this function will return the maximum size of CGTO,
-    /// which may be helpful for allocating output buffer size.
-    pub fn cgto_size_cart(&self, id_bas: Option<i32>) -> usize {
+    /// which may be helpful for allocating output buffer size of [`Self::integral_block`].
+    pub fn cgto_size_cart(&self, id_bas: i32) -> usize {
         use cint::{ANG_OF, NCTR_OF, BAS_SLOTS};
         let loc_ang = ANG_OF as usize;
         let loc_nctr = NCTR_OF as usize;
         let loc_bas = BAS_SLOTS as usize;
-        match id_bas {
-            Some(id_bas) => {
-                let id_bas = id_bas as usize;
-                let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
-                let l = self.c_bas[id_bas * loc_bas + loc_ang];
-                let nang = (l + 1) * (l + 2) / 2;
-                (nctr * nang) as usize
-            },
-            None => (0..self.c_nbas).map(|i| self.cgto_size_cart(Some(i))).max().unwrap()
+        let id_bas = id_bas as usize;
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
+        let l = self.c_bas[id_bas * loc_bas + loc_ang];
+        let nang = (l + 1) * (l + 2) / 2;
+        (nctr * nang) as usize
+    }
+
+    pub fn cgto_size(&self, id_bas: i32) -> usize {
+        match self.cint_type {
+            CintType::Spheric => self.cgto_size_sph(id_bas),
+            CintType::Cartesian => self.cgto_size_cart(id_bas),
         }
+    }
+
+    /// Location of atomic orbitals, for basis configuration of the current molecule.
+    pub fn cgto_loc(&self) -> Vec<usize> {
+        let size_vec = (0..self.c_nbas).map(|idx| self.cgto_size(idx)).collect::<Vec<usize>>();
+        let mut loc = vec![0; size_vec.len() + 1];
+        for idx in (0..size_vec.len() as usize) {
+            loc[idx + 1] = loc[idx] + size_vec[idx]; 
+        }
+        loc
+    }
+
+    /// Location of atomic orbitals, for specified slice of shell.
+    pub fn cgto_loc_slice(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
+        let loc = self.cgto_loc();
+        loc[shl_slice[0] as usize .. shl_slice[1] as usize + 1].to_vec()
+    }
+
+    /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
+    /// for specified slice of shell.
+    pub fn cgto_loc_slice_relative(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
+        let loc_slice = self.cgto_loc_slice(shl_slice);
+        loc_slice.iter().map(|x| x - loc_slice[0]).collect()
     }
 
     /// Smallest unit of electron-integral function from libcint.
@@ -721,82 +744,188 @@ impl CINTR2CDATA {
     /// * `out` -
     ///     Output integral buffer, need to be allocated enough space before calling this function.
     /// * `shls_slice` -
-    ///     shell slice, which size should be (n_center, 2); dimension check should be performed
+    ///     shell indices, which size should be n_center; dimension check should be performed
     ///     before calling this function.
     /// * `cache` -
     ///     Cache buffer, need to be allocated enough space before calling this function; simply
-    ///     using `null_mut()` also works, which lets libcint manages cache and efficiency decreases.
+    ///     using `vec![]` should also works, which lets libcint manages cache and efficiency decreases.
     ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
-    pub unsafe fn integral_block<T> (&mut self, out: &mut Vec<f64>, shls_slice: &Vec<[i32; 2]>, cache: &mut Vec<f64>)
+    pub unsafe fn integral_block<T> (&mut self, out: &mut [f64], shls: &[i32], cache: &mut [f64])
     where
         T: IntorBase
     {
-        let shls = shls_slice.clone().into_iter().flatten().collect::<Vec<i32>>();
+        let cache_ptr = match cache.len() {
+            0 => null_mut(),
+            _ => cache.as_mut_ptr(),
+        };
         match self.cint_type {
             CintType::Spheric => unsafe {
                 T::integral_sph(
                     out.as_mut_ptr(), null(), shls.as_ptr(),
                     self.c_atm.as_ptr(), self.c_natm,
                     self.c_bas.as_ptr(), self.c_nbas,
-                    self.c_env.as_ptr(), self.c_opt, cache.as_mut_ptr())
+                    self.c_env.as_ptr(), self.c_opt, cache_ptr)
                 },
             CintType::Cartesian => unsafe {
                 T::integral_cart(
                     out.as_mut_ptr(), null(), shls.as_ptr(),
                     self.c_atm.as_ptr(), self.c_natm,
                     self.c_bas.as_ptr(), self.c_nbas,
-                    self.c_env.as_ptr(), self.c_opt, cache.as_mut_ptr())
+                    self.c_env.as_ptr(), self.c_opt, cache_ptr)
                 },
         };
     }
+
+    pub fn integral_3c_inplace<T> (&mut self, out: &mut ArrayViewMut<f64, Ix3>, shls_slice: &Vec<[i32; 2]>)
+    where
+        T: IntorBase
+    {
+        // sanity check
+        let n_center = T::n_center();
+        assert_eq!(n_center, 3);
+        // expand optional parameters
+        assert_eq!(shls_slice.len(), n_center);
+        // dimension check
+        let ao_loc_rel = shls_slice.iter().map(|shl_slice|
+            self.cgto_loc_slice_relative(&shl_slice)
+        ).collect::<Vec<Vec<usize>>>();
+        let ao_shape = ao_loc_rel.iter().map(|loc|
+            loc.last().unwrap().clone()
+        ).collect::<Vec<usize>>();
+        let out_shape = out.shape();
+        assert_eq!(ao_shape, out_shape);
+    
+        // cache buffer allocation
+        let cache_size = self.max_cache_size::<T>(shls_slice);
+        let mut cache = Vec::<f64>::with_capacity(cache_size);
+        unsafe { cache.set_len(cache_size) };
+        // output buffer allocation; required output buffer size will only be smaller than cache
+        let buf_size: usize = shls_slice.iter().map(|&[shl0, shl1]| {
+            (shl0..shl1).map(|idx| self.cgto_size(idx)).max().unwrap()
+        }).product::<usize>() * T::n_comp();
+        let mut buf = Vec::<f64>::with_capacity(buf_size);
+        unsafe { buf.set_len(buf_size) };
+        let mut buf = Array::from_shape_vec((buf_size, 1).f(), buf).unwrap();
+
+        for i in shls_slice[0][0]..shls_slice[0][1] {
+            for j in shls_slice[1][0]..shls_slice[1][1] {
+                for k in shls_slice[2][0]..shls_slice[2][1] {
+                    unsafe {
+                        self.integral_block::<T>(
+                            buf.as_slice_memory_order_mut().unwrap(),
+                            &[i, j, k],
+                            cache.as_mut_slice());
+                    }
+
+                    let block_slc = [i, j, k].iter().enumerate().map(|(n, idx)| {
+                        let idx_0: usize = (idx - shls_slice[n][0]).try_into().unwrap();
+                        [ao_loc_rel[n][idx_0], ao_loc_rel[n][idx_0 + 1]]
+                    }).collect::<Vec<[usize; 2]>>();
+                    let mut block_shape = block_slc.iter().rev().map(|&[r0, r1]| (r1 - r0)).collect::<Vec<usize>>();
+                    let block_size = block_shape.iter().product::<usize>() * T::n_comp();
+                    let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
+                        block_slc.iter().map(|&[r0, r1]| (r0..r1).into()).collect::<Vec<_>>()
+                    ).unwrap();
+
+                    let block_reshaped = &buf.slice(s![0..block_size, ..]);
+                    let block_reshaped = block_reshaped.into_dimensionality::<IxDyn>().unwrap().into_shape(block_shape).unwrap().reversed_axes();
+                    println!("{:?}", block_reshaped);
+                    out.slice_mut(slc_info).assign(&block_reshaped.clone());
+                }
+            }
+        }
+    }
 }
 
-#[test]
-fn test_trait_intorbase() {
-    // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
-    let c_atm = vec![
-        vec![ 8, 20,  1, 23,  0,  0],
-        vec![ 1, 24,  1, 27,  0,  0],
-        vec![ 1, 28,  1, 31,  0,  0]];
-    let c_bas = vec![
-        vec![ 0,  0,  6,  1,  0, 32, 38,  0],
-        vec![ 0,  0,  3,  1,  0, 44, 47,  0],
-        vec![ 0,  0,  1,  1,  0, 50, 51,  0],
-        vec![ 0,  1,  3,  1,  0, 52, 55,  0],
-        vec![ 0,  1,  1,  1,  0, 58, 59,  0],
-        vec![ 1,  0,  3,  1,  0, 60, 63,  0],
-        vec![ 1,  0,  1,  1,  0, 66, 67,  0],
-        vec![ 2,  0,  3,  1,  0, 60, 63,  0],
-        vec![ 2,  0,  1,  1,  0, 66, 67,  0]];
-    let c_env = vec![
-        0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        1.77634256e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-        -4.44760657e-01,  0.00000000e+00,  1.71976186e+00,  0.00000000e+00,
-        5.48467170e+03,  8.25234950e+02,  1.88046960e+02,  5.29645000e+01,
-        1.68975700e+01,  5.79963530e+00,  2.94842455e+00,  5.42657124e+00,
-        8.78126489e+00,  1.15432129e+01,  9.90055015e+00,  3.38516599e+00,
-        1.55396160e+01,  3.59993360e+00,  1.01376180e+00, -2.19051792e+00,
-        -9.77405528e-01,  2.88629094e+00,  2.70005800e-01,  9.46334873e-01,
-        1.55396160e+01,  3.59993360e+00,  1.01376180e+00,  6.37930734e+00,
-        4.91490975e+00,  2.15791055e+00,  2.70005800e-01,  5.67807022e-01,
-        1.87311370e+01,  2.82539370e+00,  6.40121700e-01,  7.61926220e-01,
-        1.29237100e+00,  1.47131900e+00,  1.61277800e-01,  6.42977783e-01];
-    
-    let mut cint_data = CINTR2CDATA::new();
-    cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
-    cint_data.optimizer::<int2e>();
-    println!("{:?}", unsafe{*cint_data.c_opt});
-    let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
-    assert_eq!(cint_data.max_cache_size::<int2e>(&shls_slice), 445);
-    assert_eq!(cint_data.max_cache_size::<int2e>(&vec![]), 1341);
-    assert_eq!(cint_data.cgto_size_sph(Some(1)), 1);
-    assert_eq!(cint_data.cgto_size_sph(None), 3);
+#[cfg(test)]
+mod simple_test_integral {
+    use ndarray::SliceInfo;
+
+    use super::*;
+
+    #[test]
+    fn test_integral_3c() {
+        let mut cint_data = initialize_test_h2o_631g();
+        println!("{:?}", cint_data.cgto_loc());
+        let shls_slice = vec![[1, 4], [0, 5], [3, 9]];
+        // let shls_slice = vec![[0, 9], [0, 9], [0, 9]];
+        let aos_slice = shls_slice.iter().map(|shl_slice|
+            cint_data.cgto_loc_slice(&shl_slice)
+        ).collect::<Vec<Vec<usize>>>();
+        println!("{:?}", aos_slice);
+        let mut out = Array::<f64, _>::zeros(vec![13, 13, 13].f());
+        let mut out_multipilar = Array::<f64, _>::linspace(0., 10., 13*13*13).into_shape((13, 13, 13)).unwrap();
+        
+        let ao_slc: Vec<[usize; 2]> = vec![[1, 6], [0, 9], [3, 13]];
+        // let ao_slc: Vec<[usize; 2]> = vec![[0, 13], [0, 13], [0, 13]];
+        // let ao_slc = ao_slc.iter().map(|slc| slc[0]..slc[1])
+        println!("{:?}", (&out.as_ptr()));
+        // let out_view = out.slice(SliceInfo::new([0, 1]));
+
+        let slc_info = SliceInfo::<_, Ix3, Ix3>::try_from(
+            ao_slc.iter().map(|slc| (slc[0]..slc[1]).into()).collect::<Vec<_>>()
+        ).unwrap();
+        let mut out_view = out.slice_mut(slc_info);
+        println!("{:?}", (&out_view.as_ptr()));
+
+        cint_data.integral_3c_inplace::<int3c2e> (&mut out_view, &shls_slice);
+        println!("{:?}", out);
+        println!("{:?}", out.sum());
+        println!("{:?}", (out * out_multipilar).sum());
+    }
+
+    #[test]
+    fn test_trait_intorbase() {
+        let mut cint_data = initialize_test_h2o_631g();
+        cint_data.optimizer::<int2e>();
+        println!("{:?}", unsafe{*cint_data.c_opt});
+        let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
+        assert_eq!(cint_data.max_cache_size::<int2e>(&shls_slice), 445);
+        assert_eq!(cint_data.max_cache_size::<int2e>(&vec![]), 1341);
+        assert_eq!(cint_data.cgto_size_sph(1), 1);
+        assert_eq!(cint_data.cgto_size_sph(3), 3);
+    }
+
+    fn initialize_test_h2o_631g() -> CINTR2CDATA {
+        // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
+        let c_atm = vec![
+            vec![ 8, 20,  1, 23,  0,  0],
+            vec![ 1, 24,  1, 27,  0,  0],
+            vec![ 1, 28,  1, 31,  0,  0]];
+        let c_bas = vec![
+            vec![ 0,  0,  6,  1,  0, 32, 38,  0],
+            vec![ 0,  0,  3,  1,  0, 44, 47,  0],
+            vec![ 0,  0,  1,  1,  0, 50, 51,  0],
+            vec![ 0,  1,  3,  1,  0, 52, 55,  0],
+            vec![ 0,  1,  1,  1,  0, 58, 59,  0],
+            vec![ 1,  0,  3,  1,  0, 60, 63,  0],
+            vec![ 1,  0,  1,  1,  0, 66, 67,  0],
+            vec![ 2,  0,  3,  1,  0, 60, 63,  0],
+            vec![ 2,  0,  1,  1,  0, 66, 67,  0]];
+        let c_env = vec![
+            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            1.77634256e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
+            -4.44760657e-01,  0.00000000e+00,  1.71976186e+00,  0.00000000e+00,
+            5.48467170e+03,  8.25234950e+02,  1.88046960e+02,  5.29645000e+01,
+            1.68975700e+01,  5.79963530e+00,  2.94842455e+00,  5.42657124e+00,
+            8.78126489e+00,  1.15432129e+01,  9.90055015e+00,  3.38516599e+00,
+            1.55396160e+01,  3.59993360e+00,  1.01376180e+00, -2.19051792e+00,
+            -9.77405528e-01,  2.88629094e+00,  2.70005800e-01,  9.46334873e-01,
+            1.55396160e+01,  3.59993360e+00,  1.01376180e+00,  6.37930734e+00,
+            4.91490975e+00,  2.15791055e+00,  2.70005800e-01,  5.67807022e-01,
+            1.87311370e+01,  2.82539370e+00,  6.40121700e-01,  7.61926220e-01,
+            1.29237100e+00,  1.47131900e+00,  1.61277800e-01,  6.42977783e-01];
+        let mut cint_data = CINTR2CDATA::new();
+        cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
+        cint_data
+    }
 }
+
 
 //pub fn cint2e_sph_rust(mut buf: Vec<f64>, mut shls: Vec<i32>, 
 //                   c_atm: & *mut c_int, c_natm:c_int, 

@@ -257,8 +257,9 @@ pub trait IntorBase {
         env: *const f64,
         opt: *const CINTOpt,
         cache: *mut f64) -> c_int;
-    fn n_comp() -> i32;
-    fn n_spinor_comp() -> i32;
+    fn n_comp() -> usize;
+    fn n_spinor_comp() -> usize;
+    fn n_center() -> usize;
     fn ng() -> Vec<i32>;
     fn intor_type() -> &'static str;
     fn name() -> &'static str;
@@ -273,6 +274,7 @@ macro_rules! impl_intorbase {
         $integral_spinor: ident,
         $n_comp: expr,
         $n_spinor_comp: expr,
+        $n_center: expr,
         $ng: expr,
         $intor_type: literal,
         $name: literal
@@ -328,8 +330,9 @@ impl IntorBase for $intor {
             cache: *mut f64) -> c_int {
         cint::$integral_spinor(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
     }
-    fn n_comp() -> i32 { $n_comp }
-    fn n_spinor_comp() -> i32 { $n_spinor_comp }
+    fn n_comp() -> usize { $n_comp as usize }
+    fn n_spinor_comp() -> usize { $n_spinor_comp as usize }
+    fn n_center() -> usize { $n_center as usize }
     fn ng() -> Vec<i32> { $ng }
     fn intor_type() -> &'static str { $intor_type }
     fn name() -> &'static str { $name }
@@ -349,18 +352,20 @@ def gen_impl_intorbase(intor):
     {0:}_sph,
     {0:}_cart,
     {0:}_spinor,
-    {2:}, {3:}, vec!{4:},
+    {2:}, {3:}, {4:}, vec!{5:},
     "{1:}", "{0:}");\n"""
-    intor_type = intor[:5]
-    if intor_type == "int2e":
-        intor_type = "int4c"
-    if intor_type == "int1e":
-        intor_type = "int2c"
+    intor_type = intor.split("_")[0]
+    intor_center = intor[:5]
+    if intor_center == "int2e":
+        intor_center = "int4c"
+    if intor_center == "int1e":
+        intor_center = "int2c"
+    n_center = int(intor_center[3])
     ng = actual_intor[intor]
     assert len(ng) == 8
     comp_1e, comp_2e, comp_tensor = ng[-3:]
     comp_all = max(comp_1e, 1) * max(comp_2e, 1) * comp_tensor
-    token = token.format(intor, intor_type, comp_tensor, comp_all, ng)
+    token = token.format(intor, intor_type, comp_tensor, comp_all, n_center, ng)
     return token
 
 for intor in actual_intor:

@@ -47,8 +47,9 @@ pub trait IntorBase {
         env: *const f64,
         opt: *const CINTOpt,
         cache: *mut f64) -> c_int;
-    fn n_comp() -> i32;
-    fn n_spinor_comp() -> i32;
+    fn n_comp() -> usize;
+    fn n_spinor_comp() -> usize;
+    fn n_center() -> usize;
     fn ng() -> Vec<i32>;
     fn intor_type() -> &'static str;
     fn name() -> &'static str;
@@ -63,6 +64,7 @@ macro_rules! impl_intorbase {
         $integral_spinor: ident,
         $n_comp: expr,
         $n_spinor_comp: expr,
+        $n_center: expr,
         $ng: expr,
         $intor_type: literal,
         $name: literal
@@ -118,8 +120,9 @@ impl IntorBase for $intor {
             cache: *mut f64) -> c_int {
         cint::$integral_spinor(out, dims, shls, atm, natm, bas, nbas, env, opt, cache)
     }
-    fn n_comp() -> i32 { $n_comp }
-    fn n_spinor_comp() -> i32 { $n_spinor_comp }
+    fn n_comp() -> usize { $n_comp as usize }
+    fn n_spinor_comp() -> usize { $n_spinor_comp as usize }
+    fn n_center() -> usize { $n_center as usize }
     fn ng() -> Vec<i32> { $ng }
     fn intor_type() -> &'static str { $intor_type }
     fn name() -> &'static str { $name }
@@ -132,1744 +135,1744 @@ impl_intorbase!(
     int4c1e_sph,
     int4c1e_cart,
     int4c1e_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int4c", "int4c1e");
+    1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int4c1e", "int4c1e");
 impl_intorbase!(
     int3c1e,
     int3c1e_optimizer,
     int3c1e_sph,
     int3c1e_cart,
     int3c1e_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int3c", "int3c1e");
+    1, 1, 3, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int3c1e", "int3c1e");
 impl_intorbase!(
     int3c1e_rinv,
     int3c1e_rinv_optimizer,
     int3c1e_rinv_sph,
     int3c1e_rinv_cart,
     int3c1e_rinv_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int3c", "int3c1e_rinv");
+    1, 1, 3, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int3c1e", "int3c1e_rinv");
 impl_intorbase!(
     int1e_grids,
     int1e_grids_optimizer,
     int1e_grids_sph,
     int1e_grids_cart,
     int1e_grids_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 0, 1],
-    "int2c", "int1e_grids");
+    1, 1, 2, vec![0, 0, 0, 0, 0, 1, 0, 1],
+    "int1e", "int1e_grids");
 impl_intorbase!(
     int2c2e,
     int2c2e_optimizer,
     int2c2e_sph,
     int2c2e_cart,
     int2c2e_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int2c", "int2c2e");
+    1, 1, 2, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int2c2e", "int2c2e");
 impl_intorbase!(
     int2e_stg,
     int2e_stg_optimizer,
     int2e_stg_sph,
     int2e_stg_cart,
     int2e_stg_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int4c", "int2e_stg");
+    1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int2e", "int2e_stg");
 impl_intorbase!(
     int2e_yp,
     int2e_yp_optimizer,
     int2e_yp_sph,
     int2e_yp_cart,
     int2e_yp_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int4c", "int2e_yp");
+    1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int2e", "int2e_yp");
 impl_intorbase!(
     int2e_yp_ip1,
     int2e_yp_ip1_optimizer,
     int2e_yp_ip1_sph,
     int2e_yp_ip1_cart,
     int2e_yp_ip1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int4c", "int2e_yp_ip1");
+    3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int2e", "int2e_yp_ip1");
 impl_intorbase!(
     int2e_stg_ip1,
     int2e_stg_ip1_optimizer,
     int2e_stg_ip1_sph,
     int2e_stg_ip1_cart,
     int2e_stg_ip1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int4c", "int2e_stg_ip1");
+    3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int2e", "int2e_stg_ip1");
 impl_intorbase!(
     int2e_yp_ipip1,
     int2e_yp_ipip1_optimizer,
     int2e_yp_ipip1_sph,
     int2e_yp_ipip1_cart,
     int2e_yp_ipip1_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_yp_ipip1");
+    9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_yp_ipip1");
 impl_intorbase!(
     int2e_stg_ipip1,
     int2e_stg_ipip1_optimizer,
     int2e_stg_ipip1_sph,
     int2e_stg_ipip1_cart,
     int2e_stg_ipip1_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_stg_ipip1");
+    9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_stg_ipip1");
 impl_intorbase!(
     int2e_yp_ipvip1,
     int2e_yp_ipvip1_optimizer,
     int2e_yp_ipvip1_sph,
     int2e_yp_ipvip1_cart,
     int2e_yp_ipvip1_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_yp_ipvip1");
+    9, 9, 4, vec![1, 1, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_yp_ipvip1");
 impl_intorbase!(
     int2e_stg_ipvip1,
     int2e_stg_ipvip1_optimizer,
     int2e_stg_ipvip1_sph,
     int2e_stg_ipvip1_cart,
     int2e_stg_ipvip1_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_stg_ipvip1");
+    9, 9, 4, vec![1, 1, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_stg_ipvip1");
 impl_intorbase!(
     int2e_yp_ip1ip2,
     int2e_yp_ip1ip2_optimizer,
     int2e_yp_ip1ip2_sph,
     int2e_yp_ip1ip2_cart,
     int2e_yp_ip1ip2_spinor,
-    9, 9, vec![1, 0, 1, 0, 2, 1, 1, 9],
-    "int4c", "int2e_yp_ip1ip2");
+    9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
+    "int2e", "int2e_yp_ip1ip2");
 impl_intorbase!(
     int2e_stg_ip1ip2,
     int2e_stg_ip1ip2_optimizer,
     int2e_stg_ip1ip2_sph,
     int2e_stg_ip1ip2_cart,
     int2e_stg_ip1ip2_spinor,
-    9, 9, vec![1, 0, 1, 0, 2, 1, 1, 9],
-    "int4c", "int2e_stg_ip1ip2");
+    9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
+    "int2e", "int2e_stg_ip1ip2");
 impl_intorbase!(
     int2e,
     int2e_optimizer,
     int2e_sph,
     int2e_cart,
     int2e_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int4c", "int2e");
+    1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int2e", "int2e");
 impl_intorbase!(
     int2e_breit_r1p2,
     int2e_breit_r1p2_optimizer,
     int2e_breit_r1p2_sph,
     int2e_breit_r1p2_cart,
     int2e_breit_r1p2_spinor,
-    1, 1, vec![2, 2, 0, 1, 4, 1, 1, 1],
-    "int4c", "int2e_breit_r1p2");
+    1, 1, 4, vec![2, 2, 0, 1, 4, 1, 1, 1],
+    "int2e", "int2e_breit_r1p2");
 impl_intorbase!(
     int2e_breit_r2p2,
     int2e_breit_r2p2_optimizer,
     int2e_breit_r2p2_sph,
     int2e_breit_r2p2_cart,
     int2e_breit_r2p2_spinor,
-    1, 1, vec![2, 1, 0, 2, 4, 1, 1, 1],
-    "int4c", "int2e_breit_r2p2");
+    1, 1, 4, vec![2, 1, 0, 2, 4, 1, 1, 1],
+    "int2e", "int2e_breit_r2p2");
 impl_intorbase!(
     int3c2e,
     int3c2e_optimizer,
     int3c2e_sph,
     int3c2e_cart,
     int3c2e_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int3c", "int3c2e");
+    1, 1, 3, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int3c2e", "int3c2e");
 impl_intorbase!(
     int3c1e_r2_origk,
     int3c1e_r2_origk_optimizer,
     int3c1e_r2_origk_sph,
     int3c1e_r2_origk_cart,
     int3c1e_r2_origk_spinor,
-    1, 1, vec![0, 0, 2, 0, 2, 1, 1, 1],
-    "int3c", "int3c1e_r2_origk");
+    1, 1, 3, vec![0, 0, 2, 0, 2, 1, 1, 1],
+    "int3c1e", "int3c1e_r2_origk");
 impl_intorbase!(
     int3c1e_r4_origk,
     int3c1e_r4_origk_optimizer,
     int3c1e_r4_origk_sph,
     int3c1e_r4_origk_cart,
     int3c1e_r4_origk_spinor,
-    1, 1, vec![0, 0, 4, 0, 4, 1, 1, 1],
-    "int3c", "int3c1e_r4_origk");
+    1, 1, 3, vec![0, 0, 4, 0, 4, 1, 1, 1],
+    "int3c1e", "int3c1e_r4_origk");
 impl_intorbase!(
     int3c1e_r6_origk,
     int3c1e_r6_origk_optimizer,
     int3c1e_r6_origk_sph,
     int3c1e_r6_origk_cart,
     int3c1e_r6_origk_spinor,
-    1, 1, vec![0, 0, 6, 0, 6, 1, 1, 1],
-    "int3c", "int3c1e_r6_origk");
+    1, 1, 3, vec![0, 0, 6, 0, 6, 1, 1, 1],
+    "int3c1e", "int3c1e_r6_origk");
 impl_intorbase!(
     int3c1e_ip1_r2_origk,
     int3c1e_ip1_r2_origk_optimizer,
     int3c1e_ip1_r2_origk_sph,
     int3c1e_ip1_r2_origk_cart,
     int3c1e_ip1_r2_origk_spinor,
-    3, 3, vec![1, 0, 2, 0, 3, 1, 1, 3],
-    "int3c", "int3c1e_ip1_r2_origk");
+    3, 3, 3, vec![1, 0, 2, 0, 3, 1, 1, 3],
+    "int3c1e", "int3c1e_ip1_r2_origk");
 impl_intorbase!(
     int3c1e_ip1_r4_origk,
     int3c1e_ip1_r4_origk_optimizer,
     int3c1e_ip1_r4_origk_sph,
     int3c1e_ip1_r4_origk_cart,
     int3c1e_ip1_r4_origk_spinor,
-    3, 3, vec![1, 0, 4, 0, 5, 1, 1, 3],
-    "int3c", "int3c1e_ip1_r4_origk");
+    3, 3, 3, vec![1, 0, 4, 0, 5, 1, 1, 3],
+    "int3c1e", "int3c1e_ip1_r4_origk");
 impl_intorbase!(
     int3c1e_ip1_r6_origk,
     int3c1e_ip1_r6_origk_optimizer,
     int3c1e_ip1_r6_origk_sph,
     int3c1e_ip1_r6_origk_cart,
     int3c1e_ip1_r6_origk_spinor,
-    3, 3, vec![1, 0, 6, 0, 7, 1, 1, 3],
-    "int3c", "int3c1e_ip1_r6_origk");
+    3, 3, 3, vec![1, 0, 6, 0, 7, 1, 1, 3],
+    "int3c1e", "int3c1e_ip1_r6_origk");
 impl_intorbase!(
     int1e_ovlp,
     int1e_ovlp_optimizer,
     int1e_ovlp_sph,
     int1e_ovlp_cart,
     int1e_ovlp_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 1, 1],
-    "int2c", "int1e_ovlp");
+    1, 1, 2, vec![0, 0, 0, 0, 0, 1, 1, 1],
+    "int1e", "int1e_ovlp");
 impl_intorbase!(
     int1e_nuc,
     int1e_nuc_optimizer,
     int1e_nuc_sph,
     int1e_nuc_cart,
     int1e_nuc_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 0, 1],
-    "int2c", "int1e_nuc");
+    1, 1, 2, vec![0, 0, 0, 0, 0, 1, 0, 1],
+    "int1e", "int1e_nuc");
 impl_intorbase!(
     int1e_r2_origi,
     int1e_r2_origi_optimizer,
     int1e_r2_origi_sph,
     int1e_r2_origi_cart,
     int1e_r2_origi_spinor,
-    1, 1, vec![2, 0, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_r2_origi");
+    1, 1, 2, vec![2, 0, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_r2_origi");
 impl_intorbase!(
     int1e_r4_origi,
     int1e_r4_origi_optimizer,
     int1e_r4_origi_sph,
     int1e_r4_origi_cart,
     int1e_r4_origi_spinor,
-    1, 1, vec![4, 0, 0, 0, 4, 1, 1, 1],
-    "int2c", "int1e_r4_origi");
+    1, 1, 2, vec![4, 0, 0, 0, 4, 1, 1, 1],
+    "int1e", "int1e_r4_origi");
 impl_intorbase!(
     int1e_r2_origi_ip2,
     int1e_r2_origi_ip2_optimizer,
     int1e_r2_origi_ip2_sph,
     int1e_r2_origi_ip2_cart,
     int1e_r2_origi_ip2_spinor,
-    3, 3, vec![2, 1, 0, 0, 3, 1, 1, 3],
-    "int2c", "int1e_r2_origi_ip2");
+    3, 3, 2, vec![2, 1, 0, 0, 3, 1, 1, 3],
+    "int1e", "int1e_r2_origi_ip2");
 impl_intorbase!(
     int1e_r4_origi_ip2,
     int1e_r4_origi_ip2_optimizer,
     int1e_r4_origi_ip2_sph,
     int1e_r4_origi_ip2_cart,
     int1e_r4_origi_ip2_spinor,
-    3, 3, vec![4, 1, 0, 0, 5, 1, 1, 3],
-    "int2c", "int1e_r4_origi_ip2");
+    3, 3, 2, vec![4, 1, 0, 0, 5, 1, 1, 3],
+    "int1e", "int1e_r4_origi_ip2");
 impl_intorbase!(
     int1e_ipipovlp,
     int1e_ipipovlp_optimizer,
     int1e_ipipovlp_sph,
     int1e_ipipovlp_cart,
     int1e_ipipovlp_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int2c", "int1e_ipipovlp");
+    9, 9, 2, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int1e", "int1e_ipipovlp");
 impl_intorbase!(
     int1e_ipovlpip,
     int1e_ipovlpip_optimizer,
     int1e_ipovlpip_sph,
     int1e_ipovlpip_cart,
     int1e_ipovlpip_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 1, 9],
-    "int2c", "int1e_ipovlpip");
+    9, 9, 2, vec![1, 1, 0, 0, 2, 1, 1, 9],
+    "int1e", "int1e_ipovlpip");
 impl_intorbase!(
     int1e_ipipkin,
     int1e_ipipkin_optimizer,
     int1e_ipipkin_sph,
     int1e_ipipkin_cart,
     int1e_ipipkin_spinor,
-    9, 9, vec![2, 2, 0, 0, 4, 1, 1, 9],
-    "int2c", "int1e_ipipkin");
+    9, 9, 2, vec![2, 2, 0, 0, 4, 1, 1, 9],
+    "int1e", "int1e_ipipkin");
 impl_intorbase!(
     int1e_ipkinip,
     int1e_ipkinip_optimizer,
     int1e_ipkinip_sph,
     int1e_ipkinip_cart,
     int1e_ipkinip_spinor,
-    9, 9, vec![1, 3, 0, 0, 4, 1, 1, 9],
-    "int2c", "int1e_ipkinip");
+    9, 9, 2, vec![1, 3, 0, 0, 4, 1, 1, 9],
+    "int1e", "int1e_ipkinip");
 impl_intorbase!(
     int1e_ipipnuc,
     int1e_ipipnuc_optimizer,
     int1e_ipipnuc_sph,
     int1e_ipipnuc_cart,
     int1e_ipipnuc_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_ipipnuc");
+    9, 9, 2, vec![2, 0, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_ipipnuc");
 impl_intorbase!(
     int1e_ipnucip,
     int1e_ipnucip_optimizer,
     int1e_ipnucip_sph,
     int1e_ipnucip_cart,
     int1e_ipnucip_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_ipnucip");
+    9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_ipnucip");
 impl_intorbase!(
     int1e_ipiprinv,
     int1e_ipiprinv_optimizer,
     int1e_ipiprinv_sph,
     int1e_ipiprinv_cart,
     int1e_ipiprinv_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_ipiprinv");
+    9, 9, 2, vec![2, 0, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_ipiprinv");
 impl_intorbase!(
     int1e_iprinvip,
     int1e_iprinvip_optimizer,
     int1e_iprinvip_sph,
     int1e_iprinvip_cart,
     int1e_iprinvip_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_iprinvip");
+    9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_iprinvip");
 impl_intorbase!(
     int1e_ipipr,
     int1e_ipipr_optimizer,
     int1e_ipipr_sph,
     int1e_ipipr_cart,
     int1e_ipipr_spinor,
-    27, 27, vec![2, 1, 0, 0, 3, 1, 1, 27],
-    "int2c", "int1e_ipipr");
+    27, 27, 2, vec![2, 1, 0, 0, 3, 1, 1, 27],
+    "int1e", "int1e_ipipr");
 impl_intorbase!(
     int1e_iprip,
     int1e_iprip_optimizer,
     int1e_iprip_sph,
     int1e_iprip_cart,
     int1e_iprip_spinor,
-    27, 27, vec![1, 2, 0, 0, 3, 1, 1, 27],
-    "int2c", "int1e_iprip");
+    27, 27, 2, vec![1, 2, 0, 0, 3, 1, 1, 27],
+    "int1e", "int1e_iprip");
 impl_intorbase!(
     int2e_ipip1,
     int2e_ipip1_optimizer,
     int2e_ipip1_sph,
     int2e_ipip1_cart,
     int2e_ipip1_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_ipip1");
+    9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_ipip1");
 impl_intorbase!(
     int2e_ipvip1,
     int2e_ipvip1_optimizer,
     int2e_ipvip1_sph,
     int2e_ipvip1_cart,
     int2e_ipvip1_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_ipvip1");
+    9, 9, 4, vec![1, 1, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_ipvip1");
 impl_intorbase!(
     int2e_ip1ip2,
     int2e_ip1ip2_optimizer,
     int2e_ip1ip2_sph,
     int2e_ip1ip2_cart,
     int2e_ip1ip2_spinor,
-    9, 9, vec![1, 0, 1, 0, 2, 1, 1, 9],
-    "int4c", "int2e_ip1ip2");
+    9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
+    "int2e", "int2e_ip1ip2");
 impl_intorbase!(
     int1e_ipippnucp,
     int1e_ipippnucp_optimizer,
     int1e_ipippnucp_sph,
     int1e_ipippnucp_cart,
     int1e_ipippnucp_spinor,
-    9, 9, vec![3, 1, 0, 0, 4, 1, 0, 9],
-    "int2c", "int1e_ipippnucp");
+    9, 9, 2, vec![3, 1, 0, 0, 4, 1, 0, 9],
+    "int1e", "int1e_ipippnucp");
 impl_intorbase!(
     int1e_ippnucpip,
     int1e_ippnucpip_optimizer,
     int1e_ippnucpip_sph,
     int1e_ippnucpip_cart,
     int1e_ippnucpip_spinor,
-    9, 9, vec![2, 2, 0, 0, 4, 1, 0, 9],
-    "int2c", "int1e_ippnucpip");
+    9, 9, 2, vec![2, 2, 0, 0, 4, 1, 0, 9],
+    "int1e", "int1e_ippnucpip");
 impl_intorbase!(
     int1e_ipipprinvp,
     int1e_ipipprinvp_optimizer,
     int1e_ipipprinvp_sph,
     int1e_ipipprinvp_cart,
     int1e_ipipprinvp_spinor,
-    9, 9, vec![3, 1, 0, 0, 4, 1, 0, 9],
-    "int2c", "int1e_ipipprinvp");
+    9, 9, 2, vec![3, 1, 0, 0, 4, 1, 0, 9],
+    "int1e", "int1e_ipipprinvp");
 impl_intorbase!(
     int1e_ipprinvpip,
     int1e_ipprinvpip_optimizer,
     int1e_ipprinvpip_sph,
     int1e_ipprinvpip_cart,
     int1e_ipprinvpip_spinor,
-    9, 9, vec![2, 2, 0, 0, 4, 1, 0, 9],
-    "int2c", "int1e_ipprinvpip");
+    9, 9, 2, vec![2, 2, 0, 0, 4, 1, 0, 9],
+    "int1e", "int1e_ipprinvpip");
 impl_intorbase!(
     int1e_ipipspnucsp,
     int1e_ipipspnucsp_optimizer,
     int1e_ipipspnucsp_sph,
     int1e_ipipspnucsp_cart,
     int1e_ipipspnucsp_spinor,
-    9, 36, vec![3, 1, 0, 0, 4, 4, 0, 9],
-    "int2c", "int1e_ipipspnucsp");
+    9, 36, 2, vec![3, 1, 0, 0, 4, 4, 0, 9],
+    "int1e", "int1e_ipipspnucsp");
 impl_intorbase!(
     int1e_ipspnucspip,
     int1e_ipspnucspip_optimizer,
     int1e_ipspnucspip_sph,
     int1e_ipspnucspip_cart,
     int1e_ipspnucspip_spinor,
-    9, 36, vec![2, 2, 0, 0, 4, 4, 0, 9],
-    "int2c", "int1e_ipspnucspip");
+    9, 36, 2, vec![2, 2, 0, 0, 4, 4, 0, 9],
+    "int1e", "int1e_ipspnucspip");
 impl_intorbase!(
     int1e_ipipsprinvsp,
     int1e_ipipsprinvsp_optimizer,
     int1e_ipipsprinvsp_sph,
     int1e_ipipsprinvsp_cart,
     int1e_ipipsprinvsp_spinor,
-    9, 36, vec![3, 1, 0, 0, 4, 4, 0, 9],
-    "int2c", "int1e_ipipsprinvsp");
+    9, 36, 2, vec![3, 1, 0, 0, 4, 4, 0, 9],
+    "int1e", "int1e_ipipsprinvsp");
 impl_intorbase!(
     int1e_ipsprinvspip,
     int1e_ipsprinvspip_optimizer,
     int1e_ipsprinvspip_sph,
     int1e_ipsprinvspip_cart,
     int1e_ipsprinvspip_spinor,
-    9, 36, vec![2, 2, 0, 0, 4, 4, 0, 9],
-    "int2c", "int1e_ipsprinvspip");
+    9, 36, 2, vec![2, 2, 0, 0, 4, 4, 0, 9],
+    "int1e", "int1e_ipsprinvspip");
 impl_intorbase!(
     int2e_ipip1ipip2,
     int2e_ipip1ipip2_optimizer,
     int2e_ipip1ipip2_sph,
     int2e_ipip1ipip2_cart,
     int2e_ipip1ipip2_spinor,
-    81, 81, vec![2, 0, 2, 0, 4, 1, 1, 81],
-    "int4c", "int2e_ipip1ipip2");
+    81, 81, 4, vec![2, 0, 2, 0, 4, 1, 1, 81],
+    "int2e", "int2e_ipip1ipip2");
 impl_intorbase!(
     int2e_ipvip1ipvip2,
     int2e_ipvip1ipvip2_optimizer,
     int2e_ipvip1ipvip2_sph,
     int2e_ipvip1ipvip2_cart,
     int2e_ipvip1ipvip2_spinor,
-    81, 81, vec![1, 1, 1, 1, 4, 1, 1, 81],
-    "int4c", "int2e_ipvip1ipvip2");
+    81, 81, 4, vec![1, 1, 1, 1, 4, 1, 1, 81],
+    "int2e", "int2e_ipvip1ipvip2");
 impl_intorbase!(
     int2e_ip1,
     int2e_ip1_optimizer,
     int2e_ip1_sph,
     int2e_ip1_cart,
     int2e_ip1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int4c", "int2e_ip1");
+    3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int2e", "int2e_ip1");
 impl_intorbase!(
     int2e_ip2,
     int2e_ip2_optimizer,
     int2e_ip2_sph,
     int2e_ip2_cart,
     int2e_ip2_spinor,
-    3, 3, vec![0, 0, 1, 0, 1, 1, 1, 3],
-    "int4c", "int2e_ip2");
+    3, 3, 4, vec![0, 0, 1, 0, 1, 1, 1, 3],
+    "int2e", "int2e_ip2");
 impl_intorbase!(
     int2e_ipspsp1,
     int2e_ipspsp1_optimizer,
     int2e_ipspsp1_sph,
     int2e_ipspsp1_cart,
     int2e_ipspsp1_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 1, 3],
-    "int4c", "int2e_ipspsp1");
+    3, 12, 4, vec![2, 1, 0, 0, 3, 4, 1, 3],
+    "int2e", "int2e_ipspsp1");
 impl_intorbase!(
     int2e_ip1spsp2,
     int2e_ip1spsp2_optimizer,
     int2e_ip1spsp2_sph,
     int2e_ip1spsp2_cart,
     int2e_ip1spsp2_spinor,
-    3, 12, vec![1, 0, 1, 1, 3, 1, 4, 3],
-    "int4c", "int2e_ip1spsp2");
+    3, 12, 4, vec![1, 0, 1, 1, 3, 1, 4, 3],
+    "int2e", "int2e_ip1spsp2");
 impl_intorbase!(
     int2e_ipspsp1spsp2,
     int2e_ipspsp1spsp2_optimizer,
     int2e_ipspsp1spsp2_sph,
     int2e_ipspsp1spsp2_cart,
     int2e_ipspsp1spsp2_spinor,
-    3, 48, vec![2, 1, 1, 1, 5, 4, 4, 3],
-    "int4c", "int2e_ipspsp1spsp2");
+    3, 48, 4, vec![2, 1, 1, 1, 5, 4, 4, 3],
+    "int2e", "int2e_ipspsp1spsp2");
 impl_intorbase!(
     int2e_ipsrsr1,
     int2e_ipsrsr1_optimizer,
     int2e_ipsrsr1_sph,
     int2e_ipsrsr1_cart,
     int2e_ipsrsr1_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 1, 3],
-    "int4c", "int2e_ipsrsr1");
+    3, 12, 4, vec![2, 1, 0, 0, 3, 4, 1, 3],
+    "int2e", "int2e_ipsrsr1");
 impl_intorbase!(
     int2e_ip1srsr2,
     int2e_ip1srsr2_optimizer,
     int2e_ip1srsr2_sph,
     int2e_ip1srsr2_cart,
     int2e_ip1srsr2_spinor,
-    3, 12, vec![1, 0, 1, 1, 3, 1, 4, 3],
-    "int4c", "int2e_ip1srsr2");
+    3, 12, 4, vec![1, 0, 1, 1, 3, 1, 4, 3],
+    "int2e", "int2e_ip1srsr2");
 impl_intorbase!(
     int2e_ipsrsr1srsr2,
     int2e_ipsrsr1srsr2_optimizer,
     int2e_ipsrsr1srsr2_sph,
     int2e_ipsrsr1srsr2_cart,
     int2e_ipsrsr1srsr2_spinor,
-    3, 48, vec![2, 1, 1, 1, 5, 4, 4, 3],
-    "int4c", "int2e_ipsrsr1srsr2");
+    3, 48, 4, vec![2, 1, 1, 1, 5, 4, 4, 3],
+    "int2e", "int2e_ipsrsr1srsr2");
 impl_intorbase!(
     int3c1e_p2,
     int3c1e_p2_optimizer,
     int3c1e_p2_sph,
     int3c1e_p2_cart,
     int3c1e_p2_spinor,
-    1, 1, vec![0, 0, 2, 0, 2, 1, 1, 1],
-    "int3c", "int3c1e_p2");
+    1, 1, 3, vec![0, 0, 2, 0, 2, 1, 1, 1],
+    "int3c1e", "int3c1e_p2");
 impl_intorbase!(
     int3c1e_iprinv,
     int3c1e_iprinv_optimizer,
     int3c1e_iprinv_sph,
     int3c1e_iprinv_cart,
     int3c1e_iprinv_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
-    "int3c", "int3c1e_iprinv");
+    3, 3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
+    "int3c1e", "int3c1e_iprinv");
 impl_intorbase!(
     int3c1e_ip1,
     int3c1e_ip1_optimizer,
     int3c1e_ip1_sph,
     int3c1e_ip1_cart,
     int3c1e_ip1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int3c", "int3c1e_ip1");
+    3, 3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int3c1e", "int3c1e_ip1");
 impl_intorbase!(
     int1e_ipovlp,
     int1e_ipovlp_optimizer,
     int1e_ipovlp_sph,
     int1e_ipovlp_cart,
     int1e_ipovlp_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int2c", "int1e_ipovlp");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int1e", "int1e_ipovlp");
 impl_intorbase!(
     int1e_ovlpip,
     int1e_ovlpip_optimizer,
     int1e_ovlpip_sph,
     int1e_ovlpip_cart,
     int1e_ovlpip_spinor,
-    3, 3, vec![0, 1, 0, 0, 1, 1, 1, 3],
-    "int2c", "int1e_ovlpip");
+    3, 3, 2, vec![0, 1, 0, 0, 1, 1, 1, 3],
+    "int1e", "int1e_ovlpip");
 impl_intorbase!(
     int1e_ipkin,
     int1e_ipkin_optimizer,
     int1e_ipkin_sph,
     int1e_ipkin_cart,
     int1e_ipkin_spinor,
-    3, 3, vec![1, 2, 0, 0, 3, 1, 1, 3],
-    "int2c", "int1e_ipkin");
+    3, 3, 2, vec![1, 2, 0, 0, 3, 1, 1, 3],
+    "int1e", "int1e_ipkin");
 impl_intorbase!(
     int1e_kinip,
     int1e_kinip_optimizer,
     int1e_kinip_sph,
     int1e_kinip_cart,
     int1e_kinip_spinor,
-    3, 3, vec![0, 3, 0, 0, 3, 1, 1, 3],
-    "int2c", "int1e_kinip");
+    3, 3, 2, vec![0, 3, 0, 0, 3, 1, 1, 3],
+    "int1e", "int1e_kinip");
 impl_intorbase!(
     int1e_ipnuc,
     int1e_ipnuc_optimizer,
     int1e_ipnuc_sph,
     int1e_ipnuc_cart,
     int1e_ipnuc_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
-    "int2c", "int1e_ipnuc");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
+    "int1e", "int1e_ipnuc");
 impl_intorbase!(
     int1e_iprinv,
     int1e_iprinv_optimizer,
     int1e_iprinv_sph,
     int1e_iprinv_cart,
     int1e_iprinv_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
-    "int2c", "int1e_iprinv");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
+    "int1e", "int1e_iprinv");
 impl_intorbase!(
     int1e_ipspnucsp,
     int1e_ipspnucsp_optimizer,
     int1e_ipspnucsp_sph,
     int1e_ipspnucsp_cart,
     int1e_ipspnucsp_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 0, 3],
-    "int2c", "int1e_ipspnucsp");
+    3, 12, 2, vec![2, 1, 0, 0, 3, 4, 0, 3],
+    "int1e", "int1e_ipspnucsp");
 impl_intorbase!(
     int1e_ipsprinvsp,
     int1e_ipsprinvsp_optimizer,
     int1e_ipsprinvsp_sph,
     int1e_ipsprinvsp_cart,
     int1e_ipsprinvsp_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 0, 3],
-    "int2c", "int1e_ipsprinvsp");
+    3, 12, 2, vec![2, 1, 0, 0, 3, 4, 0, 3],
+    "int1e", "int1e_ipsprinvsp");
 impl_intorbase!(
     int1e_ippnucp,
     int1e_ippnucp_optimizer,
     int1e_ippnucp_sph,
     int1e_ippnucp_cart,
     int1e_ippnucp_spinor,
-    3, 3, vec![2, 1, 0, 0, 3, 1, 0, 3],
-    "int2c", "int1e_ippnucp");
+    3, 3, 2, vec![2, 1, 0, 0, 3, 1, 0, 3],
+    "int1e", "int1e_ippnucp");
 impl_intorbase!(
     int1e_ipprinvp,
     int1e_ipprinvp_optimizer,
     int1e_ipprinvp_sph,
     int1e_ipprinvp_cart,
     int1e_ipprinvp_spinor,
-    3, 3, vec![2, 1, 0, 0, 3, 1, 0, 3],
-    "int2c", "int1e_ipprinvp");
+    3, 3, 2, vec![2, 1, 0, 0, 3, 1, 0, 3],
+    "int1e", "int1e_ipprinvp");
 impl_intorbase!(
     int2e_ssp1ssp2,
     int2e_ssp1ssp2_optimizer,
     int2e_ssp1ssp2_sph,
     int2e_ssp1ssp2_cart,
     int2e_ssp1ssp2_spinor,
-    1, 16, vec![0, 1, 0, 1, 2, 4, 4, 1],
-    "int4c", "int2e_ssp1ssp2");
+    1, 16, 4, vec![0, 1, 0, 1, 2, 4, 4, 1],
+    "int2e", "int2e_ssp1ssp2");
 impl_intorbase!(
     int2e_ssp1sps2,
     int2e_ssp1sps2_optimizer,
     int2e_ssp1sps2_sph,
     int2e_ssp1sps2_cart,
     int2e_ssp1sps2_spinor,
-    1, 16, vec![0, 1, 1, 0, 2, 4, 4, 1],
-    "int4c", "int2e_ssp1sps2");
+    1, 16, 4, vec![0, 1, 1, 0, 2, 4, 4, 1],
+    "int2e", "int2e_ssp1sps2");
 impl_intorbase!(
     int2e_sps1ssp2,
     int2e_sps1ssp2_optimizer,
     int2e_sps1ssp2_sph,
     int2e_sps1ssp2_cart,
     int2e_sps1ssp2_spinor,
-    1, 16, vec![1, 0, 0, 1, 2, 4, 4, 1],
-    "int4c", "int2e_sps1ssp2");
+    1, 16, 4, vec![1, 0, 0, 1, 2, 4, 4, 1],
+    "int2e", "int2e_sps1ssp2");
 impl_intorbase!(
     int2e_sps1sps2,
     int2e_sps1sps2_optimizer,
     int2e_sps1sps2_sph,
     int2e_sps1sps2_cart,
     int2e_sps1sps2_spinor,
-    1, 16, vec![1, 0, 1, 0, 2, 4, 4, 1],
-    "int4c", "int2e_sps1sps2");
+    1, 16, 4, vec![1, 0, 1, 0, 2, 4, 4, 1],
+    "int2e", "int2e_sps1sps2");
 impl_intorbase!(
     int2e_cg_ssa10ssp2,
     int2e_cg_ssa10ssp2_optimizer,
     int2e_cg_ssa10ssp2_sph,
     int2e_cg_ssa10ssp2_cart,
     int2e_cg_ssa10ssp2_spinor,
-    3, 48, vec![1, 0, 0, 1, 2, 4, 4, 3],
-    "int4c", "int2e_cg_ssa10ssp2");
+    3, 48, 4, vec![1, 0, 0, 1, 2, 4, 4, 3],
+    "int2e", "int2e_cg_ssa10ssp2");
 impl_intorbase!(
     int2e_giao_ssa10ssp2,
     int2e_giao_ssa10ssp2_optimizer,
     int2e_giao_ssa10ssp2_sph,
     int2e_giao_ssa10ssp2_cart,
     int2e_giao_ssa10ssp2_spinor,
-    3, 48, vec![1, 0, 0, 1, 2, 4, 4, 3],
-    "int4c", "int2e_giao_ssa10ssp2");
+    3, 48, 4, vec![1, 0, 0, 1, 2, 4, 4, 3],
+    "int2e", "int2e_giao_ssa10ssp2");
 impl_intorbase!(
     int2e_gssp1ssp2,
     int2e_gssp1ssp2_optimizer,
     int2e_gssp1ssp2_sph,
     int2e_gssp1ssp2_cart,
     int2e_gssp1ssp2_spinor,
-    3, 48, vec![1, 1, 0, 1, 3, 4, 4, 3],
-    "int4c", "int2e_gssp1ssp2");
+    3, 48, 4, vec![1, 1, 0, 1, 3, 4, 4, 3],
+    "int2e", "int2e_gssp1ssp2");
 impl_intorbase!(
     int2e_gauge_r1_ssp1ssp2,
     int2e_gauge_r1_ssp1ssp2_optimizer,
     int2e_gauge_r1_ssp1ssp2_sph,
     int2e_gauge_r1_ssp1ssp2_cart,
     int2e_gauge_r1_ssp1ssp2_spinor,
-    1, 16, vec![1, 3, 0, 1, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r1_ssp1ssp2");
+    1, 16, 4, vec![1, 3, 0, 1, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r1_ssp1ssp2");
 impl_intorbase!(
     int2e_gauge_r1_ssp1sps2,
     int2e_gauge_r1_ssp1sps2_optimizer,
     int2e_gauge_r1_ssp1sps2_sph,
     int2e_gauge_r1_ssp1sps2_cart,
     int2e_gauge_r1_ssp1sps2_spinor,
-    1, 16, vec![1, 3, 1, 0, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r1_ssp1sps2");
+    1, 16, 4, vec![1, 3, 1, 0, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r1_ssp1sps2");
 impl_intorbase!(
     int2e_gauge_r1_sps1ssp2,
     int2e_gauge_r1_sps1ssp2_optimizer,
     int2e_gauge_r1_sps1ssp2_sph,
     int2e_gauge_r1_sps1ssp2_cart,
     int2e_gauge_r1_sps1ssp2_spinor,
-    1, 16, vec![2, 2, 0, 1, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r1_sps1ssp2");
+    1, 16, 4, vec![2, 2, 0, 1, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r1_sps1ssp2");
 impl_intorbase!(
     int2e_gauge_r1_sps1sps2,
     int2e_gauge_r1_sps1sps2_optimizer,
     int2e_gauge_r1_sps1sps2_sph,
     int2e_gauge_r1_sps1sps2_cart,
     int2e_gauge_r1_sps1sps2_spinor,
-    1, 16, vec![2, 2, 1, 0, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r1_sps1sps2");
+    1, 16, 4, vec![2, 2, 1, 0, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r1_sps1sps2");
 impl_intorbase!(
     int2e_gauge_r2_ssp1ssp2,
     int2e_gauge_r2_ssp1ssp2_optimizer,
     int2e_gauge_r2_ssp1ssp2_sph,
     int2e_gauge_r2_ssp1ssp2_cart,
     int2e_gauge_r2_ssp1ssp2_spinor,
-    1, 16, vec![1, 2, 0, 2, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r2_ssp1ssp2");
+    1, 16, 4, vec![1, 2, 0, 2, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r2_ssp1ssp2");
 impl_intorbase!(
     int2e_gauge_r2_ssp1sps2,
     int2e_gauge_r2_ssp1sps2_optimizer,
     int2e_gauge_r2_ssp1sps2_sph,
     int2e_gauge_r2_ssp1sps2_cart,
     int2e_gauge_r2_ssp1sps2_spinor,
-    1, 16, vec![1, 2, 1, 1, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r2_ssp1sps2");
+    1, 16, 4, vec![1, 2, 1, 1, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r2_ssp1sps2");
 impl_intorbase!(
     int2e_gauge_r2_sps1ssp2,
     int2e_gauge_r2_sps1ssp2_optimizer,
     int2e_gauge_r2_sps1ssp2_sph,
     int2e_gauge_r2_sps1ssp2_cart,
     int2e_gauge_r2_sps1ssp2_spinor,
-    1, 16, vec![2, 1, 0, 2, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r2_sps1ssp2");
+    1, 16, 4, vec![2, 1, 0, 2, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r2_sps1ssp2");
 impl_intorbase!(
     int2e_gauge_r2_sps1sps2,
     int2e_gauge_r2_sps1sps2_optimizer,
     int2e_gauge_r2_sps1sps2_sph,
     int2e_gauge_r2_sps1sps2_cart,
     int2e_gauge_r2_sps1sps2_spinor,
-    1, 16, vec![2, 1, 1, 1, 4, 4, 4, 1],
-    "int4c", "int2e_gauge_r2_sps1sps2");
+    1, 16, 4, vec![2, 1, 1, 1, 4, 4, 4, 1],
+    "int2e", "int2e_gauge_r2_sps1sps2");
 impl_intorbase!(
     int1e_ipipipnuc,
     int1e_ipipipnuc_optimizer,
     int1e_ipipipnuc_sph,
     int1e_ipipipnuc_cart,
     int1e_ipipipnuc_spinor,
-    27, 27, vec![3, 0, 0, 0, 3, 1, 0, 27],
-    "int2c", "int1e_ipipipnuc");
+    27, 27, 2, vec![3, 0, 0, 0, 3, 1, 0, 27],
+    "int1e", "int1e_ipipipnuc");
 impl_intorbase!(
     int1e_ipipiprinv,
     int1e_ipipiprinv_optimizer,
     int1e_ipipiprinv_sph,
     int1e_ipipiprinv_cart,
     int1e_ipipiprinv_spinor,
-    27, 27, vec![3, 0, 0, 0, 3, 1, 0, 27],
-    "int2c", "int1e_ipipiprinv");
+    27, 27, 2, vec![3, 0, 0, 0, 3, 1, 0, 27],
+    "int1e", "int1e_ipipiprinv");
 impl_intorbase!(
     int1e_ipipnucip,
     int1e_ipipnucip_optimizer,
     int1e_ipipnucip_sph,
     int1e_ipipnucip_cart,
     int1e_ipipnucip_spinor,
-    27, 27, vec![2, 1, 0, 0, 3, 1, 0, 27],
-    "int2c", "int1e_ipipnucip");
+    27, 27, 2, vec![2, 1, 0, 0, 3, 1, 0, 27],
+    "int1e", "int1e_ipipnucip");
 impl_intorbase!(
     int1e_ipiprinvip,
     int1e_ipiprinvip_optimizer,
     int1e_ipiprinvip_sph,
     int1e_ipiprinvip_cart,
     int1e_ipiprinvip_spinor,
-    27, 27, vec![2, 1, 0, 0, 3, 1, 0, 27],
-    "int2c", "int1e_ipiprinvip");
+    27, 27, 2, vec![2, 1, 0, 0, 3, 1, 0, 27],
+    "int1e", "int1e_ipiprinvip");
 impl_intorbase!(
     int1e_kin,
     int1e_kin_optimizer,
     int1e_kin_sph,
     int1e_kin_cart,
     int1e_kin_spinor,
-    1, 1, vec![0, 2, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_kin");
+    1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_kin");
 impl_intorbase!(
     int1e_ia01p,
     int1e_ia01p_optimizer,
     int1e_ia01p_sph,
     int1e_ia01p_cart,
     int1e_ia01p_spinor,
-    3, 3, vec![1, 2, 0, 0, 2, 1, 0, 3],
-    "int2c", "int1e_ia01p");
+    3, 3, 2, vec![1, 2, 0, 0, 2, 1, 0, 3],
+    "int1e", "int1e_ia01p");
 impl_intorbase!(
     int1e_giao_irjxp,
     int1e_giao_irjxp_optimizer,
     int1e_giao_irjxp_sph,
     int1e_giao_irjxp_cart,
     int1e_giao_irjxp_spinor,
-    3, 3, vec![0, 2, 0, 0, 2, 1, 1, 3],
-    "int2c", "int1e_giao_irjxp");
+    3, 3, 2, vec![0, 2, 0, 0, 2, 1, 1, 3],
+    "int1e", "int1e_giao_irjxp");
 impl_intorbase!(
     int1e_cg_irxp,
     int1e_cg_irxp_optimizer,
     int1e_cg_irxp_sph,
     int1e_cg_irxp_cart,
     int1e_cg_irxp_spinor,
-    3, 3, vec![0, 2, 0, 0, 2, 1, 1, 3],
-    "int2c", "int1e_cg_irxp");
+    3, 3, 2, vec![0, 2, 0, 0, 2, 1, 1, 3],
+    "int1e", "int1e_cg_irxp");
 impl_intorbase!(
     int1e_giao_a11part,
     int1e_giao_a11part_optimizer,
     int1e_giao_a11part_sph,
     int1e_giao_a11part_cart,
     int1e_giao_a11part_spinor,
-    9, 9, vec![1, 2, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_giao_a11part");
+    9, 9, 2, vec![1, 2, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_giao_a11part");
 impl_intorbase!(
     int1e_cg_a11part,
     int1e_cg_a11part_optimizer,
     int1e_cg_a11part_sph,
     int1e_cg_a11part_cart,
     int1e_cg_a11part_spinor,
-    9, 9, vec![1, 2, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_cg_a11part");
+    9, 9, 2, vec![1, 2, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_cg_a11part");
 impl_intorbase!(
     int1e_a01gp,
     int1e_a01gp_optimizer,
     int1e_a01gp_sph,
     int1e_a01gp_cart,
     int1e_a01gp_spinor,
-    9, 9, vec![2, 2, 0, 0, 3, 1, 0, 9],
-    "int2c", "int1e_a01gp");
+    9, 9, 2, vec![2, 2, 0, 0, 3, 1, 0, 9],
+    "int1e", "int1e_a01gp");
 impl_intorbase!(
     int1e_igkin,
     int1e_igkin_optimizer,
     int1e_igkin_sph,
     int1e_igkin_cart,
     int1e_igkin_spinor,
-    3, 3, vec![1, 2, 0, 0, 3, 1, 1, 3],
-    "int2c", "int1e_igkin");
+    3, 3, 2, vec![1, 2, 0, 0, 3, 1, 1, 3],
+    "int1e", "int1e_igkin");
 impl_intorbase!(
     int1e_igovlp,
     int1e_igovlp_optimizer,
     int1e_igovlp_sph,
     int1e_igovlp_cart,
     int1e_igovlp_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int2c", "int1e_igovlp");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int1e", "int1e_igovlp");
 impl_intorbase!(
     int1e_ignuc,
     int1e_ignuc_optimizer,
     int1e_ignuc_sph,
     int1e_ignuc_cart,
     int1e_ignuc_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
-    "int2c", "int1e_ignuc");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
+    "int1e", "int1e_ignuc");
 impl_intorbase!(
     int1e_pnucp,
     int1e_pnucp_optimizer,
     int1e_pnucp_sph,
     int1e_pnucp_cart,
     int1e_pnucp_spinor,
-    1, 1, vec![1, 1, 0, 0, 2, 1, 0, 1],
-    "int2c", "int1e_pnucp");
+    1, 1, 2, vec![1, 1, 0, 0, 2, 1, 0, 1],
+    "int1e", "int1e_pnucp");
 impl_intorbase!(
     int1e_z,
     int1e_z_optimizer,
     int1e_z_sph,
     int1e_z_cart,
     int1e_z_spinor,
-    1, 1, vec![0, 1, 0, 0, 1, 1, 1, 1],
-    "int2c", "int1e_z");
+    1, 1, 2, vec![0, 1, 0, 0, 1, 1, 1, 1],
+    "int1e", "int1e_z");
 impl_intorbase!(
     int1e_zz,
     int1e_zz_optimizer,
     int1e_zz_sph,
     int1e_zz_cart,
     int1e_zz_spinor,
-    1, 1, vec![0, 2, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_zz");
+    1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_zz");
 impl_intorbase!(
     int1e_r,
     int1e_r_optimizer,
     int1e_r_sph,
     int1e_r_cart,
     int1e_r_spinor,
-    3, 3, vec![0, 1, 0, 0, 1, 1, 1, 3],
-    "int2c", "int1e_r");
+    3, 3, 2, vec![0, 1, 0, 0, 1, 1, 1, 3],
+    "int1e", "int1e_r");
 impl_intorbase!(
     int1e_r2,
     int1e_r2_optimizer,
     int1e_r2_sph,
     int1e_r2_cart,
     int1e_r2_spinor,
-    1, 1, vec![0, 2, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_r2");
+    1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_r2");
 impl_intorbase!(
     int1e_r4,
     int1e_r4_optimizer,
     int1e_r4_sph,
     int1e_r4_cart,
     int1e_r4_spinor,
-    1, 1, vec![0, 4, 0, 0, 4, 1, 1, 1],
-    "int2c", "int1e_r4");
+    1, 1, 2, vec![0, 4, 0, 0, 4, 1, 1, 1],
+    "int1e", "int1e_r4");
 impl_intorbase!(
     int1e_rr,
     int1e_rr_optimizer,
     int1e_rr_sph,
     int1e_rr_cart,
     int1e_rr_spinor,
-    9, 9, vec![0, 2, 0, 0, 2, 1, 1, 9],
-    "int2c", "int1e_rr");
+    9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
+    "int1e", "int1e_rr");
 impl_intorbase!(
     int1e_rrr,
     int1e_rrr_optimizer,
     int1e_rrr_sph,
     int1e_rrr_cart,
     int1e_rrr_spinor,
-    27, 27, vec![0, 3, 0, 0, 3, 1, 1, 27],
-    "int2c", "int1e_rrr");
+    27, 27, 2, vec![0, 3, 0, 0, 3, 1, 1, 27],
+    "int1e", "int1e_rrr");
 impl_intorbase!(
     int1e_rrrr,
     int1e_rrrr_optimizer,
     int1e_rrrr_sph,
     int1e_rrrr_cart,
     int1e_rrrr_spinor,
-    81, 81, vec![0, 4, 0, 0, 4, 1, 1, 81],
-    "int2c", "int1e_rrrr");
+    81, 81, 2, vec![0, 4, 0, 0, 4, 1, 1, 81],
+    "int1e", "int1e_rrrr");
 impl_intorbase!(
     int1e_z_origj,
     int1e_z_origj_optimizer,
     int1e_z_origj_sph,
     int1e_z_origj_cart,
     int1e_z_origj_spinor,
-    1, 1, vec![0, 1, 0, 0, 1, 1, 1, 1],
-    "int2c", "int1e_z_origj");
+    1, 1, 2, vec![0, 1, 0, 0, 1, 1, 1, 1],
+    "int1e", "int1e_z_origj");
 impl_intorbase!(
     int1e_zz_origj,
     int1e_zz_origj_optimizer,
     int1e_zz_origj_sph,
     int1e_zz_origj_cart,
     int1e_zz_origj_spinor,
-    1, 1, vec![0, 2, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_zz_origj");
+    1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_zz_origj");
 impl_intorbase!(
     int1e_r_origj,
     int1e_r_origj_optimizer,
     int1e_r_origj_sph,
     int1e_r_origj_cart,
     int1e_r_origj_spinor,
-    3, 3, vec![0, 1, 0, 0, 1, 1, 1, 3],
-    "int2c", "int1e_r_origj");
+    3, 3, 2, vec![0, 1, 0, 0, 1, 1, 1, 3],
+    "int1e", "int1e_r_origj");
 impl_intorbase!(
     int1e_rr_origj,
     int1e_rr_origj_optimizer,
     int1e_rr_origj_sph,
     int1e_rr_origj_cart,
     int1e_rr_origj_spinor,
-    9, 9, vec![0, 2, 0, 0, 2, 1, 1, 9],
-    "int2c", "int1e_rr_origj");
+    9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
+    "int1e", "int1e_rr_origj");
 impl_intorbase!(
     int1e_r2_origj,
     int1e_r2_origj_optimizer,
     int1e_r2_origj_sph,
     int1e_r2_origj_cart,
     int1e_r2_origj_spinor,
-    1, 1, vec![0, 2, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_r2_origj");
+    1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_r2_origj");
 impl_intorbase!(
     int1e_r4_origj,
     int1e_r4_origj_optimizer,
     int1e_r4_origj_sph,
     int1e_r4_origj_cart,
     int1e_r4_origj_spinor,
-    1, 1, vec![0, 4, 0, 0, 4, 1, 1, 1],
-    "int2c", "int1e_r4_origj");
+    1, 1, 2, vec![0, 4, 0, 0, 4, 1, 1, 1],
+    "int1e", "int1e_r4_origj");
 impl_intorbase!(
     int1e_p4,
     int1e_p4_optimizer,
     int1e_p4_sph,
     int1e_p4_cart,
     int1e_p4_spinor,
-    1, 1, vec![2, 2, 0, 0, 4, 1, 1, 1],
-    "int2c", "int1e_p4");
+    1, 1, 2, vec![2, 2, 0, 0, 4, 1, 1, 1],
+    "int1e", "int1e_p4");
 impl_intorbase!(
     int1e_prinvp,
     int1e_prinvp_optimizer,
     int1e_prinvp_sph,
     int1e_prinvp_cart,
     int1e_prinvp_spinor,
-    1, 1, vec![1, 1, 0, 0, 2, 1, 0, 1],
-    "int2c", "int1e_prinvp");
+    1, 1, 2, vec![1, 1, 0, 0, 2, 1, 0, 1],
+    "int1e", "int1e_prinvp");
 impl_intorbase!(
     int1e_prinvxp,
     int1e_prinvxp_optimizer,
     int1e_prinvxp_sph,
     int1e_prinvxp_cart,
     int1e_prinvxp_spinor,
-    3, 3, vec![1, 1, 0, 0, 2, 1, 0, 3],
-    "int2c", "int1e_prinvxp");
+    3, 3, 2, vec![1, 1, 0, 0, 2, 1, 0, 3],
+    "int1e", "int1e_prinvxp");
 impl_intorbase!(
     int1e_pnucxp,
     int1e_pnucxp_optimizer,
     int1e_pnucxp_sph,
     int1e_pnucxp_cart,
     int1e_pnucxp_spinor,
-    3, 3, vec![1, 1, 0, 0, 2, 1, 0, 3],
-    "int2c", "int1e_pnucxp");
+    3, 3, 2, vec![1, 1, 0, 0, 2, 1, 0, 3],
+    "int1e", "int1e_pnucxp");
 impl_intorbase!(
     int1e_irp,
     int1e_irp_optimizer,
     int1e_irp_sph,
     int1e_irp_cart,
     int1e_irp_spinor,
-    9, 9, vec![0, 2, 0, 0, 2, 1, 1, 9],
-    "int2c", "int1e_irp");
+    9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
+    "int1e", "int1e_irp");
 impl_intorbase!(
     int1e_irrp,
     int1e_irrp_optimizer,
     int1e_irrp_sph,
     int1e_irrp_cart,
     int1e_irrp_spinor,
-    27, 27, vec![0, 3, 0, 0, 3, 1, 1, 27],
-    "int2c", "int1e_irrp");
+    27, 27, 2, vec![0, 3, 0, 0, 3, 1, 1, 27],
+    "int1e", "int1e_irrp");
 impl_intorbase!(
     int1e_irpr,
     int1e_irpr_optimizer,
     int1e_irpr_sph,
     int1e_irpr_cart,
     int1e_irpr_spinor,
-    27, 27, vec![0, 3, 0, 0, 3, 1, 1, 27],
-    "int2c", "int1e_irpr");
+    27, 27, 2, vec![0, 3, 0, 0, 3, 1, 1, 27],
+    "int1e", "int1e_irpr");
 impl_intorbase!(
     int1e_ggovlp,
     int1e_ggovlp_optimizer,
     int1e_ggovlp_sph,
     int1e_ggovlp_cart,
     int1e_ggovlp_spinor,
-    9, 9, vec![0, 2, 0, 0, 2, 1, 1, 9],
-    "int2c", "int1e_ggovlp");
+    9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
+    "int1e", "int1e_ggovlp");
 impl_intorbase!(
     int1e_ggkin,
     int1e_ggkin_optimizer,
     int1e_ggkin_sph,
     int1e_ggkin_cart,
     int1e_ggkin_spinor,
-    9, 9, vec![0, 4, 0, 0, 4, 1, 1, 9],
-    "int2c", "int1e_ggkin");
+    9, 9, 2, vec![0, 4, 0, 0, 4, 1, 1, 9],
+    "int1e", "int1e_ggkin");
 impl_intorbase!(
     int1e_ggnuc,
     int1e_ggnuc_optimizer,
     int1e_ggnuc_sph,
     int1e_ggnuc_cart,
     int1e_ggnuc_spinor,
-    9, 9, vec![0, 2, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_ggnuc");
+    9, 9, 2, vec![0, 2, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_ggnuc");
 impl_intorbase!(
     int1e_grjxp,
     int1e_grjxp_optimizer,
     int1e_grjxp_sph,
     int1e_grjxp_cart,
     int1e_grjxp_spinor,
-    9, 9, vec![0, 3, 0, 0, 3, 1, 1, 9],
-    "int2c", "int1e_grjxp");
+    9, 9, 2, vec![0, 3, 0, 0, 3, 1, 1, 9],
+    "int1e", "int1e_grjxp");
 impl_intorbase!(
     int1e_rinv,
     int1e_rinv_optimizer,
     int1e_rinv_sph,
     int1e_rinv_cart,
     int1e_rinv_spinor,
-    1, 1, vec![0, 0, 0, 0, 0, 1, 0, 1],
-    "int2c", "int1e_rinv");
+    1, 1, 2, vec![0, 0, 0, 0, 0, 1, 0, 1],
+    "int1e", "int1e_rinv");
 impl_intorbase!(
     int1e_drinv,
     int1e_drinv_optimizer,
     int1e_drinv_sph,
     int1e_drinv_cart,
     int1e_drinv_spinor,
-    3, 3, vec![1, 1, 0, 0, 1, 1, 0, 3],
-    "int2c", "int1e_drinv");
+    3, 3, 2, vec![1, 1, 0, 0, 1, 1, 0, 3],
+    "int1e", "int1e_drinv");
 impl_intorbase!(
     int1e_sigma,
     int1e_sigma_optimizer,
     int1e_sigma_sph,
     int1e_sigma_cart,
     int1e_sigma_spinor,
-    3, 12, vec![0, 0, 0, 0, 0, 4, 1, 3],
-    "int2c", "int1e_sigma");
+    3, 12, 2, vec![0, 0, 0, 0, 0, 4, 1, 3],
+    "int1e", "int1e_sigma");
 impl_intorbase!(
     int1e_spsigmasp,
     int1e_spsigmasp_optimizer,
     int1e_spsigmasp_sph,
     int1e_spsigmasp_cart,
     int1e_spsigmasp_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 1, 3],
-    "int2c", "int1e_spsigmasp");
+    3, 12, 2, vec![1, 1, 0, 0, 2, 4, 1, 3],
+    "int1e", "int1e_spsigmasp");
 impl_intorbase!(
     int1e_srsr,
     int1e_srsr_optimizer,
     int1e_srsr_sph,
     int1e_srsr_cart,
     int1e_srsr_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
-    "int2c", "int1e_srsr");
+    1, 4, 2, vec![1, 1, 0, 0, 2, 4, 1, 1],
+    "int1e", "int1e_srsr");
 impl_intorbase!(
     int1e_sr,
     int1e_sr_optimizer,
     int1e_sr_sph,
     int1e_sr_cart,
     int1e_sr_spinor,
-    1, 4, vec![1, 0, 0, 0, 1, 4, 1, 1],
-    "int2c", "int1e_sr");
+    1, 4, 2, vec![1, 0, 0, 0, 1, 4, 1, 1],
+    "int1e", "int1e_sr");
 impl_intorbase!(
     int1e_srsp,
     int1e_srsp_optimizer,
     int1e_srsp_sph,
     int1e_srsp_cart,
     int1e_srsp_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
-    "int2c", "int1e_srsp");
+    1, 4, 2, vec![1, 1, 0, 0, 2, 4, 1, 1],
+    "int1e", "int1e_srsp");
 impl_intorbase!(
     int1e_spsp,
     int1e_spsp_optimizer,
     int1e_spsp_sph,
     int1e_spsp_cart,
     int1e_spsp_spinor,
-    1, 1, vec![1, 1, 0, 0, 2, 1, 1, 1],
-    "int2c", "int1e_spsp");
+    1, 1, 2, vec![1, 1, 0, 0, 2, 1, 1, 1],
+    "int1e", "int1e_spsp");
 impl_intorbase!(
     int1e_sp,
     int1e_sp_optimizer,
     int1e_sp_sph,
     int1e_sp_cart,
     int1e_sp_spinor,
-    1, 4, vec![1, 0, 0, 0, 1, 4, 1, 1],
-    "int2c", "int1e_sp");
+    1, 4, 2, vec![1, 0, 0, 0, 1, 4, 1, 1],
+    "int1e", "int1e_sp");
 impl_intorbase!(
     int1e_spnucsp,
     int1e_spnucsp_optimizer,
     int1e_spnucsp_sph,
     int1e_spnucsp_cart,
     int1e_spnucsp_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 0, 1],
-    "int2c", "int1e_spnucsp");
+    1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
+    "int1e", "int1e_spnucsp");
 impl_intorbase!(
     int1e_sprinvsp,
     int1e_sprinvsp_optimizer,
     int1e_sprinvsp_sph,
     int1e_sprinvsp_cart,
     int1e_sprinvsp_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 0, 1],
-    "int2c", "int1e_sprinvsp");
+    1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
+    "int1e", "int1e_sprinvsp");
 impl_intorbase!(
     int1e_srnucsr,
     int1e_srnucsr_optimizer,
     int1e_srnucsr_sph,
     int1e_srnucsr_cart,
     int1e_srnucsr_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 0, 1],
-    "int2c", "int1e_srnucsr");
+    1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
+    "int1e", "int1e_srnucsr");
 impl_intorbase!(
     int1e_sprsp,
     int1e_sprsp_optimizer,
     int1e_sprsp_sph,
     int1e_sprsp_cart,
     int1e_sprsp_spinor,
-    3, 12, vec![1, 2, 0, 0, 3, 4, 1, 3],
-    "int2c", "int1e_sprsp");
+    3, 12, 2, vec![1, 2, 0, 0, 3, 4, 1, 3],
+    "int1e", "int1e_sprsp");
 impl_intorbase!(
     int1e_govlp,
     int1e_govlp_optimizer,
     int1e_govlp_sph,
     int1e_govlp_cart,
     int1e_govlp_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int2c", "int1e_govlp");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int1e", "int1e_govlp");
 impl_intorbase!(
     int1e_gnuc,
     int1e_gnuc_optimizer,
     int1e_gnuc_sph,
     int1e_gnuc_cart,
     int1e_gnuc_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
-    "int2c", "int1e_gnuc");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
+    "int1e", "int1e_gnuc");
 impl_intorbase!(
     int1e_cg_sa10sa01,
     int1e_cg_sa10sa01_optimizer,
     int1e_cg_sa10sa01_sph,
     int1e_cg_sa10sa01_cart,
     int1e_cg_sa10sa01_spinor,
-    9, 36, vec![2, 1, 0, 0, 2, 4, 0, 9],
-    "int2c", "int1e_cg_sa10sa01");
+    9, 36, 2, vec![2, 1, 0, 0, 2, 4, 0, 9],
+    "int1e", "int1e_cg_sa10sa01");
 impl_intorbase!(
     int1e_cg_sa10sp,
     int1e_cg_sa10sp_optimizer,
     int1e_cg_sa10sp_sph,
     int1e_cg_sa10sp_cart,
     int1e_cg_sa10sp_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 1, 3],
-    "int2c", "int1e_cg_sa10sp");
+    3, 12, 2, vec![1, 1, 0, 0, 2, 4, 1, 3],
+    "int1e", "int1e_cg_sa10sp");
 impl_intorbase!(
     int1e_cg_sa10nucsp,
     int1e_cg_sa10nucsp_optimizer,
     int1e_cg_sa10nucsp_sph,
     int1e_cg_sa10nucsp_cart,
     int1e_cg_sa10nucsp_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 0, 3],
-    "int2c", "int1e_cg_sa10nucsp");
+    3, 12, 2, vec![1, 1, 0, 0, 2, 4, 0, 3],
+    "int1e", "int1e_cg_sa10nucsp");
 impl_intorbase!(
     int1e_giao_sa10sa01,
     int1e_giao_sa10sa01_optimizer,
     int1e_giao_sa10sa01_sph,
     int1e_giao_sa10sa01_cart,
     int1e_giao_sa10sa01_spinor,
-    9, 36, vec![2, 1, 0, 0, 2, 4, 0, 9],
-    "int2c", "int1e_giao_sa10sa01");
+    9, 36, 2, vec![2, 1, 0, 0, 2, 4, 0, 9],
+    "int1e", "int1e_giao_sa10sa01");
 impl_intorbase!(
     int1e_giao_sa10sp,
     int1e_giao_sa10sp_optimizer,
     int1e_giao_sa10sp_sph,
     int1e_giao_sa10sp_cart,
     int1e_giao_sa10sp_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 1, 3],
-    "int2c", "int1e_giao_sa10sp");
+    3, 12, 2, vec![1, 1, 0, 0, 2, 4, 1, 3],
+    "int1e", "int1e_giao_sa10sp");
 impl_intorbase!(
     int1e_giao_sa10nucsp,
     int1e_giao_sa10nucsp_optimizer,
     int1e_giao_sa10nucsp_sph,
     int1e_giao_sa10nucsp_cart,
     int1e_giao_sa10nucsp_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 0, 3],
-    "int2c", "int1e_giao_sa10nucsp");
+    3, 12, 2, vec![1, 1, 0, 0, 2, 4, 0, 3],
+    "int1e", "int1e_giao_sa10nucsp");
 impl_intorbase!(
     int1e_sa01sp,
     int1e_sa01sp_optimizer,
     int1e_sa01sp_sph,
     int1e_sa01sp_cart,
     int1e_sa01sp_spinor,
-    3, 12, vec![1, 2, 0, 0, 2, 4, 0, 3],
-    "int2c", "int1e_sa01sp");
+    3, 12, 2, vec![1, 2, 0, 0, 2, 4, 0, 3],
+    "int1e", "int1e_sa01sp");
 impl_intorbase!(
     int1e_spgsp,
     int1e_spgsp_optimizer,
     int1e_spgsp_sph,
     int1e_spgsp_cart,
     int1e_spgsp_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 1, 3],
-    "int2c", "int1e_spgsp");
+    3, 12, 2, vec![2, 1, 0, 0, 3, 4, 1, 3],
+    "int1e", "int1e_spgsp");
 impl_intorbase!(
     int1e_spgnucsp,
     int1e_spgnucsp_optimizer,
     int1e_spgnucsp_sph,
     int1e_spgnucsp_cart,
     int1e_spgnucsp_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 0, 3],
-    "int2c", "int1e_spgnucsp");
+    3, 12, 2, vec![2, 1, 0, 0, 3, 4, 0, 3],
+    "int1e", "int1e_spgnucsp");
 impl_intorbase!(
     int1e_spgsa01,
     int1e_spgsa01_optimizer,
     int1e_spgsa01_sph,
     int1e_spgsa01_cart,
     int1e_spgsa01_spinor,
-    9, 36, vec![3, 1, 0, 0, 3, 4, 0, 9],
-    "int2c", "int1e_spgsa01");
+    9, 36, 2, vec![3, 1, 0, 0, 3, 4, 0, 9],
+    "int1e", "int1e_spgsa01");
 impl_intorbase!(
     int2e_ig1,
     int2e_ig1_optimizer,
     int2e_ig1_sph,
     int2e_ig1_cart,
     int2e_ig1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int4c", "int2e_ig1");
+    3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int2e", "int2e_ig1");
 impl_intorbase!(
     int2e_gg1,
     int2e_gg1_optimizer,
     int2e_gg1_sph,
     int2e_gg1_cart,
     int2e_gg1_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_gg1");
+    9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_gg1");
 impl_intorbase!(
     int2e_g1g2,
     int2e_g1g2_optimizer,
     int2e_g1g2_sph,
     int2e_g1g2_cart,
     int2e_g1g2_spinor,
-    9, 9, vec![1, 0, 1, 0, 2, 1, 1, 9],
-    "int4c", "int2e_g1g2");
+    9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
+    "int2e", "int2e_g1g2");
 impl_intorbase!(
     int2e_p1vxp1,
     int2e_p1vxp1_optimizer,
     int2e_p1vxp1_sph,
     int2e_p1vxp1_cart,
     int2e_p1vxp1_spinor,
-    3, 3, vec![1, 1, 0, 0, 2, 1, 1, 3],
-    "int4c", "int2e_p1vxp1");
+    3, 3, 4, vec![1, 1, 0, 0, 2, 1, 1, 3],
+    "int2e", "int2e_p1vxp1");
 impl_intorbase!(
     int2e_ip1v_rc1,
     int2e_ip1v_rc1_optimizer,
     int2e_ip1v_rc1_sph,
     int2e_ip1v_rc1_cart,
     int2e_ip1v_rc1_spinor,
-    9, 9, vec![1, 2, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_ip1v_rc1");
+    9, 9, 4, vec![1, 2, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_ip1v_rc1");
 impl_intorbase!(
     int2e_ip1v_r1,
     int2e_ip1v_r1_optimizer,
     int2e_ip1v_r1_sph,
     int2e_ip1v_r1_cart,
     int2e_ip1v_r1_spinor,
-    9, 9, vec![1, 2, 0, 0, 2, 1, 1, 9],
-    "int4c", "int2e_ip1v_r1");
+    9, 9, 4, vec![1, 2, 0, 0, 2, 1, 1, 9],
+    "int2e", "int2e_ip1v_r1");
 impl_intorbase!(
     int2e_ipvg1_xp1,
     int2e_ipvg1_xp1_optimizer,
     int2e_ipvg1_xp1_sph,
     int2e_ipvg1_xp1_cart,
     int2e_ipvg1_xp1_spinor,
-    9, 9, vec![2, 1, 0, 0, 3, 1, 1, 9],
-    "int4c", "int2e_ipvg1_xp1");
+    9, 9, 4, vec![2, 1, 0, 0, 3, 1, 1, 9],
+    "int2e", "int2e_ipvg1_xp1");
 impl_intorbase!(
     int2e_ipvg2_xp1,
     int2e_ipvg2_xp1_optimizer,
     int2e_ipvg2_xp1_sph,
     int2e_ipvg2_xp1_cart,
     int2e_ipvg2_xp1_spinor,
-    9, 9, vec![1, 1, 1, 0, 3, 1, 1, 9],
-    "int4c", "int2e_ipvg2_xp1");
+    9, 9, 4, vec![1, 1, 1, 0, 3, 1, 1, 9],
+    "int2e", "int2e_ipvg2_xp1");
 impl_intorbase!(
     int1e_inuc_rcxp,
     int1e_inuc_rcxp_optimizer,
     int1e_inuc_rcxp_sph,
     int1e_inuc_rcxp_cart,
     int1e_inuc_rcxp_spinor,
-    3, 3, vec![0, 2, 0, 0, 2, 1, 0, 3],
-    "int2c", "int1e_inuc_rcxp");
+    3, 3, 2, vec![0, 2, 0, 0, 2, 1, 0, 3],
+    "int1e", "int1e_inuc_rcxp");
 impl_intorbase!(
     int1e_inuc_rxp,
     int1e_inuc_rxp_optimizer,
     int1e_inuc_rxp_sph,
     int1e_inuc_rxp_cart,
     int1e_inuc_rxp_spinor,
-    3, 3, vec![0, 2, 0, 0, 2, 1, 0, 3],
-    "int2c", "int1e_inuc_rxp");
+    3, 3, 2, vec![0, 2, 0, 0, 2, 1, 0, 3],
+    "int1e", "int1e_inuc_rxp");
 impl_intorbase!(
     int1e_spspsp,
     int1e_spspsp_optimizer,
     int1e_spspsp_sph,
     int1e_spspsp_cart,
     int1e_spspsp_spinor,
-    1, 4, vec![1, 2, 0, 0, 3, 4, 1, 1],
-    "int2c", "int1e_spspsp");
+    1, 4, 2, vec![1, 2, 0, 0, 3, 4, 1, 1],
+    "int1e", "int1e_spspsp");
 impl_intorbase!(
     int1e_spnuc,
     int1e_spnuc_optimizer,
     int1e_spnuc_sph,
     int1e_spnuc_cart,
     int1e_spnuc_spinor,
-    1, 4, vec![1, 0, 0, 0, 1, 4, 0, 1],
-    "int2c", "int1e_spnuc");
+    1, 4, 2, vec![1, 0, 0, 0, 1, 4, 0, 1],
+    "int1e", "int1e_spnuc");
 impl_intorbase!(
     int2e_spv1,
     int2e_spv1_optimizer,
     int2e_spv1_sph,
     int2e_spv1_cart,
     int2e_spv1_spinor,
-    1, 4, vec![1, 0, 0, 0, 1, 4, 1, 1],
-    "int4c", "int2e_spv1");
+    1, 4, 4, vec![1, 0, 0, 0, 1, 4, 1, 1],
+    "int2e", "int2e_spv1");
 impl_intorbase!(
     int2e_vsp1,
     int2e_vsp1_optimizer,
     int2e_vsp1_sph,
     int2e_vsp1_cart,
     int2e_vsp1_spinor,
-    1, 4, vec![0, 1, 0, 0, 1, 4, 1, 1],
-    "int4c", "int2e_vsp1");
+    1, 4, 4, vec![0, 1, 0, 0, 1, 4, 1, 1],
+    "int2e", "int2e_vsp1");
 impl_intorbase!(
     int2e_spsp2,
     int2e_spsp2_optimizer,
     int2e_spsp2_sph,
     int2e_spsp2_cart,
     int2e_spsp2_spinor,
-    1, 4, vec![0, 0, 1, 1, 2, 1, 4, 1],
-    "int4c", "int2e_spsp2");
+    1, 4, 4, vec![0, 0, 1, 1, 2, 1, 4, 1],
+    "int2e", "int2e_spsp2");
 impl_intorbase!(
     int2e_spv1spv2,
     int2e_spv1spv2_optimizer,
     int2e_spv1spv2_sph,
     int2e_spv1spv2_cart,
     int2e_spv1spv2_spinor,
-    1, 16, vec![1, 0, 1, 0, 2, 4, 4, 1],
-    "int4c", "int2e_spv1spv2");
+    1, 16, 4, vec![1, 0, 1, 0, 2, 4, 4, 1],
+    "int2e", "int2e_spv1spv2");
 impl_intorbase!(
     int2e_vsp1spv2,
     int2e_vsp1spv2_optimizer,
     int2e_vsp1spv2_sph,
     int2e_vsp1spv2_cart,
     int2e_vsp1spv2_spinor,
-    1, 16, vec![0, 1, 1, 0, 2, 4, 4, 1],
-    "int4c", "int2e_vsp1spv2");
+    1, 16, 4, vec![0, 1, 1, 0, 2, 4, 4, 1],
+    "int2e", "int2e_vsp1spv2");
 impl_intorbase!(
     int2e_spv1vsp2,
     int2e_spv1vsp2_optimizer,
     int2e_spv1vsp2_sph,
     int2e_spv1vsp2_cart,
     int2e_spv1vsp2_spinor,
-    1, 16, vec![1, 0, 0, 1, 2, 4, 4, 1],
-    "int4c", "int2e_spv1vsp2");
+    1, 16, 4, vec![1, 0, 0, 1, 2, 4, 4, 1],
+    "int2e", "int2e_spv1vsp2");
 impl_intorbase!(
     int2e_vsp1vsp2,
     int2e_vsp1vsp2_optimizer,
     int2e_vsp1vsp2_sph,
     int2e_vsp1vsp2_cart,
     int2e_vsp1vsp2_spinor,
-    1, 16, vec![0, 1, 0, 1, 2, 4, 4, 1],
-    "int4c", "int2e_vsp1vsp2");
+    1, 16, 4, vec![0, 1, 0, 1, 2, 4, 4, 1],
+    "int2e", "int2e_vsp1vsp2");
 impl_intorbase!(
     int2e_spv1spsp2,
     int2e_spv1spsp2_optimizer,
     int2e_spv1spsp2_sph,
     int2e_spv1spsp2_cart,
     int2e_spv1spsp2_spinor,
-    1, 16, vec![1, 0, 1, 1, 3, 4, 4, 1],
-    "int4c", "int2e_spv1spsp2");
+    1, 16, 4, vec![1, 0, 1, 1, 3, 4, 4, 1],
+    "int2e", "int2e_spv1spsp2");
 impl_intorbase!(
     int2e_vsp1spsp2,
     int2e_vsp1spsp2_optimizer,
     int2e_vsp1spsp2_sph,
     int2e_vsp1spsp2_cart,
     int2e_vsp1spsp2_spinor,
-    1, 16, vec![0, 1, 1, 1, 3, 4, 4, 1],
-    "int4c", "int2e_vsp1spsp2");
+    1, 16, 4, vec![0, 1, 1, 1, 3, 4, 4, 1],
+    "int2e", "int2e_vsp1spsp2");
 impl_intorbase!(
     int1e_ipiprinvipip,
     int1e_ipiprinvipip_optimizer,
     int1e_ipiprinvipip_sph,
     int1e_ipiprinvipip_cart,
     int1e_ipiprinvipip_spinor,
-    81, 81, vec![2, 2, 0, 0, 4, 1, 0, 81],
-    "int2c", "int1e_ipiprinvipip");
+    81, 81, 2, vec![2, 2, 0, 0, 4, 1, 0, 81],
+    "int1e", "int1e_ipiprinvipip");
 impl_intorbase!(
     int1e_ipipiprinvip,
     int1e_ipipiprinvip_optimizer,
     int1e_ipipiprinvip_sph,
     int1e_ipipiprinvip_cart,
     int1e_ipipiprinvip_spinor,
-    81, 81, vec![3, 1, 0, 0, 4, 1, 0, 81],
-    "int2c", "int1e_ipipiprinvip");
+    81, 81, 2, vec![3, 1, 0, 0, 4, 1, 0, 81],
+    "int1e", "int1e_ipipiprinvip");
 impl_intorbase!(
     int1e_ipipipiprinv,
     int1e_ipipipiprinv_optimizer,
     int1e_ipipipiprinv_sph,
     int1e_ipipipiprinv_cart,
     int1e_ipipipiprinv_spinor,
-    81, 81, vec![4, 0, 0, 0, 4, 1, 0, 81],
-    "int2c", "int1e_ipipipiprinv");
+    81, 81, 2, vec![4, 0, 0, 0, 4, 1, 0, 81],
+    "int1e", "int1e_ipipipiprinv");
 impl_intorbase!(
     int2e_spsp1,
     int2e_spsp1_optimizer,
     int2e_spsp1_sph,
     int2e_spsp1_cart,
     int2e_spsp1_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
-    "int4c", "int2e_spsp1");
+    1, 4, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
+    "int2e", "int2e_spsp1");
 impl_intorbase!(
     int2e_spsp1spsp2,
     int2e_spsp1spsp2_optimizer,
     int2e_spsp1spsp2_sph,
     int2e_spsp1spsp2_cart,
     int2e_spsp1spsp2_spinor,
-    1, 16, vec![1, 1, 1, 1, 4, 4, 4, 1],
-    "int4c", "int2e_spsp1spsp2");
+    1, 16, 4, vec![1, 1, 1, 1, 4, 4, 4, 1],
+    "int2e", "int2e_spsp1spsp2");
 impl_intorbase!(
     int2e_srsr1,
     int2e_srsr1_optimizer,
     int2e_srsr1_sph,
     int2e_srsr1_cart,
     int2e_srsr1_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
-    "int4c", "int2e_srsr1");
+    1, 4, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
+    "int2e", "int2e_srsr1");
 impl_intorbase!(
     int2e_srsr1srsr2,
     int2e_srsr1srsr2_optimizer,
     int2e_srsr1srsr2_sph,
     int2e_srsr1srsr2_cart,
     int2e_srsr1srsr2_spinor,
-    1, 16, vec![1, 1, 1, 1, 4, 4, 4, 1],
-    "int4c", "int2e_srsr1srsr2");
+    1, 16, 4, vec![1, 1, 1, 1, 4, 4, 4, 1],
+    "int2e", "int2e_srsr1srsr2");
 impl_intorbase!(
     int2e_cg_sa10sp1,
     int2e_cg_sa10sp1_optimizer,
     int2e_cg_sa10sp1_sph,
     int2e_cg_sa10sp1_cart,
     int2e_cg_sa10sp1_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 1, 3],
-    "int4c", "int2e_cg_sa10sp1");
+    3, 12, 4, vec![1, 1, 0, 0, 2, 4, 1, 3],
+    "int2e", "int2e_cg_sa10sp1");
 impl_intorbase!(
     int2e_cg_sa10sp1spsp2,
     int2e_cg_sa10sp1spsp2_optimizer,
     int2e_cg_sa10sp1spsp2_sph,
     int2e_cg_sa10sp1spsp2_cart,
     int2e_cg_sa10sp1spsp2_spinor,
-    3, 48, vec![1, 1, 1, 1, 4, 4, 4, 3],
-    "int4c", "int2e_cg_sa10sp1spsp2");
+    3, 48, 4, vec![1, 1, 1, 1, 4, 4, 4, 3],
+    "int2e", "int2e_cg_sa10sp1spsp2");
 impl_intorbase!(
     int2e_giao_sa10sp1,
     int2e_giao_sa10sp1_optimizer,
     int2e_giao_sa10sp1_sph,
     int2e_giao_sa10sp1_cart,
     int2e_giao_sa10sp1_spinor,
-    3, 12, vec![1, 1, 0, 0, 2, 4, 1, 3],
-    "int4c", "int2e_giao_sa10sp1");
+    3, 12, 4, vec![1, 1, 0, 0, 2, 4, 1, 3],
+    "int2e", "int2e_giao_sa10sp1");
 impl_intorbase!(
     int2e_giao_sa10sp1spsp2,
     int2e_giao_sa10sp1spsp2_optimizer,
     int2e_giao_sa10sp1spsp2_sph,
     int2e_giao_sa10sp1spsp2_cart,
     int2e_giao_sa10sp1spsp2_spinor,
-    3, 48, vec![1, 1, 1, 1, 4, 4, 4, 3],
-    "int4c", "int2e_giao_sa10sp1spsp2");
+    3, 48, 4, vec![1, 1, 1, 1, 4, 4, 4, 3],
+    "int2e", "int2e_giao_sa10sp1spsp2");
 impl_intorbase!(
     int2e_g1,
     int2e_g1_optimizer,
     int2e_g1_sph,
     int2e_g1_cart,
     int2e_g1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int4c", "int2e_g1");
+    3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int2e", "int2e_g1");
 impl_intorbase!(
     int2e_spgsp1,
     int2e_spgsp1_optimizer,
     int2e_spgsp1_sph,
     int2e_spgsp1_cart,
     int2e_spgsp1_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 1, 3],
-    "int4c", "int2e_spgsp1");
+    3, 12, 4, vec![2, 1, 0, 0, 3, 4, 1, 3],
+    "int2e", "int2e_spgsp1");
 impl_intorbase!(
     int2e_g1spsp2,
     int2e_g1spsp2_optimizer,
     int2e_g1spsp2_sph,
     int2e_g1spsp2_cart,
     int2e_g1spsp2_spinor,
-    3, 12, vec![1, 0, 1, 1, 3, 1, 4, 3],
-    "int4c", "int2e_g1spsp2");
+    3, 12, 4, vec![1, 0, 1, 1, 3, 1, 4, 3],
+    "int2e", "int2e_g1spsp2");
 impl_intorbase!(
     int2e_spgsp1spsp2,
     int2e_spgsp1spsp2_optimizer,
     int2e_spgsp1spsp2_sph,
     int2e_spgsp1spsp2_cart,
     int2e_spgsp1spsp2_spinor,
-    3, 48, vec![2, 1, 1, 1, 5, 4, 4, 3],
-    "int4c", "int2e_spgsp1spsp2");
+    3, 48, 4, vec![2, 1, 1, 1, 5, 4, 4, 3],
+    "int2e", "int2e_spgsp1spsp2");
 impl_intorbase!(
     int2e_pp1,
     int2e_pp1_optimizer,
     int2e_pp1_sph,
     int2e_pp1_cart,
     int2e_pp1_spinor,
-    1, 1, vec![1, 1, 0, 0, 2, 1, 1, 1],
-    "int4c", "int2e_pp1");
+    1, 1, 4, vec![1, 1, 0, 0, 2, 1, 1, 1],
+    "int2e", "int2e_pp1");
 impl_intorbase!(
     int2e_pp2,
     int2e_pp2_optimizer,
     int2e_pp2_sph,
     int2e_pp2_cart,
     int2e_pp2_spinor,
-    1, 1, vec![0, 0, 1, 1, 2, 1, 1, 1],
-    "int4c", "int2e_pp2");
+    1, 1, 4, vec![0, 0, 1, 1, 2, 1, 1, 1],
+    "int2e", "int2e_pp2");
 impl_intorbase!(
     int2e_pp1pp2,
     int2e_pp1pp2_optimizer,
     int2e_pp1pp2_sph,
     int2e_pp1pp2_cart,
     int2e_pp1pp2_spinor,
-    1, 1, vec![1, 1, 1, 1, 4, 1, 1, 1],
-    "int4c", "int2e_pp1pp2");
+    1, 1, 4, vec![1, 1, 1, 1, 4, 1, 1, 1],
+    "int2e", "int2e_pp1pp2");
 impl_intorbase!(
     int1e_grids_ip,
     int1e_grids_ip_optimizer,
     int1e_grids_ip_sph,
     int1e_grids_ip_cart,
     int1e_grids_ip_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
-    "int2c", "int1e_grids_ip");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
+    "int1e", "int1e_grids_ip");
 impl_intorbase!(
     int1e_grids_ipvip,
     int1e_grids_ipvip_optimizer,
     int1e_grids_ipvip_sph,
     int1e_grids_ipvip_cart,
     int1e_grids_ipvip_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_grids_ipvip");
+    9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_grids_ipvip");
 impl_intorbase!(
     int1e_grids_spvsp,
     int1e_grids_spvsp_optimizer,
     int1e_grids_spvsp_sph,
     int1e_grids_spvsp_cart,
     int1e_grids_spvsp_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 0, 1],
-    "int2c", "int1e_grids_spvsp");
+    1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
+    "int1e", "int1e_grids_spvsp");
 impl_intorbase!(
     int1e_grids_ipip,
     int1e_grids_ipip_optimizer,
     int1e_grids_ipip_sph,
     int1e_grids_ipip_cart,
     int1e_grids_ipip_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_grids_ipip");
+    9, 9, 2, vec![2, 0, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_grids_ipip");
 impl_intorbase!(
     int3c2e_ip1,
     int3c2e_ip1_optimizer,
     int3c2e_ip1_sph,
     int3c2e_ip1_cart,
     int3c2e_ip1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int3c", "int3c2e_ip1");
+    3, 3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int3c2e", "int3c2e_ip1");
 impl_intorbase!(
     int3c2e_ip2,
     int3c2e_ip2_optimizer,
     int3c2e_ip2_sph,
     int3c2e_ip2_cart,
     int3c2e_ip2_spinor,
-    3, 3, vec![0, 0, 1, 0, 1, 1, 1, 3],
-    "int3c", "int3c2e_ip2");
+    3, 3, 3, vec![0, 0, 1, 0, 1, 1, 1, 3],
+    "int3c2e", "int3c2e_ip2");
 impl_intorbase!(
     int3c2e_pvp1,
     int3c2e_pvp1_optimizer,
     int3c2e_pvp1_sph,
     int3c2e_pvp1_cart,
     int3c2e_pvp1_spinor,
-    1, 1, vec![1, 1, 0, 0, 2, 1, 1, 1],
-    "int3c", "int3c2e_pvp1");
+    1, 1, 3, vec![1, 1, 0, 0, 2, 1, 1, 1],
+    "int3c2e", "int3c2e_pvp1");
 impl_intorbase!(
     int3c2e_pvxp1,
     int3c2e_pvxp1_optimizer,
     int3c2e_pvxp1_sph,
     int3c2e_pvxp1_cart,
     int3c2e_pvxp1_spinor,
-    3, 3, vec![1, 1, 0, 0, 2, 1, 1, 3],
-    "int3c", "int3c2e_pvxp1");
+    3, 3, 3, vec![1, 1, 0, 0, 2, 1, 1, 3],
+    "int3c2e", "int3c2e_pvxp1");
 impl_intorbase!(
     int2c2e_ip1,
     int2c2e_ip1_optimizer,
     int2c2e_ip1_sph,
     int2c2e_ip1_cart,
     int2c2e_ip1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int2c", "int2c2e_ip1");
+    3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int2c2e", "int2c2e_ip1");
 impl_intorbase!(
     int2c2e_ip2,
     int2c2e_ip2_optimizer,
     int2c2e_ip2_sph,
     int2c2e_ip2_cart,
     int2c2e_ip2_spinor,
-    3, 3, vec![0, 0, 1, 0, 1, 1, 1, 3],
-    "int2c", "int2c2e_ip2");
+    3, 3, 2, vec![0, 0, 1, 0, 1, 1, 1, 3],
+    "int2c2e", "int2c2e_ip2");
 impl_intorbase!(
     int3c2e_ig1,
     int3c2e_ig1_optimizer,
     int3c2e_ig1_sph,
     int3c2e_ig1_cart,
     int3c2e_ig1_spinor,
-    3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
-    "int3c", "int3c2e_ig1");
+    3, 3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
+    "int3c2e", "int3c2e_ig1");
 impl_intorbase!(
     int3c2e_spsp1,
     int3c2e_spsp1_optimizer,
     int3c2e_spsp1_sph,
     int3c2e_spsp1_cart,
     int3c2e_spsp1_spinor,
-    1, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
-    "int3c", "int3c2e_spsp1");
+    1, 4, 3, vec![1, 1, 0, 0, 2, 4, 1, 1],
+    "int3c2e", "int3c2e_spsp1");
 impl_intorbase!(
     int3c2e_ipspsp1,
     int3c2e_ipspsp1_optimizer,
     int3c2e_ipspsp1_sph,
     int3c2e_ipspsp1_cart,
     int3c2e_ipspsp1_spinor,
-    3, 12, vec![2, 1, 0, 0, 3, 4, 1, 3],
-    "int3c", "int3c2e_ipspsp1");
+    3, 12, 3, vec![2, 1, 0, 0, 3, 4, 1, 3],
+    "int3c2e", "int3c2e_ipspsp1");
 impl_intorbase!(
     int3c2e_spsp1ip2,
     int3c2e_spsp1ip2_optimizer,
     int3c2e_spsp1ip2_sph,
     int3c2e_spsp1ip2_cart,
     int3c2e_spsp1ip2_spinor,
-    3, 12, vec![1, 1, 1, 0, 3, 4, 1, 3],
-    "int3c", "int3c2e_spsp1ip2");
+    3, 12, 3, vec![1, 1, 1, 0, 3, 4, 1, 3],
+    "int3c2e", "int3c2e_spsp1ip2");
 impl_intorbase!(
     int3c2e_ipip1,
     int3c2e_ipip1_optimizer,
     int3c2e_ipip1_sph,
     int3c2e_ipip1_cart,
     int3c2e_ipip1_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int3c", "int3c2e_ipip1");
+    9, 9, 3, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int3c2e", "int3c2e_ipip1");
 impl_intorbase!(
     int3c2e_ipip2,
     int3c2e_ipip2_optimizer,
     int3c2e_ipip2_sph,
     int3c2e_ipip2_cart,
     int3c2e_ipip2_spinor,
-    9, 9, vec![0, 0, 2, 0, 2, 1, 1, 9],
-    "int3c", "int3c2e_ipip2");
+    9, 9, 3, vec![0, 0, 2, 0, 2, 1, 1, 9],
+    "int3c2e", "int3c2e_ipip2");
 impl_intorbase!(
     int3c2e_ipvip1,
     int3c2e_ipvip1_optimizer,
     int3c2e_ipvip1_sph,
     int3c2e_ipvip1_cart,
     int3c2e_ipvip1_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 1, 9],
-    "int3c", "int3c2e_ipvip1");
+    9, 9, 3, vec![1, 1, 0, 0, 2, 1, 1, 9],
+    "int3c2e", "int3c2e_ipvip1");
 impl_intorbase!(
     int3c2e_ip1ip2,
     int3c2e_ip1ip2_optimizer,
     int3c2e_ip1ip2_sph,
     int3c2e_ip1ip2_cart,
     int3c2e_ip1ip2_spinor,
-    9, 9, vec![1, 0, 1, 0, 2, 1, 1, 9],
-    "int3c", "int3c2e_ip1ip2");
+    9, 9, 3, vec![1, 0, 1, 0, 2, 1, 1, 9],
+    "int3c2e", "int3c2e_ip1ip2");
 impl_intorbase!(
     int2c2e_ipip1,
     int2c2e_ipip1_optimizer,
     int2c2e_ipip1_sph,
     int2c2e_ipip1_cart,
     int2c2e_ipip1_spinor,
-    9, 9, vec![2, 0, 0, 0, 2, 1, 1, 9],
-    "int2c", "int2c2e_ipip1");
+    9, 9, 2, vec![2, 0, 0, 0, 2, 1, 1, 9],
+    "int2c2e", "int2c2e_ipip1");
 impl_intorbase!(
     int2c2e_ip1ip2,
     int2c2e_ip1ip2_optimizer,
     int2c2e_ip1ip2_sph,
     int2c2e_ip1ip2_cart,
     int2c2e_ip1ip2_spinor,
-    9, 9, vec![1, 0, 1, 0, 2, 1, 1, 9],
-    "int2c", "int2c2e_ip1ip2");
+    9, 9, 2, vec![1, 0, 1, 0, 2, 1, 1, 9],
+    "int2c2e", "int2c2e_ip1ip2");
 impl_intorbase!(
     int1e_iprinvr,
     int1e_iprinvr_optimizer,
     int1e_iprinvr_sph,
     int1e_iprinvr_cart,
     int1e_iprinvr_spinor,
-    9, 9, vec![1, 1, 0, 0, 2, 1, 0, 9],
-    "int2c", "int1e_iprinvr");
+    9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
+    "int1e", "int1e_iprinvr");
 impl_intorbase!(
     int1e_iprinviprip,
     int1e_iprinviprip_optimizer,
     int1e_iprinviprip_sph,
     int1e_iprinviprip_cart,
     int1e_iprinviprip_spinor,
-    81, 81, vec![1, 3, 0, 0, 4, 1, 0, 81],
-    "int2c", "int1e_iprinviprip");
+    81, 81, 2, vec![1, 3, 0, 0, 4, 1, 0, 81],
+    "int1e", "int1e_iprinviprip");
 impl_intorbase!(
     int1e_rinvipiprip,
     int1e_rinvipiprip_optimizer,
     int1e_rinvipiprip_sph,
     int1e_rinvipiprip_cart,
     int1e_rinvipiprip_spinor,
-    81, 81, vec![0, 4, 0, 0, 4, 1, 0, 81],
-    "int2c", "int1e_rinvipiprip");
+    81, 81, 2, vec![0, 4, 0, 0, 4, 1, 0, 81],
+    "int1e", "int1e_rinvipiprip");
 impl_intorbase!(
     int1e_ipiprinvrip,
     int1e_ipiprinvrip_optimizer,
     int1e_ipiprinvrip_sph,
     int1e_ipiprinvrip_cart,
     int1e_ipiprinvrip_spinor,
-    81, 81, vec![2, 2, 0, 0, 4, 1, 0, 81],
-    "int2c", "int1e_ipiprinvrip");
+    81, 81, 2, vec![2, 2, 0, 0, 4, 1, 0, 81],
+    "int1e", "int1e_ipiprinvrip");
 
 /* Generated by python scripts for optimizer. */
 /* Should not modify manually. */
