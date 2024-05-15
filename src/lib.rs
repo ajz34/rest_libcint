@@ -856,8 +856,6 @@ impl CINTR2CDATA {
                 cgto_sizes[idx_center].push(cgto_loc_rel[idx+1] - cgto_loc_rel[idx]);
             }
         }
-        let range_init = if with_comp { vec![(0..n_comp)] } else { vec![] };
-        let shape_init = if with_comp { vec![n_comp] } else { vec![] };
     
         // == buffer allocation ==
         let cache_size = self.size_of_cache::<T>(shl_slices);
@@ -869,7 +867,7 @@ impl CINTR2CDATA {
         // output buffer allocation
         let mut buf = Vec::<f64>::with_capacity(buf_size);
         unsafe { buf.set_len(buf_size) };
-        let mut buf = Array::from_vec(buf);
+        let mut buf = Array::from_vec(buf).into_dimensionality::<IxDyn>().unwrap();
 
         // == optimizer ==
         self.optimizer::<T>();
@@ -877,10 +875,12 @@ impl CINTR2CDATA {
         // == integral ==
         let shl_iterator = shl_slices.iter().map(|shl_slice| shl_slice[0]..shl_slice[1]).multi_cartesian_product();
         let idx_iterator = shl_slices.iter().map(|shl_slice| 0..(shl_slice[1] - shl_slice[0]) as usize).multi_cartesian_product();
-        for (idx_indices, shl_indices) in std::iter::zip(idx_iterator, shl_iterator) {
+        for (idx_indices, shl_indices) in idx_iterator.zip(shl_iterator) {
             unsafe {
+                // a more safer way is to call buf.as_slice_memory_order_mut()
+                // but it seems that this may create some unnecessary overhead
                 self.integral_block::<T>(
-                    buf.as_slice_memory_order_mut().unwrap(),
+                    buf.as_slice_mut().unwrap(),
                     &shl_indices,
                     cache.as_mut_slice());
             }
@@ -900,7 +900,7 @@ impl CINTR2CDATA {
             let size = shape.iter().product::<usize>();
             // f-contiguous reshape from buffer
             shape.reverse();
-            let buf_shaped = &buf.slice(s![0..size]).into_dimensionality::<IxDyn>().unwrap().into_shape(shape).unwrap().reversed_axes();
+            let buf_shaped = &buf.slice(s![0..size]).into_shape(shape).unwrap().reversed_axes();
             out.slice_mut(slc).assign(buf_shaped);
         }
     }
