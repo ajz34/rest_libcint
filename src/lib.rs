@@ -105,6 +105,7 @@ use std::mem::ManuallyDrop;
 use itertools::Itertools;
 
 mod cint;
+pub mod cint_crafter;
 use ndarray::{prelude::*, IxDynImpl, OwnedRepr, SliceArg, SliceInfoElem, SliceInfo};
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
@@ -786,7 +787,7 @@ impl CINTR2CDATA {
     ///     Cache buffer, need to be allocated enough space before calling this function; simply
     ///     using `vec![]` should also works, which lets libcint manages cache and efficiency decreases.
     ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
-    pub unsafe fn integral_block<T> (&mut self, out: &mut [f64], shls: &[i32], cache: &mut [f64])
+    pub unsafe fn integral_block<T> (&mut self, out: &mut [f64], shls: &[i32], shape: &[i32], cache: &mut [f64])
     where
         T: IntorBase
     {
@@ -794,17 +795,21 @@ impl CINTR2CDATA {
             0 => null_mut(),
             _ => cache.as_mut_ptr(),
         };
+        let shape_ptr = match shape.len() {
+            0 => null_mut(),
+            _ => shape.as_ptr(),
+        };
         match self.cint_type {
             CintType::Spheric => unsafe {
                 T::integral_sph(
-                    out.as_mut_ptr(), null(), shls.as_ptr(),
+                    out.as_mut_ptr(), shape_ptr, shls.as_ptr(),
                     self.c_atm.as_ptr(), self.c_natm,
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(), self.c_opt, cache_ptr)
                 },
             CintType::Cartesian => unsafe {
                 T::integral_cart(
-                    out.as_mut_ptr(), null(), shls.as_ptr(),
+                    out.as_mut_ptr(), shape_ptr, shls.as_ptr(),
                     self.c_atm.as_ptr(), self.c_natm,
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(), self.c_opt, cache_ptr)
@@ -881,7 +886,7 @@ impl CINTR2CDATA {
                 // but it seems that this may create some unnecessary overhead
                 self.integral_block::<T>(
                     buf.as_slice_mut().unwrap(),
-                    &shl_indices,
+                    &shl_indices, &vec![],
                     cache.as_mut_slice());
             }
 

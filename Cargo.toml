@@ -17,3 +17,7 @@ itertools = "0.12.1"
 
 [dev-dependencies]
 approx = "0.5.1"
+
+[profile.dev]
+opt-level = 3
+overflow-checks = false
