@@ -59,13 +59,12 @@ impl CINTR2CDATA {
 
     /// Main integral engine for s1 symmetry.
     /// 
-    /// Note: This function a low-level API, which is not intended to be called by user.
+    /// This function a low-level API, which is not intended to be called by user.
+    /// This function only works for f-contiguous integral (PySCF convention).
     pub fn integral_s1_inplace<T> (
         &mut self,
         out: &mut Vec<f64>,
-        shl_slices: &Vec<[i32; 2]>,
-        out_offset: usize,
-        out_strides: &Vec<usize>,
+        shl_slices: &Vec<[i32; 2]>
     )
     where
         T: IntorBase
@@ -73,64 +72,57 @@ impl CINTR2CDATA {
         /* #region 1. dimension definition and sanity check */
         let n_comp = T::n_comp();
         let n_center = T::n_center();
-        assert_eq!(
-            shl_slices.len(), n_center,
+        assert!(
+            shl_slices.len() == n_center,
             "length of `shl_slices` {shl_slices:?} is not the same to n_center {n_center:?}");
         let out_shape = self.shape_of_integral::<T>(shl_slices);
-        let mut out_shape_without_comp = out_shape.iter().map(|&v| v as i32).collect_vec();
-        if n_comp > 1 { out_shape_without_comp.pop().unwrap(); };
-        
-        assert_eq!(
-            out_shape.len(), out_strides.len(),
-            "length of `out_shape` {out_shape:?} is not the same to `out_strides` {out_strides:?}");
+        assert!(
+            out_shape.iter().product::<usize>() >= out.len(),
+            "length of `out` seems not enough");
+        let out_shape_i32 = out_shape.iter().map(|&v| v as i32).collect::<Vec<i32>>();
         /* #endregion */
 
         /* #region 2. cgto (atomic orbital) definition */
         let index_shape = shl_slices.iter().map(|[shl_start, shl_stop]| (shl_stop - shl_start) as usize).collect_vec();
-        let index_strides = get_f_strides_from_shape(&index_shape);
-        let index_size = index_shape.iter().product::<usize>();
-
         let cgto_locs_rel = self.cgto_loc_slices_relative(shl_slices);
         /* #endregion */
 
-        // == buffer allocation ==
+        /* #region 3. final preparation for integral engine */
         let cache_size = self.size_of_cache::<T>(shl_slices);
-
-        assert!(n_center == 3);
-        assert!(n_comp == 1);
-
         self.optimizer::<T>();
         let mut cgto_indices = vec![0; out_shape.len()];
-
         let out_const_slice = out.as_slice();
+        /* #endregion */
 
-        rayon::ThreadPoolBuilder::new().num_threads(16).build_global().unwrap();
+        // iterate first two indices
         (0..(index_shape[0] * index_shape[1])).into_par_iter().for_each_with(
             {
+                // thread-local: 
                 let mut cache = Vec::<f64>::with_capacity(cache_size);
                 unsafe { cache.set_len(cache_size) };
                 cache
             },
-            |cache, a01| {
+            |cache, idx_01| {
 
-            let a0 = a01 % index_shape[0];
-            let a1 = a01 / index_shape[1];
+            let idx_0 = idx_01 % index_shape[0];
+            let idx_1 = idx_01 / index_shape[1];
+            let shl_0 = idx_0 as i32 + shl_slices[0][0];
+            let shl_1 = idx_1 as i32 + shl_slices[1][0];
+            let cgto_0 = cgto_locs_rel[0][idx_0];
+            let cgto_1 = cgto_locs_rel[1][idx_1];
             
-            for a2 in 0..index_shape[2] {
-                let b0 = a0 as i32 + shl_slices[0][0];
-                let c0 = cgto_locs_rel[0][a0];
-                let b1 = a1 as i32 + shl_slices[1][0];
-                let c1 = cgto_locs_rel[1][a1];
-                let b2 = a2 as i32 + shl_slices[2][0];
-                let c2 = cgto_locs_rel[2][a2];
-                let shls = [b2, b1, b0];
-                let offset = c2 + out_shape[0] * (c1 + out_shape[1] * c0);
+            for idx_2 in 0..index_shape[2] {
+                let shl_2 = idx_2 as i32 + shl_slices[2][0];
+                let cgto_2 = cgto_locs_rel[2][idx_2];
+                let shls = [shl_2, shl_1, shl_0];
+
+                let offset = cgto_2 + out_shape[0] * (cgto_1 + out_shape[1] * cgto_0);
 
                 unsafe {
                     let out_offset_ptr = out_const_slice.as_ptr() as *mut f64;
                     self.integral_block::<T>(
                         from_raw_parts_mut(out_offset_ptr.add(offset), 0),
-                        &shls, &out_shape_without_comp,
+                        &shls, &out_shape_i32,
                         cache);
                 }
             }
@@ -145,12 +137,11 @@ impl CINTR2CDATA {
             Some(shl_slices) => shl_slices.clone(),
             None => vec![[0, self.c_nbas]; T::n_center()],
         };
-        let shape = self.shape_of_integral::<T>(&shl_slices);
-        let size = shape.iter().product::<usize>();
-        let mut out = Vec::<f64>::with_capacity(size);
-        unsafe { out.set_len(size) };
-        let out_strides = get_f_strides_from_shape(&shape);
-        self.integral_s1_inplace::<T>(&mut out, &shl_slices, 0, &out_strides);
+        let out_shape = self.shape_of_integral::<T>(&shl_slices);
+        let out_size = out_shape.iter().product::<usize>();
+        let mut out = Vec::<f64>::with_capacity(out_size);
+        unsafe { out.set_len(out_size) };
+        self.integral_s1_inplace::<T>(&mut out, &shl_slices);
         return out;
     }
     
