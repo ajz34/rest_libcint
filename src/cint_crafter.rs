@@ -1,9 +1,11 @@
 use std::slice::from_raw_parts_mut;
+use std::{ptr::null, ptr::null_mut};
 use itertools::Itertools;
 use rayon::prelude::*;
 use rayon::{max_num_threads, current_thread_index};
 use crate::cint_wrapper::*;
-use crate::CINTR2CDATA;
+use crate::cint;
+use crate::{CintType, CINTR2CDATA};
 
 unsafe impl Send for CINTR2CDATA {}
 unsafe impl Sync for CINTR2CDATA {}
@@ -16,6 +18,219 @@ unsafe fn cast_mut_slice<T> (slc: &[T]) -> &mut [T] {
 }
 
 impl CINTR2CDATA {
+    /// Remove optimizer
+    pub fn optimizer_destruct(&mut self) {
+        unsafe { cint::CINTdel_optimizer(&mut self.c_opt); }
+    }
+
+    /// Optimizer of libcint intors.
+    /// 
+    /// To use optimizer, one need to take intor information (such as `int2e_ip1`) into `optimizer::<T>`.
+    /// An example could be (by properly defining `c_atm`, `c_bas`, `c_env`)
+    /// 
+    /// ```
+    /// let mut cint_data = CINTR2CDATA::new();
+    /// cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
+    /// cint_data.optimizer::<int2e_ip1>();
+    /// ```
+    pub fn optimizer<T> (&mut self)
+    where
+        T: IntorBase
+    {
+        self.optimizer_destruct();
+        unsafe {
+            T::optimizer(
+                &mut self.c_opt,
+                self.c_atm.as_ptr(), self.c_natm,
+                self.c_bas.as_ptr(), self.c_nbas,
+                self.c_env.as_ptr());
+        }
+    }
+
+    /// Obtain cache size for integral.
+    /// 
+    /// This function should be used with the shell slice one desired.
+    /// 
+    /// If the shell slice is not known to you currently (molecule information has passed into
+    /// `CINTR2CDATA`), just pass empty `shls_slice = vec![]`, then it should give the maximum
+    /// cache size for this molecule/intor.
+    /// 
+    /// ```no_run
+    /// let mut cint_data = CINTR2CDATA::new();
+    /// cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
+    /// let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
+    /// // maximum cache for the given shells
+    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
+    /// // maximum cache for the whole molecule
+    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
+    /// ```
+    pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
+    where
+        T: IntorBase
+    {
+        let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap_or(0);
+        let shls_max = shls_slice.iter().map(|x| x[1]).max().unwrap_or(self.c_nbas);
+        let cache_size = (shls_min..shls_max).into_iter().map(|shl| {
+            let mut shls = [shl; 4];
+            match self.cint_type {
+                CintType::Spheric => unsafe {
+                    T::integral_sph(
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
+                    },
+                CintType::Cartesian => unsafe {
+                    T::integral_cart(
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
+                    },
+            }
+        }).max().unwrap();
+        return cache_size;
+    }
+
+    /// Size (number of atomic orbitals) of spherical CGTO at certain basis index.
+    /// 
+    /// Given `None` input, this function will return the maximum size of CGTO,
+    /// which may be helpful for allocating output buffer size of [`Self::integral_block`].
+    pub fn cgto_size_sph(&self, id_bas: i32) -> usize {
+        use cint::{ANG_OF, NCTR_OF, BAS_SLOTS};
+        let loc_ang = ANG_OF as usize;
+        let loc_nctr = NCTR_OF as usize;
+        let loc_bas = BAS_SLOTS as usize;
+        let id_bas = id_bas as usize;
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
+        let nang = self.c_bas[id_bas * loc_bas + loc_ang] * 2 + 1;
+        return (nctr * nang) as usize;
+    }
+
+    /// Size (number of atomic orbitals) of cartesian CGTO at certain basis index.
+    /// 
+    /// Given `None` input, this function will return the maximum size of CGTO,
+    /// which may be helpful for allocating output buffer size of [`Self::integral_block`].
+    pub fn cgto_size_cart(&self, id_bas: i32) -> usize {
+        use cint::{ANG_OF, NCTR_OF, BAS_SLOTS};
+        let loc_ang = ANG_OF as usize;
+        let loc_nctr = NCTR_OF as usize;
+        let loc_bas = BAS_SLOTS as usize;
+        let id_bas = id_bas as usize;
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
+        let l = self.c_bas[id_bas * loc_bas + loc_ang];
+        let nang = (l + 1) * (l + 2) / 2;
+        return (nctr * nang) as usize;
+    }
+
+    pub fn cgto_size(&self, id_bas: i32) -> usize {
+        return match self.cint_type {
+            CintType::Spheric => self.cgto_size_sph(id_bas),
+            CintType::Cartesian => self.cgto_size_cart(id_bas),
+        }
+    }
+
+    /// Location of atomic orbitals, for basis configuration of the current molecule.
+    pub fn cgto_loc(&self) -> Vec<usize> {
+        let size_vec = (0..self.c_nbas).map(|idx| self.cgto_size(idx)).collect::<Vec<usize>>();
+        let mut loc = vec![0; size_vec.len() + 1];
+        for idx in (0..size_vec.len() as usize) {
+            loc[idx + 1] = loc[idx] + size_vec[idx]; 
+        }
+        return loc;
+    }
+
+    /// Location of atomic orbitals, for specified slice of shell.
+    pub fn cgto_loc_slice(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
+        let loc = self.cgto_loc();
+        return loc[shl_slice[0] as usize .. shl_slice[1] as usize + 1].to_vec();
+    }
+
+    /// Location of atomic orbitals, for specified slices of shell.
+    pub fn cgto_loc_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+        return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice(shl_slice)).collect();
+    }
+
+    /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
+    /// for specified slice of shell.
+    pub fn cgto_loc_slice_relative(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
+        let loc_slice = self.cgto_loc_slice(shl_slice);
+        return loc_slice.iter().map(|x| x - loc_slice[0]).collect();
+    }
+
+    /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
+    /// for specified slice of shell.
+    pub fn cgto_loc_slices_relative(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+        return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect();
+    }
+
+    /// Range of atomic orbitals, for specified slice of shell.
+    pub fn cgto_range_slice(&self, shl_slice: &[i32; 2]) -> std::ops::Range<usize> {
+        let loc = self.cgto_loc_slice(shl_slice);
+        return loc.first().unwrap().clone()..loc.last().unwrap().clone();
+    }
+
+    /// Range of atomic orbitals, for specified slices of shell.
+    pub fn cgto_range_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<std::ops::Range<usize>> {
+        return shl_slices.iter().map(|shl_slice| self.cgto_range_slice(shl_slice)).collect();
+    }
+
+    /// Shape of integral (in atomic orbital basis), for specified slices of shell.
+    pub fn shape_of_integral<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    where
+        T: IntorBase
+    {
+        let n_comp = T::n_comp();
+        let mut shape = shl_slices.iter().map(|shl_slice| {
+            let loc = self.cgto_loc_slice(shl_slice);
+            loc.last().unwrap().clone() - loc.first().unwrap().clone() as usize
+        }).collect::<Vec<_>>();
+        if n_comp > 1 { shape.push(n_comp) };
+        return shape;
+    }
+
+    /// Smallest unit of electron-integral function from libcint.
+    /// 
+    /// This is not a safe wrapper function, though it is pure rust. Use with caution.
+    /// 
+    /// * `out` -
+    ///     Output integral buffer, need to be allocated enough space before calling this function.
+    /// * `shls_slice` -
+    ///     shell indices, which size should be n_center; dimension check should be performed
+    ///     before calling this function.
+    /// * `cache` -
+    ///     Cache buffer, need to be allocated enough space before calling this function; simply
+    ///     using `vec![]` should also works, which lets libcint manages cache and efficiency decreases.
+    ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
+    pub unsafe fn integral_block<T> (&self, out: &mut [f64], shls: &[i32], shape: &[i32], cache: &mut [f64])
+    where
+        T: IntorBase
+    {
+        let cache_ptr = match cache.len() {
+            0 => null_mut(),
+            _ => cache.as_mut_ptr(),
+        };
+        let shape_ptr = match shape.len() {
+            0 => null_mut(),
+            _ => shape.as_ptr(),
+        };
+        match self.cint_type {
+            CintType::Spheric => unsafe {
+                T::integral_sph(
+                    out.as_mut_ptr(), shape_ptr, shls.as_ptr(),
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(), self.c_opt, cache_ptr)
+                },
+            CintType::Cartesian => unsafe {
+                T::integral_cart(
+                    out.as_mut_ptr(), shape_ptr, shls.as_ptr(),
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(), self.c_opt, cache_ptr)
+                },
+        };
+    }
 
     /// Main integral engine for s1 symmetry.
     /// 
@@ -67,7 +282,6 @@ impl CINTR2CDATA {
         /* #region 4. parallel integral generation */
 
         (0..(index_shape_rev[0] * index_shape_rev[1])).into_par_iter().for_each(|idx_01| {
-
             let idx_0 = idx_01 / index_shape_rev[1];
             let idx_1 = idx_01 % index_shape_rev[1];
             let shl_0 = idx_0 as i32 + shl_slices_rev[0][0];
@@ -79,7 +293,7 @@ impl CINTR2CDATA {
             let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
             
             match n_center {
-                2 => 
+                2 =>
                 {
                     let shls = [shl_1, shl_0];
                     let offset = cgto_1 + out_shape_rev[1] * cgto_0;
@@ -89,6 +303,7 @@ impl CINTR2CDATA {
                         self.integral_block::<T>(out_with_offset, &shls, &out_shape_i32, cache);
                     }
                 },
+
                 3 =>
                 for idx_2 in 0..index_shape_rev[2] {
                     let shl_2 = idx_2 as i32 + shl_slices_rev[2][0];
@@ -101,7 +316,8 @@ impl CINTR2CDATA {
                         self.integral_block::<T>(out_with_offset, &shls, &out_shape_i32, cache);
                     }
                 },
-                4 => 
+
+                4 =>
                 for idx_2 in 0..index_shape_rev[2] {
                     for idx_3 in 0..index_shape_rev[3] {
                         let shl_2 = idx_2 as i32 + shl_slices_rev[2][0];
@@ -117,9 +333,14 @@ impl CINTR2CDATA {
                         }
                     }
                 },
+                
                 _ => panic!("Not known centers {n_center:}"),
             }
         });
+        /* #endregion */
+
+        /* #region 5. cleanup */
+        self.optimizer_destruct();
         /* #endregion */
     }
 
@@ -139,5 +360,10 @@ impl CINTR2CDATA {
         return out;
     }
     
-    
+    pub fn integral_s2ij_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &Vec<[i32; 2]>)
+    where
+        T: IntorBase
+    {
+        
+    }
 }
