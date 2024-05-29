@@ -1,59 +1,21 @@
 use std::slice::from_raw_parts_mut;
+use std::sync::mpsc::channel;
 use itertools::Itertools;
-use ndarray::parallel::prelude::IntoParallelIterator;
-use ndarray::parallel::prelude::ParallelIterator;
+use rayon::current_thread_index;
+use rayon::max_num_threads;
 use crate::cint_wrapper::*;
 use crate::CINTR2CDATA;
-use rayon;
-
-/* #region indices computation */
-
-#[inline(always)]
-fn comput_index(offset: usize, indices: &[usize], strides: &[usize]) -> usize {
-    debug_assert_eq!(indices.len(), strides.len());
-    return offset + indices.iter().zip(strides).map(|(&i, &s)| i * s).sum::<usize>();
-}
-
-fn get_f_strides_from_shape(shape: &Vec<usize>) -> Vec<usize> {
-    let mut strides = vec![1];
-    for d in &shape[0..shape.len()-1] {
-        strides.push(strides.last().unwrap() * d);
-    }
-    return strides;
-}
-
-fn get_c_strides_from_shape(shape: &Vec<usize>) -> Vec<usize> {
-    let mut l = shape.iter().product::<usize>();
-    let mut strides = vec![];
-    for d in &shape[0..shape.len()] {
-        l /= d;
-        strides.push(l);
-    }
-    return strides;
-}
-
-fn get_indices_from_c_stride(index: usize, c_strides: &Vec<usize>) -> Vec<usize> {
-    let mut index = index;
-    c_strides.iter().map(|&d| {
-        let div = index / d;
-        index %= d;
-        div
-    }).collect_vec()
-}
-
-fn get_indices_from_f_stride(index: usize, f_strides: &Vec<usize>) -> Vec<usize> {
-    let mut index = index;
-    f_strides.iter().rev().map(|&d| {
-        let div = index / d;
-        index %= d;
-        div
-    }).collect_vec().into_iter().rev().collect_vec()
-}
-
-/* #endregion */
+use rayon::prelude::*;
 
 unsafe impl Send for CINTR2CDATA {}
 unsafe impl Sync for CINTR2CDATA {}
+
+unsafe fn cast_mut_slice<T> (slc: &[T]) -> &mut [T] {
+    let len = slc.len();
+    let ptr = slc.as_ptr() as *mut T;
+    let mut mut_vector = from_raw_parts_mut(ptr, len);
+    return mut_vector;
+}
 
 impl CINTR2CDATA {
 
@@ -94,15 +56,11 @@ impl CINTR2CDATA {
         let out_const_slice = out.as_slice();
         /* #endregion */
 
+        let thread_cache: Vec<Vec<f64>> = vec![vec![0.; cache_size]; rayon::current_num_threads()];
+
         // iterate first two indices
-        (0..(index_shape[0] * index_shape[1])).into_par_iter().for_each_with(
-            {
-                // thread-local: 
-                let mut cache = Vec::<f64>::with_capacity(cache_size);
-                unsafe { cache.set_len(cache_size) };
-                cache
-            },
-            |cache, idx_01| {
+        (0..(index_shape[0] * index_shape[1])).into_par_iter().for_each(
+            |idx_01| {
 
             let idx_0 = idx_01 % index_shape[0];
             let idx_1 = idx_01 / index_shape[1];
@@ -111,7 +69,11 @@ impl CINTR2CDATA {
             let cgto_0 = cgto_locs_rel[0][idx_0];
             let cgto_1 = cgto_locs_rel[1][idx_1];
             
+            let thread_index = current_thread_index().unwrap();
+            let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
+            
             for idx_2 in 0..index_shape[2] {
+
                 let shl_2 = idx_2 as i32 + shl_slices[2][0];
                 let cgto_2 = cgto_locs_rel[2][idx_2];
                 let shls = [shl_2, shl_1, shl_0];
@@ -119,11 +81,8 @@ impl CINTR2CDATA {
                 let offset = cgto_2 + out_shape[0] * (cgto_1 + out_shape[1] * cgto_0);
 
                 unsafe {
-                    let out_offset_ptr = out_const_slice.as_ptr() as *mut f64;
-                    self.integral_block::<T>(
-                        from_raw_parts_mut(out_offset_ptr.add(offset), 0),
-                        &shls, &out_shape_i32,
-                        cache);
+                    let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
+                    self.integral_block::<T>(out_with_offset, &shls, &out_shape_i32, cache);
                 }
             }
         })
