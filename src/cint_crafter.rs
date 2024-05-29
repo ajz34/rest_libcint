@@ -1,8 +1,10 @@
 use std::slice::from_raw_parts_mut;
-
 use itertools::Itertools;
+use ndarray::parallel::prelude::IntoParallelIterator;
+use ndarray::parallel::prelude::ParallelIterator;
 use crate::cint_wrapper::*;
 use crate::CINTR2CDATA;
+use rayon;
 
 /* #region indices computation */
 
@@ -50,6 +52,9 @@ fn get_indices_from_f_stride(index: usize, f_strides: &Vec<usize>) -> Vec<usize>
 
 /* #endregion */
 
+unsafe impl Send for CINTR2CDATA {}
+unsafe impl Sync for CINTR2CDATA {}
+
 impl CINTR2CDATA {
 
     /// Main integral engine for s1 symmetry.
@@ -86,51 +91,50 @@ impl CINTR2CDATA {
         let index_size = index_shape.iter().product::<usize>();
 
         let cgto_locs_rel = self.cgto_loc_slices_relative(shl_slices);
-        let mut cgto_ranges = vec![vec![]; n_center];
-        let mut cgto_sizes = vec![vec![]; n_center];
-        for (idx_center, &[shl0, shl1]) in shl_slices.iter().enumerate() {
-            for idx in 0..(shl1 - shl0) {
-                let idx = idx as usize;
-                let cgto_loc_rel = &cgto_locs_rel[idx_center];
-                cgto_ranges[idx_center].push(cgto_loc_rel[idx]..cgto_loc_rel[idx+1]);
-                cgto_sizes[idx_center].push(cgto_loc_rel[idx+1] - cgto_loc_rel[idx]);
-            }
-        }
         /* #endregion */
 
         // == buffer allocation ==
         let cache_size = self.size_of_cache::<T>(shl_slices);
-        let buf_size: usize = n_comp * cgto_sizes.iter().map(|cgto_size| cgto_size.iter().max().unwrap() ).product::<usize>();
-        let mut cache = Vec::<f64>::with_capacity(cache_size);
-        unsafe { cache.set_len(cache_size) };
-        // output buffer allocation
-        let mut buf = Vec::<f64>::with_capacity(buf_size);
-        unsafe { buf.set_len(buf_size) };
 
         assert!(n_center == 3);
         assert!(n_comp == 1);
 
         self.optimizer::<T>();
         let mut cgto_indices = vec![0; out_shape.len()];
-        
-        for a0 in 0..index_shape[0] {
-            let b0 = a0 as i32 + shl_slices[0][0];
-            let c0 = cgto_locs_rel[0][a0];
-        for a1 in 0..index_shape[1] {
-            let b1 = a1 as i32 + shl_slices[1][0];
-            let c1 = cgto_locs_rel[1][a1];
-        for a2 in 0..index_shape[2] {
-            let b2 = a2 as i32 + shl_slices[2][0];
-            let c2 = cgto_locs_rel[2][a2];
-            let shls = [b2, b1, b0];
-            let offset = c2 + out_shape[0] * (c1 + out_shape[1] * c0);
-            unsafe {
-                self.integral_block::<T>(
-                    out.split_at_mut(offset).1,
-                    &shls, &out_shape_without_comp,
-                    cache.as_mut_slice());
+
+        let out_const_slice = out.as_slice();
+
+        rayon::ThreadPoolBuilder::new().num_threads(16).build_global().unwrap();
+        (0..(index_shape[0] * index_shape[1])).into_par_iter().for_each_with(
+            {
+                let mut cache = Vec::<f64>::with_capacity(cache_size);
+                unsafe { cache.set_len(cache_size) };
+                cache
+            },
+            |cache, a01| {
+
+            let a0 = a01 % index_shape[0];
+            let a1 = a01 / index_shape[1];
+            
+            for a2 in 0..index_shape[2] {
+                let b0 = a0 as i32 + shl_slices[0][0];
+                let c0 = cgto_locs_rel[0][a0];
+                let b1 = a1 as i32 + shl_slices[1][0];
+                let c1 = cgto_locs_rel[1][a1];
+                let b2 = a2 as i32 + shl_slices[2][0];
+                let c2 = cgto_locs_rel[2][a2];
+                let shls = [b2, b1, b0];
+                let offset = c2 + out_shape[0] * (c1 + out_shape[1] * c0);
+
+                unsafe {
+                    let out_offset_ptr = out_const_slice.as_ptr() as *mut f64;
+                    self.integral_block::<T>(
+                        from_raw_parts_mut(out_offset_ptr.add(offset), 0),
+                        &shls, &out_shape_without_comp,
+                        cache);
+                }
             }
-        }}}
+        })
     }
 
     pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> Vec<f64>

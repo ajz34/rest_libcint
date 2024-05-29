@@ -787,7 +787,7 @@ impl CINTR2CDATA {
     ///     Cache buffer, need to be allocated enough space before calling this function; simply
     ///     using `vec![]` should also works, which lets libcint manages cache and efficiency decreases.
     ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
-    pub unsafe fn integral_block<T> (&mut self, out: &mut [f64], shls: &[i32], shape: &[i32], cache: &mut [f64])
+    pub unsafe fn integral_block<T> (&self, out: &mut [f64], shls: &[i32], shape: &[i32], cache: &mut [f64])
     where
         T: IntorBase
     {
