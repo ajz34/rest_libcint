@@ -1,26 +1,15 @@
 use rest_libcint::CINTR2CDATA;
 use rest_libcint::cint_wrapper::*;
+use rayon::prelude::*;
+use ndarray::prelude::*;
+use approx::*;
 
 #[cfg(test)]
 mod test_c15_tzvp {
     use super::*;
 
     #[test]
-    fn test_integral_s1_serial_int3c2e() {
-
-        use std::time::Instant;
-        let now = Instant::now();
-
-        let mut cint_data = initialize();
-        let out = cint_data.integral_s1_serial::<int3c2e>(None);
-
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
-        println!("{:?}", out[[0, 0, 0]]);
-    }
-
-    #[test]
-    fn test_integral_s1() {
+    fn test_int3c2e_s1_full() {
 
         use std::time::Instant;
 
@@ -28,10 +17,94 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let out = cint_data.integral_s1::<int3c2e>(None);
         let elapsed = now.elapsed();
-        
         println!("Elapsed: {:.3?}", elapsed);
-        println!("{:?}", out[0]);
-        println!("{:?}", out.iter().sum::<f64>());
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 481358.8444863676, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 127300.77647158667, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int3c2e_s1_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 275], [12, 129], [5, 264]];
+        let out = cint_data.integral_s1::<int3c2e>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 213342.8408809482, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 55811.71336929558, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int3c2e_ip1_s1_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 275], [12, 129], [5, 264]];
+        let out = cint_data.integral_s1::<int3c2e_ip1>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), -10007.110461088905, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 1698.1730005702707, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int2c2e_ip1_s1_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 275], [5, 264]];
+        let out = cint_data.integral_s1::<int2c2e_ip1>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), -693.0183096938822, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 1960.186871018245, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int2e_ip1ip2_s1_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 30], [5, 52], [58, 89], [125, 156]];
+        let out = cint_data.integral_s1::<int2e_ip1ip2>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 0.06946888260914107, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), -0.021085092464779066, max_relative=1e-10);
     }
 
     fn initialize() -> CINTR2CDATA {
