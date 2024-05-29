@@ -1,3 +1,4 @@
+use core::panic;
 use std::slice::from_raw_parts_mut;
 use std::{ptr::null, ptr::null_mut};
 use itertools::Itertools;
@@ -175,17 +176,65 @@ impl CINTR2CDATA {
         return shl_slices.iter().map(|shl_slice| self.cgto_range_slice(shl_slice)).collect();
     }
 
-    /// Shape of integral (in atomic orbital basis), for specified slices of shell.
-    pub fn shape_of_integral<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    pub fn check_shl_slices<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<(), String>
     where
         T: IntorBase
     {
-        let n_comp = T::n_comp();
-        let mut shape = shl_slices.iter().map(|shl_slice| {
+        let n_center = T::n_center();
+        if shl_slices.len() != n_center {
+            return Err(format!("number of centers {n_center} is not the same to `shl_slices` {shl_slices:?}"));
+        }
+        for shl_slice in shl_slices {
+            if shl_slice[1] < shl_slice[0] {
+                return Err(format!("in {shl_slice:?}, second number is smaller than first number"));
+            }
+            if shl_slice[1] > self.c_nbas {
+                return Err(format!("in {:?}, number of shells exceeds {:}", shl_slice, self.c_nbas));
+            }
+            if shl_slice[0] < 0 {
+                return Err(format!("in {shl_slice:?}, shell number should not be negative"));
+            }
+        }
+        return Ok(());
+    }
+
+    /// Shape of integral (in atomic orbital basis), for specified slices of shell.
+    pub fn cgto_shape<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    where
+        T: IntorBase
+    {
+        self.check_shl_slices::<T>(shl_slices).unwrap();
+        let shape = shl_slices.iter().map(|shl_slice| {
             let loc = self.cgto_loc_slice(shl_slice);
             loc.last().unwrap().clone() - loc.first().unwrap().clone() as usize
-        }).collect::<Vec<_>>();
-        if n_comp > 1 { shape.push(n_comp) };
+        }).collect::<Vec<usize>>();
+        return shape;
+    }
+
+    pub fn cgto_shape_s2ij<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    where
+        T: IntorBase
+    {
+        let n_center = T::n_center();
+        self.check_shl_slices::<T>(shl_slices).unwrap();
+        if (shl_slices[n_center-1] != shl_slices[n_center-2]) {
+            panic!(
+                "for symmetry s2ij, last two elements of `shl_slices` {:?}, {:?} should be the same",
+                shl_slices[n_center-1], shl_slices[n_center-2]);
+        }
+        let mut shape: Vec<usize> = vec![];
+        for n in 0..(n_center - 2) {
+            let shl_slice = shl_slices[n];
+            let loc = self.cgto_loc_slice(&shl_slice);
+            let d = (loc.last().unwrap().clone() - loc.first().unwrap().clone()) as usize;
+            shape.push(d);
+        }
+        {
+            let shl_slice = shl_slices.last().unwrap();
+            let loc = self.cgto_loc_slice(&shl_slice);
+            let d = (loc.last().unwrap().clone() - loc.first().unwrap().clone()) as usize;
+            shape.push(d * (d + 1) / 2);
+        }
         return shape;
     }
 
@@ -242,18 +291,12 @@ impl CINTR2CDATA {
     {
         /* #region 1. dimension definition and sanity check */
 
+        self.check_shl_slices::<T>(shl_slices).unwrap();
+
         let n_comp = T::n_comp();
         let n_center = T::n_center();
-        assert!(
-            shl_slices.len() == n_center,
-            "length of `shl_slices` {shl_slices:?} is not the same to n_center {n_center:?}");
-        
-        let out_shape = self.shape_of_integral::<T>(shl_slices);
-        assert!(
-            out_shape.iter().product::<usize>() >= out.len(),
-            "length of `out` seems not enough");
-        let out_shape_i32 = out_shape.iter().map(|&v| v as i32).collect::<Vec<i32>>();
-        
+        let cgto_shape = self.cgto_shape::<T>(shl_slices);
+        let cgto_shape_i32 = cgto_shape.iter().map(|&v| v as i32).collect::<Vec<i32>>();
         let index_shape = shl_slices.iter().map(|[shl_start, shl_stop]| (shl_stop - shl_start) as usize).collect_vec();
         let cgto_locs_rel = self.cgto_loc_slices_relative(shl_slices);
 
@@ -275,7 +318,7 @@ impl CINTR2CDATA {
         let index_shape_rev = index_shape.into_iter().rev().collect_vec();
         let shl_slices_rev = shl_slices.iter().rev().collect_vec();
         let cgto_locs_rel_rev = cgto_locs_rel.iter().rev().collect_vec();
-        let out_shape_rev = &out_shape[..n_center].iter().rev().collect_vec();
+        let out_shape_rev = cgto_shape.iter().rev().collect_vec();
 
         /* #endregion */
 
@@ -300,7 +343,7 @@ impl CINTR2CDATA {
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                        self.integral_block::<T>(out_with_offset, &shls, &out_shape_i32, cache);
+                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, cache);
                     }
                 },
 
@@ -313,7 +356,7 @@ impl CINTR2CDATA {
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                        self.integral_block::<T>(out_with_offset, &shls, &out_shape_i32, cache);
+                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, cache);
                     }
                 },
 
@@ -329,11 +372,11 @@ impl CINTR2CDATA {
         
                         unsafe {
                             let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                            self.integral_block::<T>(out_with_offset, &shls, &out_shape_i32, cache);
+                            self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, cache);
                         }
                     }
                 },
-                
+
                 _ => panic!("Not known centers {n_center:}"),
             }
         });
@@ -352,7 +395,11 @@ impl CINTR2CDATA {
             Some(shl_slices) => shl_slices.clone(),
             None => vec![[0, self.c_nbas]; T::n_center()],
         };
-        let out_shape = self.shape_of_integral::<T>(&shl_slices);
+        let mut out_shape = match T::n_comp() {
+            1 => vec![],
+            _ => vec![T::n_comp()],
+        };
+        let out_shape = [out_shape, self.cgto_shape::<T>(&shl_slices)].concat();
         let out_size = out_shape.iter().product::<usize>();
         let mut out = Vec::<f64>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
@@ -364,6 +411,16 @@ impl CINTR2CDATA {
     where
         T: IntorBase
     {
-        
+        /* #region 1. dimension definition and sanity check */
+
+        self.check_shl_slices::<T>(shl_slices).unwrap();
+
+        let n_comp = T::n_comp();
+        let n_center = T::n_center();
+        let cgto_s2ij_shape = self.cgto_shape_s2ij::<T>(shl_slices);
+        let index_shape = shl_slices.iter().map(|[shl_start, shl_stop]| (shl_stop - shl_start) as usize).collect_vec();
+        let cgto_locs_rel = self.cgto_loc_slices_relative(shl_slices);
+
+        /* #endregion */
     }
 }
