@@ -1,6 +1,5 @@
 use rest_libcint::CINTR2CDATA;
 use rest_libcint::cint_wrapper::*;
-use rayon::prelude::*;
 use ndarray::prelude::*;
 use approx::*;
 
@@ -105,6 +104,25 @@ mod test_c15_tzvp {
             out.sum(), 0.06946888260914107, max_relative=1e-10);
         assert_relative_eq!(
             (out * scale).sum(), -0.021085092464779066, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int3c2e_s2ij_full() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let out = cint_data.integral_s2ij::<int3c2e>(None);
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 311401.69988397433, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 84387.58117014868, max_relative=1e-10);
     }
 
     fn initialize() -> CINTR2CDATA {

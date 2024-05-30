@@ -1,7 +1,7 @@
 use core::panic;
 use std::slice::from_raw_parts_mut;
 use std::{ptr::null, ptr::null_mut};
-use itertools::Itertools;
+use itertools::{Format, Itertools};
 use rayon::prelude::*;
 use rayon::{max_num_threads, current_thread_index};
 use crate::cint_wrapper::*;
@@ -46,51 +46,6 @@ impl CINTR2CDATA {
                 self.c_bas.as_ptr(), self.c_nbas,
                 self.c_env.as_ptr());
         }
-    }
-
-    /// Obtain cache size for integral.
-    /// 
-    /// This function should be used with the shell slice one desired.
-    /// 
-    /// If the shell slice is not known to you currently (molecule information has passed into
-    /// `CINTR2CDATA`), just pass empty `shls_slice = vec![]`, then it should give the maximum
-    /// cache size for this molecule/intor.
-    /// 
-    /// ```no_run
-    /// let mut cint_data = CINTR2CDATA::new();
-    /// cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
-    /// let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
-    /// // maximum cache for the given shells
-    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
-    /// // maximum cache for the whole molecule
-    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
-    /// ```
-    pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
-    where
-        T: IntorBase
-    {
-        let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap_or(0);
-        let shls_max = shls_slice.iter().map(|x| x[1]).max().unwrap_or(self.c_nbas);
-        let cache_size = (shls_min..shls_max).into_iter().map(|shl| {
-            let mut shls = [shl; 4];
-            match self.cint_type {
-                CintType::Spheric => unsafe {
-                    T::integral_sph(
-                        null_mut(), null(), shls.as_mut_ptr(),
-                        self.c_atm.as_ptr(), self.c_natm,
-                        self.c_bas.as_ptr(), self.c_nbas,
-                        self.c_env.as_ptr(), null(), null_mut()) as usize
-                    },
-                CintType::Cartesian => unsafe {
-                    T::integral_cart(
-                        null_mut(), null(), shls.as_mut_ptr(),
-                        self.c_atm.as_ptr(), self.c_natm,
-                        self.c_bas.as_ptr(), self.c_nbas,
-                        self.c_env.as_ptr(), null(), null_mut()) as usize
-                    },
-            }
-        }).max().unwrap();
-        return cache_size;
     }
 
     /// Size (number of atomic orbitals) of spherical CGTO at certain basis index.
@@ -211,31 +166,87 @@ impl CINTR2CDATA {
         return shape;
     }
 
-    pub fn cgto_shape_s2ij<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    pub fn cgto_shape_s2ij<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<Vec<usize>, String>
     where
         T: IntorBase
     {
         let n_center = T::n_center();
-        self.check_shl_slices::<T>(shl_slices).unwrap();
-        if (shl_slices[n_center-1] != shl_slices[n_center-2]) {
-            panic!(
+        self.check_shl_slices::<T>(shl_slices)?;
+        if (shl_slices[0] != shl_slices[1]) {
+            return Err(format!(
                 "for symmetry s2ij, last two elements of `shl_slices` {:?}, {:?} should be the same",
-                shl_slices[n_center-1], shl_slices[n_center-2]);
+                shl_slices[0], shl_slices[1]));
         }
         let mut shape: Vec<usize> = vec![];
-        for n in 0..(n_center - 2) {
+        {
+            let shl_slice = shl_slices[0];
+            let loc = self.cgto_loc_slice(&shl_slice);
+            let d = (loc.last().unwrap().clone() - loc.first().unwrap().clone()) as usize;
+            shape.push(d * (d + 1) / 2);
+        }
+        for n in 2..n_center {
             let shl_slice = shl_slices[n];
             let loc = self.cgto_loc_slice(&shl_slice);
             let d = (loc.last().unwrap().clone() - loc.first().unwrap().clone()) as usize;
             shape.push(d);
         }
-        {
-            let shl_slice = shl_slices.last().unwrap();
-            let loc = self.cgto_loc_slice(&shl_slice);
-            let d = (loc.last().unwrap().clone() - loc.first().unwrap().clone()) as usize;
-            shape.push(d * (d + 1) / 2);
-        }
-        return shape;
+        return Ok(shape);
+    }
+
+    /// Obtain cache size for integral.
+    /// 
+    /// This function should be used with the shell slice one desired.
+    /// 
+    /// If the shell slice is not known to you currently (molecule information has passed into
+    /// `CINTR2CDATA`), just pass empty `shls_slice = vec![]`, then it should give the maximum
+    /// cache size for this molecule/intor.
+    /// 
+    /// ```no_run
+    /// let mut cint_data = CINTR2CDATA::new();
+    /// cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
+    /// let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
+    /// // maximum cache for the given shells
+    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&shls_slice));
+    /// // maximum cache for the whole molecule
+    /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
+    /// ```
+    pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
+    where
+        T: IntorBase
+    {
+        let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap_or(0);
+        let shls_max = shls_slice.iter().map(|x| x[1]).max().unwrap_or(self.c_nbas);
+        let cache_size = (shls_min..shls_max).into_iter().map(|shl| {
+            let mut shls = [shl; 4];
+            match self.cint_type {
+                CintType::Spheric => unsafe {
+                    T::integral_sph(
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
+                    },
+                CintType::Cartesian => unsafe {
+                    T::integral_cart(
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
+                    },
+            }
+        }).max().unwrap();
+        return cache_size;
+    }
+
+    // Obtain buffer size for integral.
+    pub fn size_of_buffer<T> (&self, shl_slices: &Vec<[i32; 2]>) -> usize
+    where
+        T: IntorBase
+    {
+        self.check_shl_slices::<T>(shl_slices).unwrap();
+        T::n_comp() * shl_slices.iter().map(|&[shl_0, shl_1]| {
+            (shl_0..shl_1).map(|shl| self.cgto_size(shl)).max().unwrap() as usize
+        }).product::<usize>()
     }
 
     /// Smallest unit of electron-integral function from libcint.
@@ -318,11 +329,11 @@ impl CINTR2CDATA {
         let index_shape_rev = index_shape.into_iter().rev().collect_vec();
         let shl_slices_rev = shl_slices.iter().rev().collect_vec();
         let cgto_locs_rel_rev = cgto_locs_rel.iter().rev().collect_vec();
-        let out_shape_rev = cgto_shape.iter().rev().collect_vec();
+        let cgto_shape_rev = cgto_shape.iter().rev().collect_vec();
 
         /* #endregion */
 
-        /* #region 4. parallel integral generation */
+        /* #region 3. parallel integral generation */
 
         (0..(index_shape_rev[0] * index_shape_rev[1])).into_par_iter().for_each(|idx_01| {
             let idx_0 = idx_01 / index_shape_rev[1];
@@ -339,7 +350,7 @@ impl CINTR2CDATA {
                 2 =>
                 {
                     let shls = [shl_1, shl_0];
-                    let offset = cgto_1 + out_shape_rev[1] * cgto_0;
+                    let offset = cgto_1 + cgto_shape_rev[1] * cgto_0;
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
@@ -352,7 +363,7 @@ impl CINTR2CDATA {
                     let shl_2 = idx_2 as i32 + shl_slices_rev[2][0];
                     let cgto_2 = cgto_locs_rel_rev[2][idx_2];
                     let shls = [shl_2, shl_1, shl_0];
-                    let offset = cgto_2 + out_shape_rev[2] * (cgto_1 + out_shape_rev[1] * cgto_0);
+                    let offset = cgto_2 + cgto_shape_rev[2] * (cgto_1 + cgto_shape_rev[1] * cgto_0);
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
@@ -368,7 +379,7 @@ impl CINTR2CDATA {
                         let cgto_2 = cgto_locs_rel_rev[2][idx_2];
                         let cgto_3 = cgto_locs_rel_rev[3][idx_3];
                         let shls = [shl_3, shl_2, shl_1, shl_0];
-                        let offset = cgto_3 + out_shape_rev[3] * (cgto_2 + out_shape_rev[2] * (cgto_1 + out_shape_rev[1] * cgto_0));
+                        let offset = cgto_3 + cgto_shape_rev[3] * (cgto_2 + cgto_shape_rev[2] * (cgto_1 + cgto_shape_rev[1] * cgto_0));
         
                         unsafe {
                             let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
@@ -382,7 +393,7 @@ impl CINTR2CDATA {
         });
         /* #endregion */
 
-        /* #region 5. cleanup */
+        /* #region 4. cleanup */
         self.optimizer_destruct();
         /* #endregion */
     }
@@ -417,10 +428,120 @@ impl CINTR2CDATA {
 
         let n_comp = T::n_comp();
         let n_center = T::n_center();
-        let cgto_s2ij_shape = self.cgto_shape_s2ij::<T>(shl_slices);
+        let cgto_s2ij_shape = self.cgto_shape_s2ij::<T>(shl_slices).unwrap();
         let index_shape = shl_slices.iter().map(|[shl_start, shl_stop]| (shl_stop - shl_start) as usize).collect_vec();
         let cgto_locs_rel = self.cgto_loc_slices_relative(shl_slices);
 
         /* #endregion */
+
+        /* #region 2. preparation for integral engine */
+
+        // optimizer (make integral faster)
+        self.optimizer::<T>();
+
+        // cache: thread-local
+        let cache_size = self.size_of_cache::<T>(shl_slices);
+        let buf_size = self.size_of_buffer::<T>(shl_slices);
+        let thread_cache: Vec<Vec<f64>> = vec![vec![0.; cache_size]; rayon::current_num_threads()];
+        let thread_buf: Vec<Vec<f64>> = vec![vec![0.; buf_size]; rayon::current_num_threads()];
+
+        // out: enable mut vector by passing immut slice
+        let out_const_slice = out.as_slice();
+
+        /* #endregion */
+
+        /* #region 4.  */
+
+        let mut out_s2ij_shape = cgto_s2ij_shape.clone();
+        out_s2ij_shape.push(n_comp);
+        let out_s2ij_shape = out_s2ij_shape.as_slice();
+        
+        match n_center {
+            3 => {
+                (0..index_shape[2]).into_par_iter().for_each(|idx_k| {
+                    let shl_k = idx_k as i32 + shl_slices[2][0];
+                    let cgto_k = cgto_locs_rel[2][idx_k];
+            
+                    let thread_index = current_thread_index().unwrap_or(0);
+                    let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
+                    let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    let mut out = unsafe { cast_mut_slice(&out) };
+
+                    for idx_j in 0..index_shape[1] {
+                        for idx_i in 0..(idx_j + 1) {
+                            let shl_i = idx_i as i32 + shl_slices[0][0];
+                            let shl_j = idx_j as i32 + shl_slices[0][0];
+                            let cgto_i = cgto_locs_rel[0][idx_i];
+                            let cgto_j = cgto_locs_rel[0][idx_j];
+
+                            let shls = [shl_i, shl_j, shl_k];
+                            
+                            unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
+
+                            let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), n_comp];
+                            
+                            let mut out_offset = cgto_i * (cgto_i + 1) / 2 + cgto_j + out_s2ij_shape[0] * cgto_k;
+                            let mut buf_offset = 0;
+                            if idx_i != idx_j {
+                                for c in 0..buf_shape[3] {
+                                    for k in 0..buf_shape[2] {
+                                        for j in 0..buf_shape[1] {
+                                            for i in 0..buf_shape[0] {
+                                                out[
+                                                    cgto_i + i + (cgto_j + j) * (cgto_j + j + 1) / 2 + out_s2ij_shape[0] * (cgto_k + k) + out_s2ij_shape[0] * out_s2ij_shape[1] * c
+                                                ] = buf[
+                                                    i + buf_shape[0] * (j + buf_shape[1] * (k + buf_shape[2] * c))
+                                                ];
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                for c in 0..buf_shape[3] {
+                                    for k in 0..buf_shape[2] {
+                                        for j in 0..buf_shape[1] {
+                                            for i in 0..(j+1) {
+                                                out[
+                                                    cgto_i + i + (cgto_j + j) * (cgto_j + j + 1) / 2 + out_s2ij_shape[0] * (cgto_k + k) + out_s2ij_shape[0] * out_s2ij_shape[1] * c
+                                                ] = buf[
+                                                    i + buf_shape[0] * (j + buf_shape[1] * (k + buf_shape[2] * c))
+                                                ];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+            _ => panic!(),
+        }
+        
+        /* #endregion */
+
+        /* #region 4. cleanup */
+        self.optimizer_destruct();
+        /* #endregion */
+    }
+
+    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> Vec<f64>
+    where
+        T: IntorBase
+    {
+        let shl_slices = match shl_slices {
+            Some(shl_slices) => shl_slices.clone(),
+            None => vec![[0, self.c_nbas]; T::n_center()],
+        };
+        let mut out_shape = match T::n_comp() {
+            1 => vec![],
+            _ => vec![T::n_comp()],
+        };
+        let out_shape = [out_shape, self.cgto_shape_s2ij::<T>(&shl_slices).unwrap()].concat();
+        let out_size = out_shape.iter().product::<usize>();
+        let mut out = Vec::<f64>::with_capacity(out_size);
+        unsafe { out.set_len(out_size) };
+        self.integral_s2ij_inplace::<T>(&mut out, &shl_slices);
+        return out;
     }
 }
