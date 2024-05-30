@@ -83,7 +83,7 @@ where
         for k in 0..buf_shape[2] {
             for j in 0..buf_shape[1] {
                 for i in 0..buf_shape[0] {
-                    let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]];
+                    let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3] + c];
                     let buf_indices = [i, j, k, c];
                     let out_index = get_f_index_4d_s2ij(&out_indices, out_s2ij_shape);
                     let buf_index = get_f_index_4d(&buf_indices, buf_shape);
@@ -103,7 +103,7 @@ where
         for k in 0..buf_shape[2] {
             for j in 0..buf_shape[1] {
                 for i in 0..(j + 1) {
-                    let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]];
+                    let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3] + c];
                     let buf_indices = [i, j, k, c];
                     let out_index = get_f_index_4d_s2ij(&out_indices, out_s2ij_shape);
                     let buf_index = get_f_index_4d(&buf_indices, buf_shape);
@@ -561,20 +561,19 @@ impl CINTR2CDATA {
                     let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
                     // output
                     let mut out = unsafe { cast_mut_slice(&out) };
-                    // main engine
+                    // index computation and iteration
                     let shl_k = idx_k as i32 + shl_slices[2][0];
                     let cgto_k = cgto_locs_rel[2][idx_k];
-
                     for idx_j in 0..index_shape[1] {
                         for idx_i in 0..(idx_j + 1) {
                             let shl_i = idx_i as i32 + shl_slices[0][0];
                             let shl_j = idx_j as i32 + shl_slices[0][0];
                             let cgto_i = cgto_locs_rel[0][idx_i];
                             let cgto_j = cgto_locs_rel[0][idx_j];
-
+                            // main integrator
                             let shls = [shl_i, shl_j, shl_k];
                             unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
-
+                            // copy from buffer to output
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), n_comp];
                             let out_offsets = [cgto_i, cgto_j, cgto_k, 0];
                             if idx_i != idx_j {

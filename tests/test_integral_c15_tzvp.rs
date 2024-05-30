@@ -125,6 +125,27 @@ mod test_c15_tzvp {
             (out * scale).sum(), 84387.58117014868, max_relative=1e-10);
     }
 
+    #[test]
+    fn test_int3c2e_ip2_s2ij_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[0, 275], [0, 275], [7, 264]];
+        let out = cint_data.integral_s2ij::<int3c2e_ip2>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        println!("{:?}", out);
+        assert_relative_eq!(
+            out.sum(), 10545.286228548592, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), -1645.065493306819, max_relative=1e-10);
+    }
+
     fn initialize() -> CINTR2CDATA {
         // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
         let c_atm = vec![
