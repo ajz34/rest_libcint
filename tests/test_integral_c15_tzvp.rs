@@ -139,11 +139,50 @@ mod test_c15_tzvp {
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
-        println!("{:?}", out);
         assert_relative_eq!(
             out.sum(), 10545.286228548592, max_relative=1e-10);
         assert_relative_eq!(
             (out * scale).sum(), -1645.065493306819, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int2e_ip2_s2ij_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
+        let out = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 84.37051265850292, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 9.624874473531595, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int2c2e_s2ij_slice() {
+
+        use std::time::Instant;
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[10, 283], [10, 283]];
+        let out = cint_data.integral_s2ij::<int2c2e>(Some(&shl_slices));
+        let elapsed = now.elapsed();
+        println!("Elapsed: {:.3?}", elapsed);
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 168170.6575820652, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 50272.65108549222, max_relative=1e-10);
     }
 
     fn initialize() -> CINTR2CDATA {

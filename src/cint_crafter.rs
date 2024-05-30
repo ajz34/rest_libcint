@@ -75,6 +75,42 @@ fn get_f_index_5d_s2ij(indices: &[usize; 5], shape: &[usize; 4]) -> usize {
 }
 
 #[inline(always)]
+fn copy_3d_s2ij_offdiag<T> (out: &mut [T], out_offsets: &[usize; 3], out_s2ij_shape: &[usize; 2], buf: &[T], buf_shape: &[usize; 3])
+where
+    T: Copy
+{
+    for c in 0..buf_shape[2] {
+        for j in 0..buf_shape[1] {
+            for i in 0..buf_shape[0] {
+                let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + c];
+                let buf_indices = [i, j, c];
+                let out_index = get_f_index_3d_s2ij(&out_indices, out_s2ij_shape);
+                let buf_index = get_f_index_3d(&buf_indices, buf_shape);
+                out[out_index] = buf[buf_index];
+            }
+        }
+    }
+}
+
+#[inline(always)]
+fn copy_3d_s2ij_diag<T> (out: &mut [T], out_offsets: &[usize; 3], out_s2ij_shape: &[usize; 2], buf: &[T], buf_shape: &[usize; 3])
+where
+    T: Copy
+{
+    for c in 0..buf_shape[2] {
+        for j in 0..buf_shape[1] {
+            for i in 0..(j + 1) {
+                let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + c];
+                let buf_indices = [i, j, c];
+                let out_index = get_f_index_3d_s2ij(&out_indices, out_s2ij_shape);
+                let buf_index = get_f_index_3d(&buf_indices, buf_shape);
+                out[out_index] = buf[buf_index];
+            }
+        }
+    }
+}
+
+#[inline(always)]
 fn copy_4d_s2ij_offdiag<T> (out: &mut [T], out_offsets: &[usize; 4], out_s2ij_shape: &[usize; 3], buf: &[T], buf_shape: &[usize; 4])
 where
     T: Copy
@@ -108,6 +144,50 @@ where
                     let out_index = get_f_index_4d_s2ij(&out_indices, out_s2ij_shape);
                     let buf_index = get_f_index_4d(&buf_indices, buf_shape);
                     out[out_index] = buf[buf_index];
+                }
+            }
+        }
+    }
+}
+
+#[inline(always)]
+fn copy_5d_s2ij_offdiag<T> (out: &mut [T], out_offsets: &[usize; 5], out_s2ij_shape: &[usize; 4], buf: &[T], buf_shape: &[usize; 5])
+where
+    T: Copy
+{
+    for c in 0..buf_shape[4] {
+        for l in 0..buf_shape[3] {
+            for k in 0..buf_shape[2] {
+                for j in 0..buf_shape[1] {
+                    for i in 0..buf_shape[0] {
+                        let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3] + l, out_offsets[4] + c];
+                        let buf_indices = [i, j, k, l, c];
+                        let out_index = get_f_index_5d_s2ij(&out_indices, out_s2ij_shape);
+                        let buf_index = get_f_index_5d(&buf_indices, buf_shape);
+                        out[out_index] = buf[buf_index];
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[inline(always)]
+fn copy_5d_s2ij_diag<T> (out: &mut [T], out_offsets: &[usize; 5], out_s2ij_shape: &[usize; 4], buf: &[T], buf_shape: &[usize; 5])
+where
+    T: Copy
+{
+    for c in 0..buf_shape[4] {
+        for l in 0..buf_shape[3] {
+            for k in 0..buf_shape[2] {
+                for j in 0..buf_shape[1] {
+                    for i in 0..(j + 1) {
+                        let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3] + l, out_offsets[4] + c];
+                        let buf_indices = [i, j, k, l, c];
+                        let out_index = get_f_index_5d_s2ij(&out_indices, out_s2ij_shape);
+                        let buf_index = get_f_index_5d(&buf_indices, buf_shape);
+                        out[out_index] = buf[buf_index];
+                    }
                 }
             }
         }
@@ -433,6 +513,11 @@ impl CINTR2CDATA {
 
         /* #region 3. parallel integral generation */
 
+        // Following code of parallel is not fearless.
+        // Variable `out` will be written in parallel, which should be considered racing,
+        // when calling `self.integral_block::<T>`,
+        // and racing would not actually happen if I am careful.
+
         (0..(index_shape_rev[0] * index_shape_rev[1])).into_par_iter().for_each(|idx_01| {
             let idx_0 = idx_01 / index_shape_rev[1];
             let idx_1 = idx_01 % index_shape_rev[1];
@@ -549,8 +634,43 @@ impl CINTR2CDATA {
         /* #endregion */
 
         /* #region 3. parallel integral generation */
+
+        // Following code of parallel is not fearless.
+        // Variable `out` will be written in parallel, which should be considered racing;
+        // and racing would not actually happen if I am careful.
         
         match n_center {
+            2 => {
+                let out_s2ij_shape: [usize; 2] = [cgto_s2ij_shape, vec![n_comp]].concat().try_into().unwrap();
+
+                (0..index_shape[1]).into_par_iter().for_each(|idx_j| {
+                    // thread-local variables
+                    let thread_index = current_thread_index().unwrap_or(0);
+                    let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
+                    let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    // output
+                    let mut out = unsafe { cast_mut_slice(&out) };
+                    // index computation and iteration
+                    let shl_j = idx_j as i32 + shl_slices[1][0];
+                    let cgto_j = cgto_locs_rel[1][idx_j];
+                    for idx_i in 0..(idx_j + 1) {
+                        let shl_i = idx_i as i32 + shl_slices[0][0];
+                        let cgto_i = cgto_locs_rel[0][idx_i];
+                        // main integrator
+                        let shls = [shl_i, shl_j];
+                        unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
+                        // copy from buffer to output
+                        let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), n_comp];
+                        let out_offsets = [cgto_i, cgto_j, 0];
+                        if idx_i != idx_j {
+                            copy_3d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                        } else {
+                            copy_3d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                        }
+                    }
+                })
+            },
+
             3 => {
                 let out_s2ij_shape: [usize; 3] = [cgto_s2ij_shape, vec![n_comp]].concat().try_into().unwrap();
 
@@ -580,6 +700,45 @@ impl CINTR2CDATA {
                                 copy_4d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
                             } else {
                                 copy_4d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                            }
+                        }
+                    }
+                })
+            },
+
+            4 => {
+                let out_s2ij_shape: [usize; 4] = [cgto_s2ij_shape, vec![n_comp]].concat().try_into().unwrap();
+
+                (0..index_shape[2]*index_shape[3]).into_par_iter().for_each(|idx_kl| {
+                    // thread-local variables
+                    let thread_index = current_thread_index().unwrap_or(0);
+                    let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
+                    let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    // output
+                    let mut out = unsafe { cast_mut_slice(&out) };
+                    // index computation and iteration
+                    let idx_l = idx_kl / index_shape[2];
+                    let idx_k = idx_kl % index_shape[2];
+                    let shl_k = idx_k as i32 + shl_slices[2][0];
+                    let shl_l = idx_l as i32 + shl_slices[3][0];
+                    let cgto_k = cgto_locs_rel[2][idx_k];
+                    let cgto_l = cgto_locs_rel[3][idx_l];
+                    for idx_j in 0..index_shape[1] {
+                        for idx_i in 0..(idx_j + 1) {
+                            let shl_i = idx_i as i32 + shl_slices[0][0];
+                            let shl_j = idx_j as i32 + shl_slices[0][0];
+                            let cgto_i = cgto_locs_rel[0][idx_i];
+                            let cgto_j = cgto_locs_rel[0][idx_j];
+                            // main integrator
+                            let shls = [shl_i, shl_j, shl_k, shl_l];
+                            unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
+                            // copy from buffer to output
+                            let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), self.cgto_size(shl_l), n_comp];
+                            let out_offsets = [cgto_i, cgto_j, cgto_k, cgto_l, 0];
+                            if idx_i != idx_j {
+                                copy_5d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                            } else {
+                                copy_5d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
                             }
                         }
                     }
