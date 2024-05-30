@@ -1,6 +1,6 @@
-use core::panic;
+use std::prelude::*;
+use std::ptr::{null_mut, null};
 use std::slice::from_raw_parts_mut;
-use std::{ptr::null, ptr::null_mut};
 use itertools::{Format, Itertools};
 use rayon::prelude::*;
 use rayon::{max_num_threads, current_thread_index};
@@ -197,6 +197,9 @@ where
 /* #endregion */
 
 impl CINTR2CDATA {
+
+    /* #region optimizer */
+
     /// Remove optimizer
     pub fn optimizer_destruct(&mut self) {
         unsafe { cint::CINTdel_optimizer(&mut self.c_opt); }
@@ -214,7 +217,7 @@ impl CINTR2CDATA {
     /// ```
     pub fn optimizer<T> (&mut self)
     where
-        T: IntorBase
+        T: Integrator
     {
         self.optimizer_destruct();
         unsafe {
@@ -225,6 +228,10 @@ impl CINTR2CDATA {
                 self.c_env.as_ptr());
         }
     }
+
+    /* #endregion */
+
+    /* #region cgto size */
 
     /// Size (number of atomic orbitals) of spherical CGTO at certain basis index.
     /// 
@@ -264,6 +271,10 @@ impl CINTR2CDATA {
         }
     }
 
+    /* #endregion */
+
+    /* #region cgto loc */
+
     /// Location of atomic orbitals, for basis configuration of the current molecule.
     pub fn cgto_loc(&self) -> Vec<usize> {
         let size_vec = (0..self.c_nbas).map(|idx| self.cgto_size(idx)).collect::<Vec<usize>>();
@@ -298,20 +309,13 @@ impl CINTR2CDATA {
         return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect();
     }
 
-    /// Range of atomic orbitals, for specified slice of shell.
-    pub fn cgto_range_slice(&self, shl_slice: &[i32; 2]) -> std::ops::Range<usize> {
-        let loc = self.cgto_loc_slice(shl_slice);
-        return loc.first().unwrap().clone()..loc.last().unwrap().clone();
-    }
+    /* #endregion */
 
-    /// Range of atomic orbitals, for specified slices of shell.
-    pub fn cgto_range_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<std::ops::Range<usize>> {
-        return shl_slices.iter().map(|shl_slice| self.cgto_range_slice(shl_slice)).collect();
-    }
+    /* #region shl_slices sanity check */
 
     pub fn check_shl_slices<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<(), String>
     where
-        T: IntorBase
+        T: Integrator
     {
         let n_center = T::n_center();
         if shl_slices.len() != n_center {
@@ -331,10 +335,14 @@ impl CINTR2CDATA {
         return Ok(());
     }
 
+    /* #endregion */
+
+    /* #region cgto shape and buffer size */
+
     /// Shape of integral (in atomic orbital basis), for specified slices of shell.
     pub fn cgto_shape<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
     where
-        T: IntorBase
+        T: Integrator
     {
         self.check_shl_slices::<T>(shl_slices).unwrap();
         let shape = shl_slices.iter().map(|shl_slice| {
@@ -346,7 +354,7 @@ impl CINTR2CDATA {
 
     pub fn cgto_shape_s2ij<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<Vec<usize>, String>
     where
-        T: IntorBase
+        T: Integrator
     {
         let n_center = T::n_center();
         self.check_shl_slices::<T>(shl_slices)?;
@@ -390,7 +398,7 @@ impl CINTR2CDATA {
     /// ```
     pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
     where
-        T: IntorBase
+        T: Integrator
     {
         let shls_min = shls_slice.iter().map(|x| x[0]).min().unwrap_or(0);
         let shls_max = shls_slice.iter().map(|x| x[1]).max().unwrap_or(self.c_nbas);
@@ -419,13 +427,15 @@ impl CINTR2CDATA {
     // Obtain buffer size for integral.
     pub fn size_of_buffer<T> (&self, shl_slices: &Vec<[i32; 2]>) -> usize
     where
-        T: IntorBase
+        T: Integrator
     {
         self.check_shl_slices::<T>(shl_slices).unwrap();
         T::n_comp() * shl_slices.iter().map(|&[shl_0, shl_1]| {
             (shl_0..shl_1).map(|shl| self.cgto_size(shl)).max().unwrap() as usize
         }).product::<usize>()
     }
+
+    /* #endregion */
 
     /// Smallest unit of electron-integral function from libcint.
     /// 
@@ -442,7 +452,7 @@ impl CINTR2CDATA {
     ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
     pub unsafe fn integral_block<T> (&self, out: &mut [f64], shls: &[i32], shape: &[i32], cache: &mut [f64])
     where
-        T: IntorBase
+        T: Integrator
     {
         let cache_ptr = match cache.len() {
             0 => null_mut(),
@@ -476,7 +486,7 @@ impl CINTR2CDATA {
     /// This function only works for f-contiguous integral (PySCF convention).
     pub fn integral_s1_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &Vec<[i32; 2]>)
     where
-        T: IntorBase
+        T: Integrator
     {
         /* #region 1. dimension definition and sanity check */
 
@@ -581,9 +591,9 @@ impl CINTR2CDATA {
         /* #endregion */
     }
 
-    pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> Vec<f64>
+    pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
     where
-        T: IntorBase
+        T: Integrator
     {
         let shl_slices = match shl_slices {
             Some(shl_slices) => shl_slices.clone(),
@@ -598,12 +608,12 @@ impl CINTR2CDATA {
         let mut out = Vec::<f64>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
         self.integral_s1_inplace::<T>(&mut out, &shl_slices);
-        return out;
+        return (out, out_shape);
     }
     
     pub fn integral_s2ij_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &Vec<[i32; 2]>)
     where
-        T: IntorBase
+        T: Integrator
     {
         /* #region 1. dimension definition and sanity check */
 
@@ -754,9 +764,9 @@ impl CINTR2CDATA {
         /* #endregion */
     }
 
-    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> Vec<f64>
+    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
     where
-        T: IntorBase
+        T: Integrator
     {
         let shl_slices = match shl_slices {
             Some(shl_slices) => shl_slices.clone(),
@@ -771,6 +781,6 @@ impl CINTR2CDATA {
         let mut out = Vec::<f64>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
         self.integral_s2ij_inplace::<T>(&mut out, &shl_slices);
-        return out;
+        return (out, out_shape);
     }
 }

@@ -106,7 +106,6 @@ use itertools::Itertools;
 
 mod cint;
 pub mod cint_crafter;
-use ndarray::{prelude::*, IxDynImpl, OwnedRepr, SliceArg, SliceInfoElem, SliceInfo};
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
@@ -604,67 +603,6 @@ impl CINTR2CDATA {
     }
 
 }
-
-use crate::cint_wrapper::IntorBase;
-
-#[cfg(test)]
-mod simple_test_integral {
-    use ndarray::SliceInfo;
-
-    use super::*;
-
-    #[test]
-    fn test_trait_intorbase() {
-        let mut cint_data = initialize_test_h2o_631g();
-        cint_data.optimizer::<int2e>();
-        println!("{:?}", unsafe{*cint_data.c_opt});
-        let shls_slice = vec![[0, 2], [0, 1], [1, 3], [0, 2]];
-        assert_eq!(cint_data.size_of_cache::<int2e>(&shls_slice), 445);
-        assert_eq!(cint_data.size_of_cache::<int2e>(&vec![]), 1341);
-        assert_eq!(cint_data.cgto_size_sph(1), 1);
-        assert_eq!(cint_data.cgto_size_sph(3), 3);
-    }
-
-    fn initialize_test_h2o_631g() -> CINTR2CDATA {
-        // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
-        let c_atm = vec![
-            vec![ 8, 20,  1, 23,  0,  0],
-            vec![ 1, 24,  1, 27,  0,  0],
-            vec![ 1, 28,  1, 31,  0,  0]];
-        let c_bas = vec![
-            vec![ 0,  0,  6,  1,  0, 32, 38,  0],
-            vec![ 0,  0,  3,  1,  0, 44, 47,  0],
-            vec![ 0,  0,  1,  1,  0, 50, 51,  0],
-            vec![ 0,  1,  3,  1,  0, 52, 55,  0],
-            vec![ 0,  1,  1,  1,  0, 58, 59,  0],
-            vec![ 1,  0,  3,  1,  0, 60, 63,  0],
-            vec![ 1,  0,  1,  1,  0, 66, 67,  0],
-            vec![ 2,  0,  3,  1,  0, 60, 63,  0],
-            vec![ 2,  0,  1,  1,  0, 66, 67,  0]];
-        let c_env = vec![
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            1.77634256e+00,  0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-            -4.44760657e-01,  0.00000000e+00,  1.71976186e+00,  0.00000000e+00,
-            5.48467170e+03,  8.25234950e+02,  1.88046960e+02,  5.29645000e+01,
-            1.68975700e+01,  5.79963530e+00,  2.94842455e+00,  5.42657124e+00,
-            8.78126489e+00,  1.15432129e+01,  9.90055015e+00,  3.38516599e+00,
-            1.55396160e+01,  3.59993360e+00,  1.01376180e+00, -2.19051792e+00,
-            -9.77405528e-01,  2.88629094e+00,  2.70005800e-01,  9.46334873e-01,
-            1.55396160e+01,  3.59993360e+00,  1.01376180e+00,  6.37930734e+00,
-            4.91490975e+00,  2.15791055e+00,  2.70005800e-01,  5.67807022e-01,
-            1.87311370e+01,  2.82539370e+00,  6.40121700e-01,  7.61926220e-01,
-            1.29237100e+00,  1.47131900e+00,  1.61277800e-01,  6.42977783e-01];
-        let mut cint_data = CINTR2CDATA::new();
-        cint_data.initial_r2c(&c_atm, c_atm.len() as i32, &c_bas, c_bas.len() as i32, &c_env);
-        cint_data
-    }
-}
-
 
 //pub fn cint2e_sph_rust(mut buf: Vec<f64>, mut shls: Vec<i32>, 
 //                   c_atm: & *mut c_int, c_natm:c_int, 

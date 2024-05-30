@@ -1,3 +1,4 @@
+use std::time::Instant;
 use rest_libcint::CINTR2CDATA;
 use rest_libcint::cint_wrapper::*;
 use ndarray::prelude::*;
@@ -10,11 +11,9 @@ mod test_c15_tzvp {
     #[test]
     fn test_int3c2e_s1_full() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
-        let out = cint_data.integral_s1::<int3c2e>(None);
+        let (out, _) = cint_data.integral_s1::<int3c2e>(None);
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -29,12 +28,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int3c2e_s1_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 275], [12, 129], [5, 264]];
-        let out = cint_data.integral_s1::<int3c2e>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s1::<int3c2e>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -49,12 +46,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int3c2e_ip1_s1_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 275], [12, 129], [5, 264]];
-        let out = cint_data.integral_s1::<int3c2e_ip1>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s1::<int3c2e_ip1>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -69,12 +64,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int2c2e_ip1_s1_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 275], [5, 264]];
-        let out = cint_data.integral_s1::<int2c2e_ip1>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s1::<int2c2e_ip1>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -89,12 +82,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int2e_ip1ip2_s1_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 30], [5, 52], [58, 89], [125, 156]];
-        let out = cint_data.integral_s1::<int2e_ip1ip2>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s1::<int2e_ip1ip2>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -109,11 +100,9 @@ mod test_c15_tzvp {
     #[test]
     fn test_int3c2e_s2ij_full() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
-        let out = cint_data.integral_s2ij::<int3c2e>(None);
+        let (out, _) = cint_data.integral_s2ij::<int3c2e>(None);
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -128,12 +117,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int3c2e_ip2_s2ij_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[0, 275], [0, 275], [7, 264]];
-        let out = cint_data.integral_s2ij::<int3c2e_ip2>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s2ij::<int3c2e_ip2>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -148,12 +135,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int2e_ip2_s2ij_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
-        let out = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
@@ -168,12 +153,10 @@ mod test_c15_tzvp {
     #[test]
     fn test_int2c2e_s2ij_slice() {
 
-        use std::time::Instant;
-
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[10, 283], [10, 283]];
-        let out = cint_data.integral_s2ij::<int2c2e>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_s2ij::<int2c2e>(Some(&shl_slices));
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
