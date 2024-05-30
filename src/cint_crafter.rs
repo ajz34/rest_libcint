@@ -18,6 +18,56 @@ unsafe fn cast_mut_slice<T> (slc: &[T]) -> &mut [T] {
     return mut_vector;
 }
 
+/* #region indices computation and copy */
+
+#[inline(always)]
+fn get_f_index_4d(indices: &[usize; 4], shape: &[usize; 4]) -> usize {
+    return indices[0] + shape[0] * (indices[1] + shape[1] * (indices[2] + shape[2] * indices[3]));
+}
+
+#[inline(always)]
+fn get_f_index_4d_s2ij(indices: &[usize; 4], shape: &[usize; 3]) -> usize {
+    return indices[0] + indices[1] * (indices[1] + 1) / 2 + shape[0] * (indices[2] + shape[1] * indices[3]);
+}
+
+#[inline(always)]
+fn copy_4d_s2ij_offdiag<T> (out: &mut [T], buf: &[T], out_offsets: &[usize; 4], buf_shape: &[usize; 4], out_s2ij_shape: &[usize; 3])
+where
+    T: Copy
+{
+    for c in 0..buf_shape[3] {
+        for k in 0..buf_shape[2] {
+            for j in 0..buf_shape[1] {
+                for i in 0..buf_shape[0] {
+                    let out_index = get_f_index_4d_s2ij(&[out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]], out_s2ij_shape);
+                    let buf_index = get_f_index_4d(&[i, j, k, c], buf_shape);
+                    out[out_index] = buf[buf_index];
+                }
+            }
+        }
+    }
+}
+
+#[inline(always)]
+fn copy_4d_s2ij_diag<T> (out: &mut [T], buf: &[T], out_offsets: &[usize; 4], buf_shape: &[usize; 4], out_s2ij_shape: &[usize; 3])
+where
+    T: Copy
+{
+    for c in 0..buf_shape[3] {
+        for k in 0..buf_shape[2] {
+            for j in 0..buf_shape[1] {
+                for i in 0..(j + 1) {
+                    let out_index = get_f_index_4d_s2ij(&[out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]], out_s2ij_shape);
+                    let buf_index = get_f_index_4d(&[i, j, k, c], buf_shape);
+                    out[out_index] = buf[buf_index];
+                }
+            }
+        }
+    }
+}
+
+/* #endregion */
+
 impl CINTR2CDATA {
     /// Remove optimizer
     pub fn optimizer_destruct(&mut self) {
@@ -450,22 +500,22 @@ impl CINTR2CDATA {
 
         /* #endregion */
 
-        /* #region 4.  */
-
-        let mut out_s2ij_shape = cgto_s2ij_shape.clone();
-        out_s2ij_shape.push(n_comp);
-        let out_s2ij_shape = out_s2ij_shape.as_slice();
+        /* #region 3. parallel integral generation */
         
         match n_center {
             3 => {
+                let out_s2ij_shape: [usize; 3] = [cgto_s2ij_shape, vec![n_comp]].concat().try_into().unwrap();
+
                 (0..index_shape[2]).into_par_iter().for_each(|idx_k| {
-                    let shl_k = idx_k as i32 + shl_slices[2][0];
-                    let cgto_k = cgto_locs_rel[2][idx_k];
-            
+                    // thread-local variables
                     let thread_index = current_thread_index().unwrap_or(0);
                     let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
                     let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    // output
                     let mut out = unsafe { cast_mut_slice(&out) };
+                    // main engine
+                    let shl_k = idx_k as i32 + shl_slices[2][0];
+                    let cgto_k = cgto_locs_rel[2][idx_k];
 
                     for idx_j in 0..index_shape[1] {
                         for idx_i in 0..(idx_j + 1) {
@@ -475,41 +525,14 @@ impl CINTR2CDATA {
                             let cgto_j = cgto_locs_rel[0][idx_j];
 
                             let shls = [shl_i, shl_j, shl_k];
-                            
                             unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
 
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), n_comp];
-                            
-                            let mut out_offset = cgto_i * (cgto_i + 1) / 2 + cgto_j + out_s2ij_shape[0] * cgto_k;
-                            let mut buf_offset = 0;
+                            let out_offsets = [cgto_i, cgto_j, cgto_k, 0];
                             if idx_i != idx_j {
-                                for c in 0..buf_shape[3] {
-                                    for k in 0..buf_shape[2] {
-                                        for j in 0..buf_shape[1] {
-                                            for i in 0..buf_shape[0] {
-                                                out[
-                                                    cgto_i + i + (cgto_j + j) * (cgto_j + j + 1) / 2 + out_s2ij_shape[0] * (cgto_k + k) + out_s2ij_shape[0] * out_s2ij_shape[1] * c
-                                                ] = buf[
-                                                    i + buf_shape[0] * (j + buf_shape[1] * (k + buf_shape[2] * c))
-                                                ];
-                                            }
-                                        }
-                                    }
-                                }
+                                copy_4d_s2ij_offdiag(out, buf, &out_offsets, &buf_shape, &out_s2ij_shape);
                             } else {
-                                for c in 0..buf_shape[3] {
-                                    for k in 0..buf_shape[2] {
-                                        for j in 0..buf_shape[1] {
-                                            for i in 0..(j+1) {
-                                                out[
-                                                    cgto_i + i + (cgto_j + j) * (cgto_j + j + 1) / 2 + out_s2ij_shape[0] * (cgto_k + k) + out_s2ij_shape[0] * out_s2ij_shape[1] * c
-                                                ] = buf[
-                                                    i + buf_shape[0] * (j + buf_shape[1] * (k + buf_shape[2] * c))
-                                                ];
-                                            }
-                                        }
-                                    }
-                                }
+                                copy_4d_s2ij_diag(out, buf, &out_offsets, &buf_shape, &out_s2ij_shape);
                             }
                         }
                     }
