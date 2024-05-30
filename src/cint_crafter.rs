@@ -21,17 +21,61 @@ unsafe fn cast_mut_slice<T> (slc: &[T]) -> &mut [T] {
 /* #region indices computation and copy */
 
 #[inline(always)]
+fn get_f_index_3d(indices: &[usize; 3], shape: &[usize; 3]) -> usize {
+    return (
+        indices[0]
+        + shape[0] * (indices[1]
+            + shape[1] * (indices[2])));
+}
+
+#[inline(always)]
 fn get_f_index_4d(indices: &[usize; 4], shape: &[usize; 4]) -> usize {
-    return indices[0] + shape[0] * (indices[1] + shape[1] * (indices[2] + shape[2] * indices[3]));
+    return (
+        indices[0]
+        + shape[0] * (indices[1]
+            + shape[1] * (indices[2]
+                + shape[2] * (indices[3]))));
+}
+
+#[inline(always)]
+fn get_f_index_5d(indices: &[usize; 5], shape: &[usize; 5]) -> usize {
+    return (
+        indices[0]
+        + shape[0] * (indices[1]
+            + shape[1] * (indices[2]
+                + shape[2] * (indices[3]
+                    + shape[3] * (indices[4])))));
+}
+
+#[inline(always)]
+fn get_f_index_3d_s2ij(indices: &[usize; 3], shape: &[usize; 2]) -> usize {
+    return (
+        indices[0]
+        + indices[1] * (indices[1] + 1) / 2
+        + shape[0] * (indices[2]));
 }
 
 #[inline(always)]
 fn get_f_index_4d_s2ij(indices: &[usize; 4], shape: &[usize; 3]) -> usize {
-    return indices[0] + indices[1] * (indices[1] + 1) / 2 + shape[0] * (indices[2] + shape[1] * indices[3]);
+    return (
+        indices[0]
+        + indices[1] * (indices[1] + 1) / 2
+        + shape[0] * (indices[2]
+            + shape[1] * (indices[3])));
 }
 
 #[inline(always)]
-fn copy_4d_s2ij_offdiag<T> (out: &mut [T], buf: &[T], out_offsets: &[usize; 4], buf_shape: &[usize; 4], out_s2ij_shape: &[usize; 3])
+fn get_f_index_5d_s2ij(indices: &[usize; 5], shape: &[usize; 4]) -> usize {
+    return (
+        indices[0]
+        + indices[1] * (indices[1] + 1) / 2
+        + shape[0] * (indices[2]
+            + shape[1] * (indices[3]
+                + shape[2] * (indices[4]))));
+}
+
+#[inline(always)]
+fn copy_4d_s2ij_offdiag<T> (out: &mut [T], out_offsets: &[usize; 4], out_s2ij_shape: &[usize; 3], buf: &[T], buf_shape: &[usize; 4])
 where
     T: Copy
 {
@@ -39,8 +83,10 @@ where
         for k in 0..buf_shape[2] {
             for j in 0..buf_shape[1] {
                 for i in 0..buf_shape[0] {
-                    let out_index = get_f_index_4d_s2ij(&[out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]], out_s2ij_shape);
-                    let buf_index = get_f_index_4d(&[i, j, k, c], buf_shape);
+                    let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]];
+                    let buf_indices = [i, j, k, c];
+                    let out_index = get_f_index_4d_s2ij(&out_indices, out_s2ij_shape);
+                    let buf_index = get_f_index_4d(&buf_indices, buf_shape);
                     out[out_index] = buf[buf_index];
                 }
             }
@@ -49,7 +95,7 @@ where
 }
 
 #[inline(always)]
-fn copy_4d_s2ij_diag<T> (out: &mut [T], buf: &[T], out_offsets: &[usize; 4], buf_shape: &[usize; 4], out_s2ij_shape: &[usize; 3])
+fn copy_4d_s2ij_diag<T> (out: &mut [T], out_offsets: &[usize; 4], out_s2ij_shape: &[usize; 3], buf: &[T], buf_shape: &[usize; 4])
 where
     T: Copy
 {
@@ -57,8 +103,10 @@ where
         for k in 0..buf_shape[2] {
             for j in 0..buf_shape[1] {
                 for i in 0..(j + 1) {
-                    let out_index = get_f_index_4d_s2ij(&[out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]], out_s2ij_shape);
-                    let buf_index = get_f_index_4d(&[i, j, k, c], buf_shape);
+                    let out_indices = [out_offsets[0] + i, out_offsets[1] + j, out_offsets[2] + k, out_offsets[3]];
+                    let buf_indices = [i, j, k, c];
+                    let out_index = get_f_index_4d_s2ij(&out_indices, out_s2ij_shape);
+                    let buf_index = get_f_index_4d(&buf_indices, buf_shape);
                     out[out_index] = buf[buf_index];
                 }
             }
@@ -530,9 +578,9 @@ impl CINTR2CDATA {
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), n_comp];
                             let out_offsets = [cgto_i, cgto_j, cgto_k, 0];
                             if idx_i != idx_j {
-                                copy_4d_s2ij_offdiag(out, buf, &out_offsets, &buf_shape, &out_s2ij_shape);
+                                copy_4d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
                             } else {
-                                copy_4d_s2ij_diag(out, buf, &out_offsets, &buf_shape, &out_s2ij_shape);
+                                copy_4d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
                             }
                         }
                     }
