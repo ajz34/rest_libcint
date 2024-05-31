@@ -1883,6 +1883,7 @@ use crate::CINTR2CDATA;
 /// optimizer macro rules
 macro_rules! impl_integrator_optimizer {
     ($name:expr, $optim_rust:ident, $optim_cint:ident) => {
+        #[doc(hidden)]
         pub fn $optim_rust(&mut self){
             self.cint_del_optimizer_rust();
             unsafe {
