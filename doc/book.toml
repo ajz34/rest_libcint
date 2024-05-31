@@ -5,5 +5,9 @@ multilingual = false
 src = "src"
 title = "rest_libcint Document"
 
+[preprocessor.katex]
+after = ["links"]
+
 [output.html]
-mathjax-support = true
+additional-css = ["theme/pagetoc.css"]
+additional-js = ["theme/pagetoc.js"]

@@ -8,12 +8,20 @@ We will provide simple illustrations on this data structure in this document.
 
 In the following contents, we use cc-pVDZ water as example.
 
+To initialize such kind of data structure, in PySCF, one can execuate following code:
+
 ```python
 from pyscf import gto
 mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="cc-pVDZ").build()
 ```
 
 What we need to build `CINTR2CDATA` instance is similar (or virtually the same) to PySCF.
+In the [last section](#initialize-cint_data-in-rust_libcint) of document, we will see how
+`rust_libcint` initializes such data structure. It may seems that code in rust is much more
+redundant compared to PySCF; but as a reminder, functionality of this crate is **making
+electronic integral**, instead of managing information of molecule or unit cell.
+So we provide similar data structure as used by libcint, instead of user-friendly REST or PySCF.
+
 The data is composed by three components: atomic data, shell data, and parameter data.
 
 - Parameter data
@@ -59,7 +67,7 @@ The data is composed by three components: atomic data, shell data, and parameter
     Location of data slots are defined in `cint.h` in libcint:
     
     - `CHARGE_OF = 0`: Atomic charge (8 for oxygen, 1 for hydrogen).
-    - `PTR_COORD = 1`: Pointer of coordinate (\\( x, y, z \\)) in Bohr (a.u.).
+    - `PTR_COORD = 1`: Pointer of coordinate ($x, y, z$) in Bohr (a.u.).
         For example, starting pointer of coordinate of the second hydrogen is 28, so cartesian
         coordinate of this atom is `mol._env[28:31] = [-0.4448,  0.    ,  1.7198]`.
     - `NUC_MOD_OF = 2`: Nuclear type. `1` refers to point-charge nuclear; 2 refers to gaussian-charge
@@ -96,9 +104,9 @@ The data is composed by three components: atomic data, shell data, and parameter
     Location of data slots are defined in `cint.h` in libcint:
     
     - `ATOM_OF = 0`: This value corresponds to index of relavent atom in atomic data.
-    - `ANG_OF = 1`: Angular momentum of shell \\( l \\). This value also indicates how many contracted GTOs
+    - `ANG_OF = 1`: Angular momentum of shell $l$. This value also indicates how many contracted GTOs
         (CGTOs), or number of atomic orbitals (AOs).
-        For example, \\( l = 2 \\) meaning that this is \\( d \\) basis function; 6 CGTOs for cartesian or
+        For example, $l = 2$ meaning that this is $d$ basis function; 6 CGTOs for cartesian or
         5 CGTOs for spheric.
     - `NCTR_OF = 3`: Number of contracted functions. This value could be larger than one, when
         multiple contracted GTOs utilizes same exponents but different coefficients. In this example
@@ -149,10 +157,10 @@ fn initialize() -> CINTR2CDATA {
         0.    ,     0.    ,     0.    ,     0.    ,     1.7763,
         0.    ,     0.    ,     0.    ,    -0.4448,     0.    ,
         1.7198,     0.    , 11720.    ,  1759.    ,   400.8   ,
-        113.7   ,    37.03  ,    13.27  ,     5.025 ,     1.013 ,
+      113.7   ,    37.03  ,    13.27  ,     5.025 ,     1.013 ,
         2.0195,     3.7518,     6.2968,     9.2147,    10.7299,
         7.8782,     2.2964,     0.0394,    -0.8949,    -1.7033,
-        -2.7874,    -4.4459,    -5.2862,    -5.7102,    -1.949 ,
+       -2.7874,    -4.4459,    -5.2862,    -5.7102,    -1.949 ,
         2.7944,     0.3023,     1.03  ,    17.7   ,     3.854 ,
         1.046 ,     6.6386,     5.2543,     2.2875,     0.2753,
         0.5818,     1.185 ,     3.5119,    13.01  ,     1.962 ,

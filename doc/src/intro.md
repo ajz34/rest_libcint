@@ -4,13 +4,14 @@
 
 ## Example
 
-Example of code usage (two-fold symmetry, with shell slices specified, \\( (\mu \nu | \nabla_\boldsymbol{r} \kappa \lambda) \\) with upper-triangular symmetric \\( \mu, \nu \\) in f-contiguous):
+Example of code usage (two-fold symmetry, with shell slices specified, $(\mu \nu | \nabla_r \kappa \lambda)$ with upper-triangular symmetric $\mu, \nu$ in f-contiguous):
 ```rust
 // cint_data: CINTR2CDATA instance
-let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
-let (out, out_shape) = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
 // out: output integral as Vec<f64>
 // out_shape: shape of integral, f-contiguous, as Vec<usize>
+
+let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
+let (out, out_shape) = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
 ```
 
 ## Functionality and Limitations

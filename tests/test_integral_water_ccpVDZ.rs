@@ -1,13 +1,19 @@
 use rest_libcint::CINTR2CDATA;
 use itertools::Itertools;
+use rest_libcint::cint_wrapper::*;
 
 #[cfg(test)]
 mod test_c15_tzvp {
     use super::*;
 
     #[test]
-    fn test_initialize() {
-        self::initialize();
+    fn test_contiguous() {
+
+        let mut cint_data = initialize();
+        let shl_slices = vec![[0, 5], [0, 7], [3, 8]];
+        let (out, out_shape) = cint_data.integral_s1::<int3c2e_ip1>(Some(&shl_slices));
+        
+        println!("{:?}", out_shape);
     }
 
     fn initialize() -> CINTR2CDATA {
