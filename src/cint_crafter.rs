@@ -599,11 +599,8 @@ impl CINTR2CDATA {
             Some(shl_slices) => shl_slices.clone(),
             None => vec![[0, self.c_nbas]; T::n_center()],
         };
-        let mut out_shape = match T::n_comp() {
-            1 => vec![],
-            _ => vec![T::n_comp()],
-        };
-        let out_shape = [out_shape, self.cgto_shape::<T>(&shl_slices)].concat();
+        let mut out_shape = self.cgto_shape::<T>(&shl_slices);
+        if T::n_comp() > 1 { out_shape.push(T::n_comp()); }
         let out_size = out_shape.iter().product::<usize>();
         let mut out = Vec::<f64>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
@@ -772,11 +769,8 @@ impl CINTR2CDATA {
             Some(shl_slices) => shl_slices.clone(),
             None => vec![[0, self.c_nbas]; T::n_center()],
         };
-        let mut out_shape = match T::n_comp() {
-            1 => vec![],
-            _ => vec![T::n_comp()],
-        };
-        let out_shape = [out_shape, self.cgto_shape_s2ij::<T>(&shl_slices).unwrap()].concat();
+        let mut out_shape = self.cgto_shape_s2ij::<T>(&shl_slices).unwrap();
+        if T::n_comp() > 1 { out_shape.push(T::n_comp()); }
         let out_size = out_shape.iter().product::<usize>();
         let mut out = Vec::<f64>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
