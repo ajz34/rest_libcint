@@ -1,7 +1,6 @@
 use std::time::Instant;
 use itertools::Itertools;
-use rest_libcint::CINTR2CDATA;
-use rest_libcint::cint_wrapper::*;
+use rest_libcint::prelude::*;
 use ndarray::prelude::*;
 use approx::*;
 

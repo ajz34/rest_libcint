@@ -10,6 +10,7 @@ Example of code usage (two-fold symmetry, with shell slices specified, $(\mu \nu
 // out: output integral as Vec<f64>
 // out_shape: shape of integral, f-contiguous, as Vec<usize>
 
+use rest_libcint::prelude::*;
 let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
 let (out, out_shape) = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
 ```

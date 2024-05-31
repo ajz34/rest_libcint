@@ -106,6 +106,7 @@ use itertools::Itertools;
 
 mod cint;
 pub mod cint_crafter;
+pub mod prelude;
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
