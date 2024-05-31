@@ -1,6 +1,5 @@
 use std::prelude::*;
 use std::ptr::{null_mut, null};
-use std::slice::from_raw_parts_mut;
 use itertools::{Format, Itertools};
 use rayon::prelude::*;
 use rayon::{max_num_threads, current_thread_index};
@@ -14,7 +13,7 @@ unsafe impl Sync for CINTR2CDATA {}
 unsafe fn cast_mut_slice<T> (slc: &[T]) -> &mut [T] {
     let len = slc.len();
     let ptr = slc.as_ptr() as *mut T;
-    let mut mut_vector = from_raw_parts_mut(ptr, len);
+    let mut mut_vector = std::slice::from_raw_parts_mut(ptr, len);
     return mut_vector;
 }
 
