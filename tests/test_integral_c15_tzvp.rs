@@ -1,4 +1,5 @@
 use std::time::Instant;
+use itertools::Itertools;
 use rest_libcint::CINTR2CDATA;
 use rest_libcint::cint_wrapper::*;
 use ndarray::prelude::*;
@@ -6,8 +7,6 @@ use approx::*;
 
 #[cfg(test)]
 mod test_c15_tzvp {
-    use itertools::Itertools;
-
     use super::*;
 
     #[test]
