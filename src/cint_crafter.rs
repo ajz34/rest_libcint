@@ -1,5 +1,6 @@
 use std::prelude::*;
 use std::ptr::{null_mut, null};
+use std::sync::Mutex;
 use itertools::{Format, Itertools};
 use rayon::prelude::*;
 use rayon::{max_num_threads, current_thread_index};
@@ -507,7 +508,7 @@ impl CINTR2CDATA {
 
         // cache: thread-local
         let cache_size = self.size_of_cache::<T>(shl_slices);
-        let thread_cache: Vec<Vec<f64>> = vec![vec![0.; cache_size]; rayon::current_num_threads()];
+        let thread_cache = (0..rayon::current_num_threads()).map(|n| {Mutex::new(vec![0.; cache_size])}).collect_vec();
 
         // out: enable mut vector by passing immut slice
         let out_const_slice = out.as_slice();
@@ -536,7 +537,7 @@ impl CINTR2CDATA {
             let cgto_1 = cgto_locs_rel_rev[1][idx_1];
             
             let thread_index = current_thread_index().unwrap_or(0);
-            let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
+            let mut cache = thread_cache[thread_index].lock().unwrap();
             
             match n_center {
                 2 =>
@@ -546,7 +547,7 @@ impl CINTR2CDATA {
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, cache);
+                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
                     }
                 },
 
@@ -559,7 +560,7 @@ impl CINTR2CDATA {
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, cache);
+                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
                     }
                 },
 
@@ -575,7 +576,7 @@ impl CINTR2CDATA {
         
                         unsafe {
                             let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                            self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, cache);
+                            self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
                         }
                     }
                 },
@@ -631,8 +632,8 @@ impl CINTR2CDATA {
         // cache: thread-local
         let cache_size = self.size_of_cache::<T>(shl_slices);
         let buf_size = self.size_of_buffer::<T>(shl_slices);
-        let thread_cache: Vec<Vec<f64>> = vec![vec![0.; cache_size]; rayon::current_num_threads()];
-        let thread_buf: Vec<Vec<f64>> = vec![vec![0.; buf_size]; rayon::current_num_threads()];
+        let thread_cache = (0..rayon::current_num_threads()).map(|n| {Mutex::new(vec![0.; cache_size])}).collect_vec();
+        let thread_buf = (0..rayon::current_num_threads()).map(|n| {Mutex::new(vec![0.; buf_size])}).collect_vec();
 
         // out: enable mut vector by passing immut slice
         let out_const_slice = out.as_slice();
@@ -652,8 +653,8 @@ impl CINTR2CDATA {
                 (0..index_shape[1]).into_par_iter().for_each(|idx_j| {
                     // thread-local variables
                     let thread_index = current_thread_index().unwrap_or(0);
-                    let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
-                    let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    let mut cache = thread_cache[thread_index].lock().unwrap();
+                    let mut buf = thread_buf[thread_index].lock().unwrap();
                     // output
                     let mut out = unsafe { cast_mut_slice(&out) };
                     // index computation and iteration
@@ -664,14 +665,14 @@ impl CINTR2CDATA {
                         let cgto_i = cgto_locs_rel[0][idx_i];
                         // main integrator
                         let shls = [shl_i, shl_j];
-                        unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
+                        unsafe { self.integral_block::<T>(&mut buf, &shls, &vec![], &mut cache); }
                         // copy from buffer to output
                         let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), n_comp];
                         let out_offsets = [cgto_i, cgto_j, 0];
                         if idx_i != idx_j {
-                            copy_3d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                            copy_3d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, &buf, &buf_shape);
                         } else {
-                            copy_3d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                            copy_3d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, &buf, &buf_shape);
                         }
                     }
                 })
@@ -683,8 +684,8 @@ impl CINTR2CDATA {
                 (0..index_shape[2]).into_par_iter().for_each(|idx_k| {
                     // thread-local variables
                     let thread_index = current_thread_index().unwrap_or(0);
-                    let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
-                    let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    let mut cache = thread_cache[thread_index].lock().unwrap();
+                    let mut buf = thread_buf[thread_index].lock().unwrap();
                     // output
                     let mut out = unsafe { cast_mut_slice(&out) };
                     // index computation and iteration
@@ -698,14 +699,14 @@ impl CINTR2CDATA {
                             let cgto_j = cgto_locs_rel[0][idx_j];
                             // main integrator
                             let shls = [shl_i, shl_j, shl_k];
-                            unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
+                            unsafe { self.integral_block::<T>(&mut buf, &shls, &vec![], &mut cache); }
                             // copy from buffer to output
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), n_comp];
                             let out_offsets = [cgto_i, cgto_j, cgto_k, 0];
                             if idx_i != idx_j {
-                                copy_4d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                                copy_4d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, &buf, &buf_shape);
                             } else {
-                                copy_4d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                                copy_4d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, &buf, &buf_shape);
                             }
                         }
                     }
@@ -718,8 +719,8 @@ impl CINTR2CDATA {
                 (0..index_shape[2]*index_shape[3]).into_par_iter().for_each(|idx_kl| {
                     // thread-local variables
                     let thread_index = current_thread_index().unwrap_or(0);
-                    let mut cache = unsafe { cast_mut_slice(&thread_cache[thread_index]) };
-                    let mut buf = unsafe { cast_mut_slice(&thread_buf[thread_index]) };
+                    let mut cache = thread_cache[thread_index].lock().unwrap();
+                    let mut buf = thread_buf[thread_index].lock().unwrap();
                     // output
                     let mut out = unsafe { cast_mut_slice(&out) };
                     // index computation and iteration
@@ -737,14 +738,14 @@ impl CINTR2CDATA {
                             let cgto_j = cgto_locs_rel[0][idx_j];
                             // main integrator
                             let shls = [shl_i, shl_j, shl_k, shl_l];
-                            unsafe { self.integral_block::<T>(buf, &shls, &vec![], cache); }
+                            unsafe { self.integral_block::<T>(&mut buf, &shls, &vec![], &mut cache); }
                             // copy from buffer to output
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), self.cgto_size(shl_l), n_comp];
                             let out_offsets = [cgto_i, cgto_j, cgto_k, cgto_l, 0];
                             if idx_i != idx_j {
-                                copy_5d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                                copy_5d_s2ij_offdiag(out, &out_offsets, &out_s2ij_shape, &buf, &buf_shape);
                             } else {
-                                copy_5d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, buf, &buf_shape);
+                                copy_5d_s2ij_diag(out, &out_offsets, &out_s2ij_shape, &buf, &buf_shape);
                             }
                         }
                     }
