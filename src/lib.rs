@@ -105,7 +105,10 @@ use std::mem::ManuallyDrop;
 use itertools::Itertools;
 
 mod cint;
+pub mod cint_wrapper;
+pub mod cecp_wrapper;
 pub mod cint_crafter;
+pub mod cecp_crafter;
 pub mod prelude;
 mod cecp;
 
@@ -142,15 +145,13 @@ pub struct CINTR2CDATA {
     c_opt: *mut CINTOpt,
     c_natm: i32,
     c_nbas: i32,
+    c_necp: i32,
     cint_type: CintType,
     c_atm: Vec<i32>,
     c_bas: Vec<i32>,
     c_env: Vec<f64>,
+    c_ecp: Vec<i32>,
 }
-
-pub mod cint_wrapper;
-pub mod cecp_wrapper;
-use crate::cint_wrapper::*;
 
 impl CINTR2CDATA {
     /// create a new, empty CINTR2CDATA.
@@ -159,10 +160,12 @@ impl CINTR2CDATA {
             c_opt: null_mut(),
             c_natm: 0,
             c_nbas: 0,
+            c_necp: 0,
             cint_type: CintType::Spheric,
             c_atm: Vec::new(),
             c_bas: Vec::new(),
             c_env: Vec::new(),
+            c_ecp: Vec::new(),
         }
     }
     pub fn set_cint_type(&mut self, ctype: &CintType) {
@@ -187,6 +190,8 @@ impl CINTR2CDATA {
                 ecp: &Vec<Vec<i32>>, necp:i32,
                 env: &Vec<f64>) {
         self.initial_r2c(atm, natm, bas, nbas, env);
+        self.c_ecp = ecp.clone().into_iter().flatten().collect::<Vec<i32>>();
+        self.c_necp = necp;
     }
 
     pub fn final_c2r(&mut self) {
