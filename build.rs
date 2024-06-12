@@ -36,4 +36,10 @@ fn main() {
     library_path.iter().for_each(|path| {
         println!("cargo:rustc-link-search=native={}",env::join_paths(&[path]).unwrap().to_str().unwrap())
     });
+
+    // ecp build
+    cc::Build::new()
+        .file("src/clib/nr_ecp.c")
+        .compile("ecp");
+    println!("cargo::rerun-if-changed=src/clib");
 }
