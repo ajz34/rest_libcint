@@ -56,6 +56,8 @@
 #define LEVEL0          5
 //#define LEVEL_MAX       11      // 2047 points
 #define LEVEL_MAX       11
+#define MIN(X, Y)       ((X) < (Y) ? (X) : (Y))
+#define MAX(X, Y)       ((X) > (Y) ? (X) : (Y))
 #endif
 
 typedef struct {

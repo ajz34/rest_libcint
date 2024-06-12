@@ -105,12 +105,13 @@ use std::mem::ManuallyDrop;
 use itertools::Itertools;
 
 mod cint;
+mod cecp;
+mod utilities;
 pub mod cint_wrapper;
 pub mod cecp_wrapper;
 pub mod cint_crafter;
 pub mod cecp_crafter;
 pub mod prelude;
-mod cecp;
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 

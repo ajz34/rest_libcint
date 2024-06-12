@@ -106,7 +106,7 @@ impl_ecpintegratorbase!(
     ECPscalar_ignuc_optimizer,
     ECPscalar_ignuc_sph,
     ECPscalar_ignuc_cart,
-    1,
+    3,
     "ECP",
     "ECPscalar_ignuc"
 );
@@ -115,7 +115,7 @@ impl_ecpintegratorbase!(
     ECPscalar_ipnuc_optimizer,
     ECPscalar_ipnuc_sph,
     ECPscalar_ipnuc_cart,
-    1,
+    3,
     "ECP",
     "ECPscalar_ipnuc"
 );
@@ -124,7 +124,7 @@ impl_ecpintegratorbase!(
     ECPscalar_ipipnuc_optimizer,
     ECPscalar_ipipnuc_sph,
     ECPscalar_ipipnuc_cart,
-    1,
+    9,
     "ECP",
     "ECPscalar_ipipnuc"
 );
@@ -133,7 +133,7 @@ impl_ecpintegratorbase!(
     ECPscalar_ipnucip_optimizer,
     ECPscalar_ipnucip_sph,
     ECPscalar_ipnucip_cart,
-    1,
+    9,
     "ECP",
     "ECPscalar_ipnucip"
 );
@@ -142,7 +142,7 @@ impl_ecpintegratorbase!(
     ECPscalar_iprinv_optimizer,
     ECPscalar_iprinv_sph,
     ECPscalar_iprinv_cart,
-    1,
+    3,
     "ECP",
     "ECPscalar_iprinv"
 );
@@ -151,7 +151,7 @@ impl_ecpintegratorbase!(
     ECPscalar_ipiprinv_optimizer,
     ECPscalar_ipiprinv_sph,
     ECPscalar_ipiprinv_cart,
-    1,
+    9,
     "ECP",
     "ECPscalar_ipiprinv"
 );
@@ -160,7 +160,7 @@ impl_ecpintegratorbase!(
     ECPscalar_iprinvip_optimizer,
     ECPscalar_iprinvip_sph,
     ECPscalar_iprinvip_cart,
-    1,
+    9,
     "ECP",
     "ECPscalar_iprinvip"
 );
