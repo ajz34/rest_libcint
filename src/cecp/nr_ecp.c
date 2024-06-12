@@ -27,9 +27,24 @@
 // #include "vhf/fblas.h"
 #include "nr_ecp.h"
 
+/* Some useful constants (from math.h) to remove VSCode warning */
+# define M_E		2.7182818284590452354	/* e */
+# define M_LOG2E	1.4426950408889634074	/* log_2 e */
+# define M_LOG10E	0.43429448190325182765	/* log_10 e */
+# define M_LN2		0.69314718055994530942	/* log_e 2 */
+# define M_LN10		2.30258509299404568402	/* log_e 10 */
+# define M_PI		3.14159265358979323846	/* pi */
+# define M_PI_2		1.57079632679489661923	/* pi/2 */
+# define M_PI_4		0.78539816339744830962	/* pi/4 */
+# define M_1_PI		0.31830988618379067154	/* 1/pi */
+# define M_2_PI		0.63661977236758134308	/* 2/pi */
+# define M_2_SQRTPI	1.12837916709551257390	/* 2/sqrt(pi) */
+# define M_SQRT2	1.41421356237309504880	/* sqrt(2) */
+# define M_SQRT1_2	0.70710678118654752440	/* 1/sqrt(2) */
+
 double CINTcommon_fac_sp(int);
 
-void NPdset0(double *p, const size_t n)
+void NPdset0(double *p, const unsigned long n)
 {
         size_t i;
         for (i = 0; i < n; i++) {
@@ -37,6 +52,9 @@ void NPdset0(double *p, const size_t n)
         }
 }
 
+typedef int Function_cart(double *gctr, int *shls, int *ecpbas, int necpbas,
+                          int *atm, int natm, int *bas, int nbas, double *env,
+                          ECPOpt *opt, double *cache);
 
 static double _sph_ine_tab[] = { // 400x24
 9.802640211919197e-01, 6.534919212092035e-03, 2.613937811451498e-05, 7.468346329123935e-08, 1.659625812043017e-10, 3.017493035919202e-13, 4.642287455711235e-16, 6.189706898282851e-19, 7.281999097680386e-22, 7.665254523625293e-25, 7.300236357712470e-28, 6.348027199385843e-31, 5.078418750076879e-34, 3.761789744992798e-37, 2.594336600846831e-40, 1.673764894480139e-43, 1.014402615043443e-46, 5.796584581226479e-50, 3.133288094277013e-53, 1.606814005366913e-56, 7.838115320992611e-60, 3.645634279400473e-63, 1.620281595519583e-66, 6.894814102547425e-70,

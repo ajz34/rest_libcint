@@ -27,6 +27,10 @@
 // #include "vhf/fblas.h"
 #include "nr_ecp.h"
 
+typedef int Function_cart(double *gctr, int *shls, int *ecpbas, int necpbas,
+                          int *atm, int natm, int *bas, int nbas, double *env,
+                          ECPOpt *opt, double *cache);
+
 /*
 static int _x_addr[] = {
   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,

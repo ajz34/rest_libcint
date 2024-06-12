@@ -107,7 +107,7 @@ use itertools::Itertools;
 mod cint;
 pub mod cint_crafter;
 pub mod prelude;
-pub mod ecp;
+mod cecp;
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
@@ -149,6 +149,7 @@ pub struct CINTR2CDATA {
 }
 
 pub mod cint_wrapper;
+pub mod cecp_wrapper;
 use crate::cint_wrapper::*;
 
 impl CINTR2CDATA {

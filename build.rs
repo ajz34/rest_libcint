@@ -39,10 +39,10 @@ fn main() {
 
     // ecp build
     cc::Build::new()
-        .file("src/clib/nr_ecp.c")
-        .file("src/clib/nr_ecp_deriv.c")
+        .file("src/cecp/nr_ecp.c")
+        .file("src/cecp/nr_ecp_deriv.c")
         .flag_if_supported("-Wno-unused-parameter")
         .flag_if_supported("-Wno-implicit-function-declaration")
         .compile("cecp");
-    // println!("cargo::rerun-if-changed=src/clib");
+    println!("cargo::rerun-if-changed=src/clib");
 }
