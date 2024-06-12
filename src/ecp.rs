@@ -1,21 +1,33 @@
-#[link(name = "ecp")]
-extern "C" {
-    fn distance_square(r1: *const f64, r2: *const f64) -> f64;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ECPOpt {
+    pub u_ecp: *mut f64,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_distance_square() {
-        let r1 = [0.0, 0.0, 0.0];
-        let r2 = [1.0, 0.0, 0.0];
-        let result = unsafe { distance_square(r1.as_ptr(), r2.as_ptr()) };
-        assert_eq!(result, 1.0);
-        let r1 = [5.0, 1.0, 0.0];
-        let r2 = [1.0, 0.0, 1.0];
-        let result = unsafe { distance_square(r1.as_ptr(), r2.as_ptr()) };
-        println!("{:?}", result);
-    }
+#[link(name = "ecp")]
+extern "C" {
+    pub fn ECPscalar_sph(
+        out: *mut f64,
+        dims: *const ::std::os::raw::c_int,
+        shls: *const ::std::os::raw::c_int,
+        atm: *const ::std::os::raw::c_int,
+        natm: ::std::os::raw::c_int,
+        bas: *const ::std::os::raw::c_int,
+        nbas: ::std::os::raw::c_int,
+        env: *const f64,
+        opt: *const ECPOpt,
+        cache: *mut f64,
+    ) -> ::std::os::raw::c_int;
+    pub fn ECPscalar_cart(
+        out: *mut f64,
+        dims: *const ::std::os::raw::c_int,
+        shls: *const ::std::os::raw::c_int,
+        atm: *const ::std::os::raw::c_int,
+        natm: ::std::os::raw::c_int,
+        bas: *const ::std::os::raw::c_int,
+        nbas: ::std::os::raw::c_int,
+        env: *const f64,
+        opt: *const ECPOpt,
+        cache: *mut f64,
+    ) -> ::std::os::raw::c_int;
 }

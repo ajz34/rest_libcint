@@ -1,6 +1,27 @@
+/* File from pyscf/pyscf: lib/gto/nr_ecp.h
+
+   Copyright 2014-2018 The PySCF Developers. All Rights Reserved.
+  
+   Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+ 
+        http://www.apache.org/licenses/LICENSE-2.0
+ 
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+ *
+ * Author: Qiming Sun <osirpt.sun@gmail.com>
+ */
+
 #ifndef HAVE_DEFINED_ECP_H
 #define HAVE_DEFINED_ECP_H
 #include <stdint.h>
+#include <complex.h>
 
 //#define ATOM_OF         0
 //#define ANG_OF          1
@@ -41,6 +62,20 @@ typedef struct {
     double *u_ecp;
 } ECPOpt;
 
+void NPdset0(double *p, const size_t n);
+
 typedef int Function_cart(double *gctr, int *shls, int *ecpbas, int necpbas,
                           int *atm, int natm, int *bas, int nbas, double *env,
                           ECPOpt *opt, double *cache);
+int ECPscalar_sph(double *out, int *dims, int *shls, int *atm, int natm,
+                  int *bas, int nbas, double *env, ECPOpt *opt, double *cache);
+int ECPscalar_cart(double *out, int *dims, int *shls, int *atm, int natm,
+                   int *bas, int nbas, double *env, ECPOpt *opt, double *cache);
+void ECPscalar_optimizer(ECPOpt **opt, int *atm, int natm, int *bas, int nbas, double *env);
+void ECPdel_optimizer(ECPOpt **opt);
+int ECPso_sph(double *out, int *dims, int *shls, int *atm, int natm,
+              int *bas, int nbas, double *env, ECPOpt *opt, double *cache);
+int ECPso_cart(double *out, int *dims, int *shls, int *atm, int natm,
+               int *bas, int nbas, double *env, ECPOpt *opt, double *cache);
+int ECPso_spinor(double complex *out, int *dims, int *shls, int *atm, int natm,
+                 int *bas, int nbas, double *env, ECPOpt *opt, double *cache);
