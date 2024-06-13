@@ -366,7 +366,6 @@ impl ECPData {
                 vec![[0, nbas]; 2]
             },
         };
-        println!("shl_slices {:?}", shl_slices);
         let mut out_shape = self.cgto_shape::<T>(&shl_slices);
         if T::n_comp() > 1 { out_shape.push(T::n_comp()); }
         let out_size = out_shape.iter().product::<usize>();
@@ -376,6 +375,19 @@ impl ECPData {
         return (out, out_shape);
     }
 
+}
+
+impl CINTR2CDATA {
+    pub fn ecp_integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    where
+        T: ECPIntegrator
+    {
+        if self.c_necp == 0 {
+            panic!("No ECP data found in the molecule.");
+        }
+        let mut ecp_data = ECPData::from_cint_data(&self);
+        ecp_data.integral_s1::<T>(shl_slices)
+    }
 }
 
 #[cfg(test)]

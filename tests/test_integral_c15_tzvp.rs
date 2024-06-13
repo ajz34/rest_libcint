@@ -185,7 +185,7 @@ mod test_c15_tzvp {
 
     fn initialize() -> CINTR2CDATA {
         // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
-        let c_atm= vec![
+        let c_atm = vec![
             [  6,  20,   1,  23,   0,   0],
             [  6,  24,   1,  27,   0,   0],
             [  6,  28,   1,  31,   0,   0],
