@@ -14,8 +14,7 @@ mod test_sb2me4_tzvp {
         let mut cint_data = initialize();
         let now = Instant::now();
         let (out, _) = cint_data.ecp_integral_s1::<ECPscalar>(None);
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -23,6 +22,54 @@ mod test_sb2me4_tzvp {
             out.sum(), 2844.388262741379, max_relative=1e-10);
         assert_relative_eq!(
             (out * scale).sum(), -2316.524453049404, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_ECPscalar_ipnuc() {
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 93], [14, 121]];
+        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ipnuc>(Some(&shl_slices));
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), -2332.269421722938, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 702.9250770858847, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_ECPscalar_ipiprinv() {
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 93], [14, 121]];
+        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ipiprinv>(Some(&shl_slices));
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 101.618985700688, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 16.880187076578714, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_ECPscalar_ignuc() {
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[7, 93], [14, 121]];
+        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ignuc>(Some(&shl_slices));
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 45.903159687209964, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 0.21557173801319873, max_relative=1e-10);
     }
 
     fn initialize() -> CINTR2CDATA {
