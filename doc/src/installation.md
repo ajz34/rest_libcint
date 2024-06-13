@@ -12,9 +12,19 @@ We suggest users to install libcint with version no less than v6.1.2.
 
 ## Using `rest_libcint`
 
-After installation of libcint, one obtains a directory with shared-library file `$CINT_DIR/libcint.so`.
-Please add `$CINT_DIR` into dynamic libaray search path, and rust build flags:
+Please add following directories into dynamic libaray search path and rust build flags:
+- `$CINT_DIR`: libcint library directory, which contains `$CINT_DIR/libcint.so`
+- `$BLAS_DIR`: OpenBLAS library directory, which contains `$BLAS_DIR/libopenblas.so`
+
 ```bash
-export RUSTFLAGS="-L$CINT_DIR" $RUSTFLAGS
-export LD_LIBRARY_PATH=$CINT_DIR:$LD_LIBRARY_PATH
+export RUSTFLAGS="-L$CINT_DIR -L$BLAS_DIR $RUSTFLAGS"
+export LD_LIBRARY_PATH=$CINT_DIR:$BLAS_DIR:$LD_LIBRARY_PATH
+```
+
+```admonish note
+BLAS library is applied for ECP integrals. 
+
+In our testing, for OpenBLAS, it is better to use user-compiled version > 0.3.20.
+The OpenBLAS prebuilt and shipped by Ubuntu may cause some minor efficiency problem,
+though not affecting correctness of ECP integral tensors.
 ```

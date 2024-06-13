@@ -4,7 +4,8 @@
 
 - [Installation](./installation.md)
 - [Data Initialization](./data-init.md)
-- [Integral and Dimensionality](./integral-dimensionality.md)
+- [Dimensionality Convention](./dimensionality.md)
+- [Integral Options](./integral.md)
 
 # Dev Notes
 
