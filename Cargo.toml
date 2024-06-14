@@ -13,6 +13,11 @@ rayon = "1.10"
 [build-dependencies]
 dunce = "1.0"
 cc = "1.0"
+cmake = "0.1"
+ureq = { version = "2.9", default-features = false, features = ["native-certs", "native-tls", "gzip"]}
+native-tls = "0.2"
+flate2 = "1.0"
+tar = "0.4"
 
 [dev-dependencies]
 ndarray = "0.15"
@@ -24,3 +29,7 @@ overflow-checks = false
 
 [lib]
 doctest = false
+
+[features]
+default = ["build_cint"]
+build_cint = []

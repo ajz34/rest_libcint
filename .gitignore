@@ -1,5 +1,3 @@
-/target
-Cargo.lock
 github-token
 .ipynb_checkpoints
 .vscode
