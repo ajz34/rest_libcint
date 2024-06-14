@@ -41,7 +41,7 @@
 //! // Transfer `atm`, `bas`, and `env` to the raw pointers,
 //! // and organize them by the data structure of `CINTR2CDATA`.
 //! //=============================================================================
-//! use rust_libcint::{CINTR2CDATA,CintType};
+//! use rest_libcint::{CINTR2CDATA,CintType};
 //! let mut cint_data = CINTR2CDATA::new();
 //! cint_data.initial_r2c(&atm,natm,&bas,nbas,&env);
 //! //=============================================================================

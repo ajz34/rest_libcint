@@ -27,15 +27,12 @@ pub const LEVEL_MAX: u32 = 11;
 pub struct ECPOpt {
     pub u_ecp: *mut f64,
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn NPdset0(p: *mut f64, n: ::std::os::raw::c_ulong);
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPdel_optimizer(opt: *mut *mut ECPOpt);
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_sph(
         out: *mut f64,
@@ -50,7 +47,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_cart(
         out: *mut f64,
@@ -65,7 +61,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_optimizer(
         opt: *mut *mut ECPOpt,
@@ -76,7 +71,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPso_sph(
         out: *mut f64,
@@ -91,7 +85,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPso_cart(
         out: *mut f64,
@@ -106,7 +99,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPso_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -121,7 +113,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ignuc_sph(
         out: *mut f64,
@@ -136,7 +127,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ignuc_cart(
         out: *mut f64,
@@ -151,7 +141,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ignuc_optimizer(
         opt: *mut *mut ECPOpt,
@@ -162,7 +151,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipnuc_sph(
         out: *mut f64,
@@ -177,7 +165,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipnuc_cart(
         out: *mut f64,
@@ -192,7 +179,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipnuc_optimizer(
         opt: *mut *mut ECPOpt,
@@ -203,7 +189,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipipnuc_sph(
         out: *mut f64,
@@ -218,7 +203,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipipnuc_cart(
         out: *mut f64,
@@ -233,7 +217,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipipnuc_optimizer(
         opt: *mut *mut ECPOpt,
@@ -244,7 +227,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipnucip_sph(
         out: *mut f64,
@@ -259,7 +241,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipnucip_cart(
         out: *mut f64,
@@ -274,7 +255,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipnucip_optimizer(
         opt: *mut *mut ECPOpt,
@@ -285,7 +265,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_iprinv_sph(
         out: *mut f64,
@@ -300,7 +279,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_iprinv_cart(
         out: *mut f64,
@@ -315,7 +293,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_iprinv_optimizer(
         opt: *mut *mut ECPOpt,
@@ -326,7 +303,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipiprinv_sph(
         out: *mut f64,
@@ -341,7 +317,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipiprinv_cart(
         out: *mut f64,
@@ -356,7 +331,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_ipiprinv_optimizer(
         opt: *mut *mut ECPOpt,
@@ -367,7 +341,6 @@ extern "C" {
         env: *const f64,
     );
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_iprinvip_sph(
         out: *mut f64,
@@ -382,7 +355,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_iprinvip_cart(
         out: *mut f64,
@@ -397,7 +369,6 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
-#[link(name = "cint")]
 extern "C" {
     pub fn ECPscalar_iprinvip_optimizer(
         opt: *mut *mut ECPOpt,

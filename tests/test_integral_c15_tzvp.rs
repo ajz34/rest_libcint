@@ -1,12 +1,10 @@
-use std::time::Instant;
-use itertools::Itertools;
-use rest_libcint::prelude::*;
-use ndarray::prelude::*;
-use approx::*;
-
 #[cfg(test)]
 mod test_c15_tzvp {
-    use super::*;
+    use std::time::Instant;
+    use itertools::Itertools;
+    use rest_libcint::prelude::*;
+    use ndarray::prelude::*;
+    use approx::*;
 
     #[test]
     fn test_int3c2e_s1_full() {
@@ -175,12 +173,14 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[0, 275], [0, 275], [7, 264]];
         let (out, out_shape) = cint_data.integral_s2ij::<int3c2e_ip2>(Some(&shl_slices));
-        println!("{:?}", out_shape);
+        // println!("{:?}", out_shape);
+        assert_eq!(out_shape, [198135, 601, 3]);
         let elapsed = now.elapsed();
         println!("Elapsed: {:.3?}", elapsed);
 
         let out = Array::from_shape_vec(out_shape.f(), out).unwrap().into_dimensionality::<Ix3>().unwrap();
-        println!("{out:?}");
+        // println!("{out:?}");
+        assert_eq!(out.strides(), [1, 198135, 119079135]);
     }
 
     fn initialize() -> CINTR2CDATA {

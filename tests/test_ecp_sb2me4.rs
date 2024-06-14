@@ -1,13 +1,11 @@
-use std::time::Instant;
-use itertools::Itertools;
-use rest_libcint::prelude::*;
-use ndarray::prelude::*;
-use approx::*;
-
 #[allow(non_snake_case)]
 #[cfg(test)]
 mod test_sb2me4_tzvp {
-    use super::*;
+    use std::time::Instant;
+    use itertools::Itertools;
+    use rest_libcint::prelude::*;
+    use ndarray::prelude::*;
+    use approx::*;
 
     #[test]
     fn test_ECPscalar() {
