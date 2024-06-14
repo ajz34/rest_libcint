@@ -4642,7 +4642,7 @@ static void transform_angj(double *jmm_angj, double *angj, int lj, int lc)
         for (i = 0; i < 3; i++) {
                 jmm = _angular_moment_matrix[lc] + i*dlc*dlc;
                 for (j = 0; j < lj1*nfj; j++) {
-                        dgemm_(&TRANS_N, &TRANS_N, &ljlc1, &dlc, &dlc,
+                        f2c_dgemm_(&TRANS_N, &TRANS_N, &ljlc1, &dlc, &dlc,
                                &D1, angj+j*dlc*ljlc1, &ljlc1, jmm, &dlc,
                                &D0, jmm_angj+j*dlc*ljlc1, &ljlc1);
                 }
@@ -5210,7 +5210,7 @@ void type2_facs_rad(double *facs, int ish, int lc, double rca,
         const double D1 = 1;
         const char TRANS_N = 'N';
         const int m = nrs * lilc1;
-        dgemm_(&TRANS_N, &TRANS_N, &m, &nc, &np,
+        f2c_dgemm_(&TRANS_N, &TRANS_N, &m, &nc, &np,
                &D1, buf, &m, ci, &np, &D0, facs, &m);
 }
 
@@ -5531,10 +5531,10 @@ int ECPtype2_cart(double *gctr, int *shls, int *ecpbas, int necpbas,
                 prad = rad_all + (ic*ncj+jc)*d3;
                 for (i = 0; i <= li; i++) {
                 for (j = 0; j <= lj; j++) {
-                        dgemm_(&TRANS_N, &TRANS_N, &ljlc1, &im, &lilc1,
+                        f2c_dgemm_(&TRANS_N, &TRANS_N, &ljlc1, &im, &lilc1,
                                &D1, prad+(i+j)*d2, &ljlc1,
                                angi+i*nfi*dlc*lilc1, &lilc1, &D0, buf, &ljlc1);
-                        dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
+                        f2c_dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
                                &common_fac, buf, &mq, angj+j*nfj*dlc*ljlc1, &mq,
                                &D1, gctr+jc*nfj*di+ic*nfi, &di);
                 } }
@@ -5748,16 +5748,16 @@ int ECPtype_so_cart(double *gctr, int *shls, int *ecpbas, int necpbas,
                 prad = rad_all + (ic*ncj+jc)*d3;
                 for (i = 0; i <= li; i++) {
                 for (j = 0; j <= lj; j++) {
-                        dgemm_(&TRANS_N, &TRANS_N, &ljlc1, &im, &lilc1,
+                        f2c_dgemm_(&TRANS_N, &TRANS_N, &ljlc1, &im, &lilc1,
                                &D1, prad+(i+j)*d2, &ljlc1,
                                angi+i*nfi*dlc*lilc1, &lilc1, &D0, buf, &ljlc1);
-                        dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
+                        f2c_dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
                                &common_fac, buf, &mq, jmm_angj       +j*nfj*dlc*ljlc1, &mq,
                                &D1, gctrx+jc*nfj*di+ic*nfi, &di);
-                        dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
+                        f2c_dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
                                &common_fac, buf, &mq, jmm_angj+jfmq  +j*nfj*dlc*ljlc1, &mq,
                                &D1, gctry+jc*nfj*di+ic*nfi, &di);
-                        dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
+                        f2c_dgemm_(&TRANS_T, &TRANS_N, &nfi, &nfj, &mq,
                                &common_fac, buf, &mq, jmm_angj+jfmq*2+j*nfj*dlc*ljlc1, &mq,
                                &D1, gctrz+jc*nfj*di+ic*nfi, &di);
                 } }

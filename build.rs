@@ -3,18 +3,10 @@ use std::path::PathBuf;
 
 fn main() {
     // read environment variables
-    let blas_name = env::var("REST_BLAS").unwrap_or("openblas".to_string());
-    let blas_dir = env::var("REST_BLAS_DIR").unwrap_or("".to_string());
     let cint_dir = env::var("REST_CINT_DIR").unwrap_or("".to_string());
     let build_temporary = env::var("REST_BUILD_TEMPORARY").unwrap_or("debug".to_string());
     let mut cint_src = env::var("REST_CINT_SRC").unwrap_or("".to_string());
     let is_build_cint = feature_enabled("build_cint");
-
-    // link blas
-    if !blas_dir.is_empty() {
-        println!("cargo:rustc-link-search=native={blas_dir}");
-    }
-    println!("cargo:rustc-link-lib={blas_name}");
 
     if is_build_cint {
         const LIBCINT_VERSION: &str = "6.1.2";
@@ -41,6 +33,7 @@ fn main() {
     }
     println!("cargo:rustc-link-lib=cint");
     println!("cargo:rustc-link-lib=quadmath");
+    println!("cargo:rustc-link-lib=gomp");
 
     build_ecp();
 }
@@ -57,11 +50,12 @@ fn build_cint(p: String) {
 /// Builds the `cecp` code from PySCF.
 fn build_ecp() {
     cc::Build::new()
+        .file("src/cecp/f2c_dgemm.c")
         .file("src/cecp/nr_ecp.c")
         .file("src/cecp/nr_ecp_deriv.c")
         .flag_if_supported("-Wno-unused-parameter")
-        .flag_if_supported("-O3")
         .flag_if_supported("-Wno-implicit-function-declaration")
+        .flag_if_supported("-Wno-parentheses")
         .compile("cecp");
     println!("cargo::rerun-if-changed=src/cecp");
 }
