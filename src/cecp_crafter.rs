@@ -160,6 +160,9 @@ impl ECPData {
     where
         T: ECPIntegrator
     {
+        if self.c_env[AS_NECPBAS as usize] as i32 == 0 {
+            return Err("No ECP data found in the molecule.".to_string());
+        }
         for shl_slice in shl_slices {
             if shl_slice[1] < shl_slice[0] {
                 return Err(format!("in {shl_slice:?}, second number is smaller than first number"));
