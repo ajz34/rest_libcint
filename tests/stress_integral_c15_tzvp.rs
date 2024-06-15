@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod test_c15_tzvp {
+mod stress_integral_c15_tzvp {
     use std::time::Instant;
     use itertools::Itertools;
     use rest_libcint::prelude::*;
@@ -12,8 +12,7 @@ mod test_c15_tzvp {
         let mut cint_data = initialize();
         let now = Instant::now();
         let (out, _) = cint_data.integral_s1::<int3c2e>(None);
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -30,8 +29,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[7, 275], [12, 129], [5, 264]];
         let (out, _) = cint_data.integral_s1::<int3c2e>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -48,8 +46,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[7, 275], [12, 129], [5, 264]];
         let (out, _) = cint_data.integral_s1::<int3c2e_ip1>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -66,8 +63,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[7, 275], [5, 264]];
         let (out, _) = cint_data.integral_s1::<int2c2e_ip1>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -84,8 +80,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[7, 30], [5, 52], [58, 89], [125, 156]];
         let (out, _) = cint_data.integral_s1::<int2e_ip1ip2>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -101,8 +96,7 @@ mod test_c15_tzvp {
         let mut cint_data = initialize();
         let now = Instant::now();
         let (out, _) = cint_data.integral_s2ij::<int3c2e>(None);
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -119,8 +113,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[0, 275], [0, 275], [7, 264]];
         let (out, _) = cint_data.integral_s2ij::<int3c2e_ip2>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -137,8 +130,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
         let (out, _) = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -155,8 +147,7 @@ mod test_c15_tzvp {
         let now = Instant::now();
         let shl_slices = vec![[10, 283], [10, 283]];
         let (out, _) = cint_data.integral_s2ij::<int2c2e>(Some(&shl_slices));
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
         let out = Array::from_vec(out);
@@ -175,8 +166,7 @@ mod test_c15_tzvp {
         let (out, out_shape) = cint_data.integral_s2ij::<int3c2e_ip2>(Some(&shl_slices));
         // println!("{:?}", out_shape);
         assert_eq!(out_shape, [198135, 601, 3]);
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.3?}", elapsed);
+        println!("Elapsed: {:.3?}", now.elapsed());
 
         let out = Array::from_shape_vec(out_shape.f(), out).unwrap().into_dimensionality::<Ix3>().unwrap();
         // println!("{out:?}");
@@ -184,7 +174,6 @@ mod test_c15_tzvp {
     }
 
     fn initialize() -> CINTR2CDATA {
-        // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="6-31G").build()
         let c_atm = vec![
             [  6,  20,   1,  23,   0,   0],
             [  6,  24,   1,  27,   0,   0],

@@ -1,6 +1,7 @@
 github-token
 .ipynb_checkpoints
 .vscode
+profile/
 
 # mdBook
 book/

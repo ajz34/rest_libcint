@@ -1,6 +1,6 @@
 #[allow(non_snake_case)]
 #[cfg(test)]
-mod test_sb2me4_tzvp {
+mod valid_ecp_sb2me4_tzvp {
     use std::time::Instant;
     use itertools::Itertools;
     use rest_libcint::prelude::*;
