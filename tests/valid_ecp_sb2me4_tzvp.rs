@@ -70,6 +70,23 @@ mod valid_ecp_sb2me4_tzvp {
             (out * scale).sum(), 0.21557173801319873, max_relative=1e-10);
     }
 
+    #[test]
+    fn test_ECPscalar_ignuc_cart() {
+        let mut cint_data = initialize();
+        cint_data.set_cint_type(&CintType::Cartesian);
+        let now = Instant::now();
+        let shl_slices = vec![[7, 93], [14, 121]];
+        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ignuc>(Some(&shl_slices));
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 111.56926252707224, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), -77.65227858432043, max_relative=1e-10);
+    }
+
     fn initialize() -> CINTR2CDATA {
         let c_atm = vec![
             [23, 20,  4, 23,  0,  0],

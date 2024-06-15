@@ -157,6 +157,23 @@ mod valid_integral_h2o_tzvp {
             (out * scale).sum(), 77.98393796393151, max_relative=1e-10);
     }
 
+    #[test]
+    fn test_int3c2e_s2ij_cart_slice() {
+
+        let mut cint_data = initialize();
+        cint_data.set_cint_type(&CintType::Cartesian);
+        let now = Instant::now();
+        let (out, _) = cint_data.integral_s2ij::<int3c2e>(None);
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-1., 1., out.len());
+        let out = Array::from_vec(out);
+        assert_relative_eq!(
+            out.sum(), 10467.283431217447, max_relative=1e-10);
+        assert_relative_eq!(
+            (out * scale).sum(), 245.7706210514359, max_relative=1e-10);
+    }
+
     fn initialize() -> CINTR2CDATA {
         // mol = gto.Mole(atom="O; H 1 0.94; H 1 0.94 2 104.5", basis="def2-TZVP").build()
         let c_atm = vec![
