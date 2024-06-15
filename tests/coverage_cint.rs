@@ -2,12 +2,36 @@
 mod coverage_cint {
     use rest_libcint::{CintType, prelude::*};
     use itertools::Itertools;
+    use num_complex::*;
 
     #[test]
-    fn cover_cartesian() {
+    fn cover_crafter() {
         let mut cint_data = initialize();
         cint_data.set_cint_type(&CintType::Cartesian);
         cint_data.integral_s1::<int3c2e>(None);
+        cint_data.integral_spinor_s2ij::<int3c2e>(None);
+    }
+
+    #[test]
+    #[should_panic]
+    fn cover_panic_type_inconsistent() {
+        let mut cint_data = initialize();
+        let shl_slices = vec![[0, 5]; int3c2e_ip1::n_center()];
+        let mut out_shape = cint_data.cgto_shape_s2ij::<int3c2e_ip1>(&shl_slices).unwrap();
+        if int3c2e_ip1::n_comp() > 1 { out_shape.push(int3c2e_ip1::n_comp()); }
+        let out_size = out_shape.iter().product::<usize>();
+        let mut out = Vec::<Complex<f64>>::with_capacity(out_size);
+        cint_data.integral_s1_inplace::<int3c2e_ip1, _>(&mut out, &shl_slices);
+    }
+
+    #[test]
+    fn cover_wrapper() {
+        println!("{:?}", int3c2e::n_spinor_comp());
+        println!("{:?}", int3c2e::ng());
+        println!("{:?}", int3c2e::integrator_type());
+        println!("{:?}", int3c2e::name());
+        let mut cint_data = initialize();
+        cint_data.int3c2e_ip1_optimizer_rust();
     }
 
     fn initialize() -> CINTR2CDATA {

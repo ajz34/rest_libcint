@@ -130,11 +130,6 @@ impl CINTR2CDATA {
         return loc[shl_slice[0] as usize .. shl_slice[1] as usize + 1].to_vec();
     }
 
-    /// Location of atomic orbitals, for specified slices of shell.
-    pub fn cgto_loc_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
-        return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice(shl_slice)).collect();
-    }
-
     /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
     /// for specified slice of shell.
     pub fn cgto_loc_slice_relative(&self, shl_slice: &[i32; 2]) -> Vec<usize> {
