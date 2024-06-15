@@ -111,6 +111,7 @@ impl ECPData {
         return match self.cint_type {
             CintType::Spheric => self.cgto_size_sph(id_bas),
             CintType::Cartesian => self.cgto_size_cart(id_bas),
+            CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
         }
     }
 
@@ -224,6 +225,7 @@ impl ECPData {
                         self.c_bas.as_ptr(), self.c_nbas,
                         self.c_env.as_ptr(), null(), null_mut()) as usize
                     },
+                CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
             }
         }).max().unwrap();
         return cache_size;
@@ -282,6 +284,7 @@ impl ECPData {
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(), self.c_opt, cache_ptr)
                 },
+            CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
         };
     }
 

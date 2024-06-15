@@ -1,3 +1,4 @@
+use core::panic;
 use std::prelude::*;
 use std::ptr::{null_mut, null};
 use std::sync::Mutex;
@@ -8,6 +9,7 @@ use crate::cint_wrapper::*;
 use crate::cint;
 use crate::{CintType, CINTR2CDATA};
 use crate::utilities::*;
+use num_complex::*;
 
 unsafe impl Send for CINTR2CDATA {}
 unsafe impl Sync for CINTR2CDATA {}
@@ -59,9 +61,10 @@ impl CINTR2CDATA {
         let loc_nctr = NCTR_OF as usize;
         let loc_bas = BAS_SLOTS as usize;
         let id_bas = id_bas as usize;
-        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
-        let nang = self.c_bas[id_bas * loc_bas + loc_ang] * 2 + 1;
-        return (nctr * nang) as usize;
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr] as usize;
+        let l = self.c_bas[id_bas * loc_bas + loc_ang] as usize;
+        let nang = 2 * l + 1;
+        return nctr * nang;
     }
 
     /// Size (number of atomic orbitals) of cartesian CGTO at certain basis index.
@@ -74,16 +77,36 @@ impl CINTR2CDATA {
         let loc_nctr = NCTR_OF as usize;
         let loc_bas = BAS_SLOTS as usize;
         let id_bas = id_bas as usize;
-        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr];
-        let l = self.c_bas[id_bas * loc_bas + loc_ang];
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr] as usize;
+        let l = self.c_bas[id_bas * loc_bas + loc_ang] as usize;
         let nang = (l + 1) * (l + 2) / 2;
-        return (nctr * nang) as usize;
+        return nctr * nang;
+    }
+
+    pub fn cgto_size_spinor(&self, id_bas: i32) -> usize {
+        use cint::{ANG_OF, KAPPA_OF, NCTR_OF, BAS_SLOTS};
+        let loc_ang = ANG_OF as usize;
+        let loc_nctr = NCTR_OF as usize;
+        let loc_kappa = KAPPA_OF as usize;
+        let loc_bas = BAS_SLOTS as usize;
+        let id_bas = id_bas as usize;
+        let nctr = self.c_bas[id_bas * loc_bas + loc_nctr] as usize;
+        let l = self.c_bas[id_bas * loc_bas + loc_ang] as usize;
+        let kappa = self.c_bas[id_bas * loc_bas + loc_kappa] as i32;
+        if kappa == 0 {
+            return nctr * (4 * l + 2);
+        } else if kappa < 0 {
+            return nctr * (2 * l + 2);
+        } else {
+            return nctr * (2 * l);
+        }
     }
 
     pub fn cgto_size(&self, id_bas: i32) -> usize {
         return match self.cint_type {
             CintType::Spheric => self.cgto_size_sph(id_bas),
             CintType::Cartesian => self.cgto_size_cart(id_bas),
+            CintType::Spinor => self.cgto_size_spinor(id_bas),
         }
     }
 
@@ -147,6 +170,23 @@ impl CINTR2CDATA {
             if shl_slice[0] < 0 {
                 return Err(format!("in {shl_slice:?}, shell number should not be negative"));
             }
+        }
+        return Ok(());
+    }
+
+    pub fn check_float_type<T, F> (&self) -> Result<(), String>
+    where
+        T: Integrator, F: FF64
+    {
+        // sanity check of float type
+        let expected_float_length = match self.cint_type {
+            CintType::Spheric | CintType::Cartesian => 8,
+            CintType::Spinor => 16,
+        };
+        if std::mem::size_of::<F>() != expected_float_length {
+            return Err(format!(
+                "Type of integral {:?} requires {} bytes for each element, but your caller only provides {} bytes for each element",
+                self.cint_type, expected_float_length, std::mem::size_of::<F>()));
         }
         return Ok(());
     }
@@ -235,6 +275,13 @@ impl CINTR2CDATA {
                         self.c_bas.as_ptr(), self.c_nbas,
                         self.c_env.as_ptr(), null(), null_mut()) as usize
                     },
+                CintType::Spinor => unsafe {
+                    T::integral_spinor(
+                        null_mut(), null(), shls.as_mut_ptr(),
+                        self.c_atm.as_ptr(), self.c_natm,
+                        self.c_bas.as_ptr(), self.c_nbas,
+                        self.c_env.as_ptr(), null(), null_mut()) as usize
+                    },
             }
         }).max().unwrap();
         return cache_size;
@@ -266,9 +313,13 @@ impl CINTR2CDATA {
     ///     Cache buffer, need to be allocated enough space before calling this function; simply
     ///     using `vec![]` should also works, which lets libcint manages cache and efficiency decreases.
     ///     See Also [`Self::max_cache_size`] for guide of properly allocate cache.
-    pub unsafe fn integral_block<T> (&self, out: &mut [f64], shls: &[i32], shape: &[i32], cache: &mut [f64])
+    /// 
+    /// Note
+    /// 
+    /// This function does not check type (float or complex) of `out`. Type check will be checked in caller.
+    pub unsafe fn integral_block<T, F> (&self, out: &mut [F], shls: &[i32], shape: &[i32], cache: &mut [f64])
     where
-        T: Integrator
+        T: Integrator, F: FF64
     {
         let cache_ptr = match cache.len() {
             0 => null_mut(),
@@ -281,14 +332,24 @@ impl CINTR2CDATA {
         match self.cint_type {
             CintType::Spheric => unsafe {
                 T::integral_sph(
-                    out.as_mut_ptr(), shape_ptr, shls.as_ptr(),
+                    out.as_mut_ptr() as *mut f64,
+                    shape_ptr, shls.as_ptr(),
                     self.c_atm.as_ptr(), self.c_natm,
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(), self.c_opt, cache_ptr)
                 },
             CintType::Cartesian => unsafe {
                 T::integral_cart(
-                    out.as_mut_ptr(), shape_ptr, shls.as_ptr(),
+                    out.as_mut_ptr() as *mut f64,
+                    shape_ptr, shls.as_ptr(),
+                    self.c_atm.as_ptr(), self.c_natm,
+                    self.c_bas.as_ptr(), self.c_nbas,
+                    self.c_env.as_ptr(), self.c_opt, cache_ptr)
+                },
+            CintType::Spinor => unsafe {
+                T::integral_spinor(
+                    out.as_mut_ptr() as *mut cint::__BindgenComplex<f64>,
+                    shape_ptr, shls.as_ptr(),
                     self.c_atm.as_ptr(), self.c_natm,
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(), self.c_opt, cache_ptr)
@@ -300,12 +361,13 @@ impl CINTR2CDATA {
     /// 
     /// This function a low-level API, which is not intended to be called by user.
     /// This function only works for f-contiguous integral (PySCF convention).
-    pub fn integral_s1_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &Vec<[i32; 2]>)
+    pub fn integral_s1_inplace<T, F> (&mut self, out: &mut Vec<F>, shl_slices: &Vec<[i32; 2]>)
     where
-        T: Integrator
+        T: Integrator, F: FF64
     {
         /* #region 1. dimension definition and sanity check */
 
+        self.check_float_type::<T, F>().unwrap();
         self.check_shl_slices::<T>(shl_slices).unwrap();
 
         let n_comp = T::n_comp();
@@ -363,7 +425,7 @@ impl CINTR2CDATA {
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
+                        self.integral_block::<T, F>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
                     }
                 },
 
@@ -376,7 +438,7 @@ impl CINTR2CDATA {
     
                     unsafe {
                         let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                        self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
+                        self.integral_block::<T, F>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
                     }
                 },
 
@@ -392,7 +454,7 @@ impl CINTR2CDATA {
         
                         unsafe {
                             let out_with_offset = cast_mut_slice(&out_const_slice[offset..]);
-                            self.integral_block::<T>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
+                            self.integral_block::<T, F>(out_with_offset, &shls, &cgto_shape_i32, &mut cache);
                         }
                     }
                 },
@@ -407,29 +469,54 @@ impl CINTR2CDATA {
         /* #endregion */
     }
 
-    pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_s1_inner<T, F> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<F>, Vec<usize>)
     where
-        T: Integrator
+        T: Integrator, F: FF64
     {
+        // specify shl_slices
         let shl_slices = match shl_slices {
             Some(shl_slices) => shl_slices.clone(),
             None => vec![[0, self.c_nbas]; T::n_center()],
         };
+        // specify and allocate output
         let mut out_shape = self.cgto_shape::<T>(&shl_slices);
         if T::n_comp() > 1 { out_shape.push(T::n_comp()); }
         let out_size = out_shape.iter().product::<usize>();
-        let mut out = Vec::<f64>::with_capacity(out_size);
+        let mut out = Vec::<F>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
-        self.integral_s1_inplace::<T>(&mut out, &shl_slices);
+        // main integral engine
+        self.integral_s1_inplace::<T, _>(&mut out, &shl_slices);
         return (out, out_shape);
     }
-    
-    pub fn integral_s2ij_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &Vec<[i32; 2]>)
+
+    pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
     where
         T: Integrator
     {
+        if self.cint_type == CintType::Spinor {
+            panic!("Spinor should be called by `integral_s1_spinor<Integrator>` or `integral_s1_inner<Integrator, Complex<f64>>`");
+        }
+        return self.integral_s1_inner::<T, f64>(shl_slices);
+    }
+
+    pub fn integral_spinor_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<Complex<f64>>, Vec<usize>)
+    where
+        T: Integrator
+    {
+        let cint_type = self.cint_type;
+        self.set_cint_type(&CintType::Spinor);
+        let result = self.integral_s1_inner::<T, _>(shl_slices);
+        self.set_cint_type(&cint_type);
+        return result;
+    }
+    
+    pub fn integral_s2ij_inplace<T, F> (&mut self, out: &mut Vec<F>, shl_slices: &Vec<[i32; 2]>)
+    where
+        T: Integrator, F: FF64
+    {
         /* #region 1. dimension definition and sanity check */
 
+        self.check_float_type::<T, F>().unwrap();
         self.check_shl_slices::<T>(shl_slices).unwrap();
 
         let n_comp = T::n_comp();
@@ -449,7 +536,7 @@ impl CINTR2CDATA {
         let cache_size = self.size_of_cache::<T>(shl_slices);
         let buf_size = self.size_of_buffer::<T>(shl_slices);
         let thread_cache = (0..rayon::current_num_threads()).map(|n| {Mutex::new(vec![0.; cache_size])}).collect_vec();
-        let thread_buf = (0..rayon::current_num_threads()).map(|n| {Mutex::new(vec![0.; buf_size])}).collect_vec();
+        let thread_buf = (0..rayon::current_num_threads()).map(|n| {Mutex::new(vec![F::zero(); buf_size])}).collect_vec();
 
         // out: enable mut vector by passing immut slice
         let out_const_slice = out.as_slice();
@@ -481,7 +568,7 @@ impl CINTR2CDATA {
                         let cgto_i = cgto_locs_rel[0][idx_i];
                         // main integrator
                         let shls = [shl_i, shl_j];
-                        unsafe { self.integral_block::<T>(&mut buf, &shls, &vec![], &mut cache); }
+                        unsafe { self.integral_block::<T, _>(&mut buf, &shls, &vec![], &mut cache); }
                         // copy from buffer to output
                         let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), n_comp];
                         let out_offsets = [cgto_i, cgto_j, 0];
@@ -515,7 +602,7 @@ impl CINTR2CDATA {
                             let cgto_j = cgto_locs_rel[0][idx_j];
                             // main integrator
                             let shls = [shl_i, shl_j, shl_k];
-                            unsafe { self.integral_block::<T>(&mut buf, &shls, &vec![], &mut cache); }
+                            unsafe { self.integral_block::<T, _>(&mut buf, &shls, &vec![], &mut cache); }
                             // copy from buffer to output
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), n_comp];
                             let out_offsets = [cgto_i, cgto_j, cgto_k, 0];
@@ -554,7 +641,7 @@ impl CINTR2CDATA {
                             let cgto_j = cgto_locs_rel[0][idx_j];
                             // main integrator
                             let shls = [shl_i, shl_j, shl_k, shl_l];
-                            unsafe { self.integral_block::<T>(&mut buf, &shls, &vec![], &mut cache); }
+                            unsafe { self.integral_block::<T, _>(&mut buf, &shls, &vec![], &mut cache); }
                             // copy from buffer to output
                             let buf_shape = [self.cgto_size(shl_i), self.cgto_size(shl_j), self.cgto_size(shl_k), self.cgto_size(shl_l), n_comp];
                             let out_offsets = [cgto_i, cgto_j, cgto_k, cgto_l, 0];
@@ -577,9 +664,9 @@ impl CINTR2CDATA {
         /* #endregion */
     }
 
-    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_s2ij_inner<T, F> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<F>, Vec<usize>)
     where
-        T: Integrator
+        T: Integrator, F: FF64
     {
         let shl_slices = match shl_slices {
             Some(shl_slices) => shl_slices.clone(),
@@ -588,9 +675,31 @@ impl CINTR2CDATA {
         let mut out_shape = self.cgto_shape_s2ij::<T>(&shl_slices).unwrap();
         if T::n_comp() > 1 { out_shape.push(T::n_comp()); }
         let out_size = out_shape.iter().product::<usize>();
-        let mut out = Vec::<f64>::with_capacity(out_size);
+        let mut out = Vec::<F>::with_capacity(out_size);
         unsafe { out.set_len(out_size) };
-        self.integral_s2ij_inplace::<T>(&mut out, &shl_slices);
+        self.integral_s2ij_inplace::<T, _>(&mut out, &shl_slices);
         return (out, out_shape);
+    }
+
+    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    where
+        T: Integrator
+    {
+        if self.cint_type == CintType::Spinor {
+            panic!("Spinor should be called by `integral_s1_spinor<Integrator>` or `integral_s1_inner<Integrator, Complex<f64>>`");
+        }
+        return self.integral_s2ij_inner::<T, f64>(shl_slices);
+    }
+
+    pub fn integral_spinor_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<Complex<f64>>, Vec<usize>)
+    where
+        T: Integrator
+    {
+        eprintln!("`integral_spinor_s2ij` should generally not be called, since spinor may not show s2ij symmetry.");
+        let cint_type = self.cint_type;
+        self.set_cint_type(&CintType::Spinor);
+        let result = self.integral_s2ij_inner::<T, _>(shl_slices);
+        self.set_cint_type(&cint_type);
+        return result;
     }
 }

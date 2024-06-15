@@ -5,6 +5,7 @@ mod valid_integral_h2o_tzvp {
     use rest_libcint::prelude::*;
     use ndarray::prelude::*;
     use approx::*;
+    use num_complex::*;
 
     #[test]
     fn test_int3c2e_s1_full() {
@@ -172,6 +173,44 @@ mod valid_integral_h2o_tzvp {
             out.sum(), 10467.283431217447, max_relative=1e-10);
         assert_relative_eq!(
             (out * scale).sum(), 245.7706210514359, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int1e_ignuc_spinor_s1_full() {
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let (out, out_shape) = cint_data.integral_spinor_s1::<int1e_ignuc>(None);
+        println!("out_shape: {:?}", out_shape);
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-2., 1., out.len());
+        let out = Array::from_vec(out);
+        let res = out.sum();
+        assert_relative_eq!(res.re(), 0., epsilon=1e-10);
+        assert_relative_eq!(res.im(), -38.44576060597794, max_relative=1e-10);
+        let res = (out * scale).sum();
+        assert_relative_eq!(res.re(), 27.346588674156333, max_relative=1e-10);
+        assert_relative_eq!(res.im(), -66.39923013085044, max_relative=1e-10);
+    }
+
+    #[test]
+    fn test_int2e_ip1ip2_spinor_s1_slice() {
+
+        let mut cint_data = initialize();
+        let now = Instant::now();
+        let shl_slices = vec![[1, 7], [6, 12], [15, 19], [10, 14]];
+        let (out, _) = cint_data.integral_spinor_s1::<int2e_ip1ip2>(Some(&shl_slices));
+        println!("Elapsed: {:.3?}", now.elapsed());
+
+        let scale = Array::linspace(-2., 1., out.len());
+        let out = Array::from_vec(out);
+        let res = out.sum();
+        assert_relative_eq!(res.re(), -87.88756296443984, max_relative=1e-10);
+        assert_relative_eq!(res.im(), -0.6293582810846077, max_relative=1e-10);
+        let res = (out * scale).sum();
+        assert_relative_eq!(res.re(), -30.068275921030978, max_relative=1e-10);
+        assert_relative_eq!(res.im(), -41.555332416720624, max_relative=1e-10);
     }
 
     fn initialize() -> CINTR2CDATA {

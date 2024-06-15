@@ -1,3 +1,15 @@
+use num_complex::*;
+
+pub trait FF64: Sized + Send + Sync + Copy + Clone {
+    fn zero() -> Self;
+}
+impl FF64 for f64 {
+    fn zero() -> Self { 0.0 }
+}
+impl FF64 for Complex<f64> {
+    fn zero() -> Self { Complex::new(0.0, 0.0) }
+}
+
 pub(crate) unsafe fn cast_mut_slice<T> (slc: &[T]) -> &mut [T] {
     let len = slc.len();
     let ptr = slc.as_ptr() as *mut T;

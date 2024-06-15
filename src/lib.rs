@@ -115,11 +115,11 @@ pub mod prelude;
 
 use crate::cint::{CINTOpt,CINTdel_optimizer};
 
-#[derive(Clone,Copy)]
+#[derive(Clone, Copy, PartialEq, Debug)]
 pub enum CintType {
    Spheric,
    Cartesian,
-   //Spinor,  // Not yet included
+   Spinor,
 }
 
 pub enum IJOPT {
@@ -218,6 +218,7 @@ impl CINTR2CDATA {
             dim = match self.cint_type {
                 CintType::Spheric => cint::CINTcgto_spheric(index as c_int, self.c_bas.as_ptr()),
                 CintType::Cartesian => cint::CINTcgto_cart(index as c_int, self.c_bas.as_ptr()),
+                CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
             };
         }
         dim
@@ -246,6 +247,7 @@ impl CINTR2CDATA {
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
+                CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
             };
             //println!("debug 1 {}", &c_buf.read());
             //let shls = Vec::from_raw_parts(c_shls, shls_len, shls_cap);
@@ -277,6 +279,7 @@ impl CINTR2CDATA {
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
+                CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
             };
             //println!("debug 1 {}", &c_buf.read());
             //let shls = Vec::from_raw_parts(c_shls, shls_len, shls_cap);
@@ -309,6 +312,7 @@ impl CINTR2CDATA {
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
+                CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
             };
             //println!("debug 1 {}", &c_buf.read());
             //let shls = Vec::from_raw_parts(c_shls, shls_len, shls_cap);
@@ -347,6 +351,7 @@ impl CINTR2CDATA {
                     self.c_bas.as_ptr(), self.c_nbas,
                     self.c_env.as_ptr(),
                     self.c_opt, null_mut()),
+                CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
             };
             //println!("debug 1 {}", &c_buf.read());
             //let shls = Vec::from_raw_parts(c_shls, shls_len, shls_cap);
@@ -372,7 +377,7 @@ impl CINTR2CDATA {
             IJOPT::Nuclear
         } else {
             IJOPT::UNKNOWN
-            //panic!("Error:: Unknown operator for GTO-ij integrals {}", op_name)
+            //panic!("Unknown operator for GTO-ij integrals {}", op_name)
         };
         let mut di: i32 = self.cint_cgto_rust(i);
         let mut dj: i32 = self.cint_cgto_rust(j);
@@ -404,6 +409,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 },
                 IJOPT::Kinetic => {    
@@ -420,6 +426,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 },
                 IJOPT::Nuclear => {    
@@ -436,6 +443,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 },
                 IJOPT::UNKNOWN => {1}
@@ -458,7 +466,7 @@ impl CINTR2CDATA {
         } else if op_name.to_lowercase() == String::from("iprinv") {
             IJIPOPT::IPRInv
         } else {
-            panic!("Error:: Unknown operator for GTO-ij-ip integrals {}", op_name)
+            panic!("Unknown operator for GTO-ij-ip integrals {}", op_name)
         };
         let mut di: i32 = self.cint_cgto_rust(i);
         let mut dj: i32 = self.cint_cgto_rust(j);
@@ -490,6 +498,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 },
                 IJIPOPT::IPKin => {
@@ -506,6 +515,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 },
                 IJIPOPT::IPNuc => {
@@ -522,6 +532,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 },
                 IJIPOPT::IPRInv => {
@@ -538,6 +549,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }
                 }
             };
@@ -557,7 +569,7 @@ impl CINTR2CDATA {
         } else if op_name.to_lowercase() == String::from("ip2") {
             IP3C2E::IP2
         } else {
-            panic!("Error:: Unknown operator for GTO-3c2e-ip integrals {}", op_name)
+            panic!("Unknown operator for GTO-3c2e-ip integrals {}", op_name)
         };
 
         let mut di = self.cint_cgto_rust(i);
@@ -587,6 +599,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }},
                 IP3C2E::IP2 => {
                     match self.cint_type {
@@ -602,6 +615,7 @@ impl CINTR2CDATA {
                             self.c_bas.as_ptr(), self.c_nbas,
                             self.c_env.as_ptr(),
                             self.c_opt, null_mut()),
+                        CintType::Spinor => panic!("Spinor GTOs are not yet supported"),
                     }},
             };
             //println!("debug 1 {}", &c_buf.read());
