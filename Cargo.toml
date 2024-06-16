@@ -30,7 +30,3 @@ overflow-checks = false
 
 [lib]
 doctest = false
-
-[features]
-default = ["build_cint"]
-build_cint = []
