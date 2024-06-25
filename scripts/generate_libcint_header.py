@@ -198,7 +198,7 @@ subprocess.run(["rm", "cint.h", "cint_funcs.h"])
 
 # ## Auto-generate `cint_wrapper.rs`
 
-# ### IntorBase
+# ### Integrator
 
 # +
 # initial information
@@ -213,10 +213,10 @@ use std::os::raw::c_int;
 """
 
 # +
-# IntorBase: basic definition
+# Integrator: basic definition
 
 token_wrapper += """
-pub trait IntorBase {
+pub trait Integrator {
     unsafe fn optimizer(
         opt: *mut *mut CINTOpt,
         atm: *const c_int,
@@ -265,7 +265,7 @@ pub trait IntorBase {
     fn name() -> &'static str;
 }
 
-macro_rules! impl_intorbase {
+macro_rules! impl_integrator {
     (
         $intor: ident,
         $optimizer: ident,
@@ -281,7 +281,7 @@ macro_rules! impl_intorbase {
     ) => {
 #[allow(non_camel_case_types)]
 pub struct $intor;
-impl IntorBase for $intor {
+impl Integrator for $intor {
     unsafe fn optimizer(
             opt: *mut *mut CINTOpt,
             atm: *const c_int,
@@ -343,10 +343,10 @@ impl IntorBase for $intor {
 
 
 # +
-# IntorBase: macro expansion
+# Integrator: macro expansion
 
-def gen_impl_intorbase(intor):
-    token = """impl_intorbase!(
+def gen_impl_integrator(intor):
+    token = """impl_integrator!(
     {0:},
     {0:}_optimizer,
     {0:}_sph,
@@ -369,7 +369,7 @@ def gen_impl_intorbase(intor):
     return token
 
 for intor in actual_intor:
-    token_wrapper += gen_impl_intorbase(intor)
+    token_wrapper += gen_impl_integrator(intor)
 # -
 
 # ### (fallback support) Optimizer
