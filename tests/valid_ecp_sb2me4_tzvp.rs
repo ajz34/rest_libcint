@@ -11,7 +11,7 @@ mod valid_ecp_sb2me4_tzvp {
     fn test_ECPscalar() {
         let mut cint_data = initialize();
         let now = Instant::now();
-        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar>(None);
+        let (out, _) = cint_data.integral_ecp_s1::<ECPscalar>(None);
         println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
@@ -27,7 +27,7 @@ mod valid_ecp_sb2me4_tzvp {
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 93], [14, 121]];
-        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ipnuc>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_ecp_s1::<ECPscalar_ipnuc>(Some(&shl_slices));
         println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
@@ -43,7 +43,7 @@ mod valid_ecp_sb2me4_tzvp {
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 93], [14, 121]];
-        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ipiprinv>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_ecp_s1::<ECPscalar_ipiprinv>(Some(&shl_slices));
         println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
@@ -59,7 +59,7 @@ mod valid_ecp_sb2me4_tzvp {
         let mut cint_data = initialize();
         let now = Instant::now();
         let shl_slices = vec![[7, 93], [14, 121]];
-        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ignuc>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_ecp_s1::<ECPscalar_ignuc>(Some(&shl_slices));
         println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());
@@ -76,7 +76,7 @@ mod valid_ecp_sb2me4_tzvp {
         cint_data.set_cint_type(&CintType::Cartesian);
         let now = Instant::now();
         let shl_slices = vec![[7, 93], [14, 121]];
-        let (out, _) = cint_data.ecp_integral_s1::<ECPscalar_ignuc>(Some(&shl_slices));
+        let (out, _) = cint_data.integral_ecp_s1::<ECPscalar_ignuc>(Some(&shl_slices));
         println!("Elapsed: {:.3?}", now.elapsed());
 
         let scale = Array::linspace(-1., 1., out.len());

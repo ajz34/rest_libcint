@@ -60,10 +60,31 @@ Also see the implemented structures (with trait bound `Integrator`) in `rest_lib
 
 ECP integral code is quite similar to that of general integral with some differences.
 
-ECP integral is performed by `ecp_integral_s1` function.
+ECP integral is performed by `integral_ecp_s1` function. For example of `ECPscalar` type:
+
+```rust
+let (out, shape) = cint_data.integral_ecp_s1::<ECPscalar>(None);
+```
+
 Currently only `s1` symmetry is available.
 
 ECP Integrators are implemented in `rest_libcint::cecp_wrapper` (with trait bound `ECPIntegrator`).
 To name a few important integrators,
 - `ECPscalar`
 - `ECPscalar_iprinvip`
+
+## Spinor Integration
+
+Spinor integral code is also similar to that of general integral with some differences.
+
+Spinor integral is performed by `integral_spinor_s1` function. For example of `int2e_ip1ip2` type:
+
+```rust
+let (out, shape) = cint_data.integral_spinor_s1::<int2e_ip1ip2>(Some(&shl_slices));
+```
+
+Please note that the output data is `Complex<f64>` instead of double float `f64`.
+Definition of complex type comes from crate `num-complex`.
+
+Currently, for high-level API, only `s1` symmetry is available (`integral_spinor_s1`).
+We expose functions for other kind of symmetries for spinor integral, though it is not desired in general.

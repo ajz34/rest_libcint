@@ -10,12 +10,13 @@ Example of code usage (two-fold symmetry, with shell slices specified, $(\mu \nu
 // out, ecp:              output integral as Vec<f64>
 // out_shape, ecp_shape:  shape of integral, f-contiguous, as Vec<usize>
 
-// include all useful functions or traits
+// include all useful functions and structs
 use rest_libcint::prelude::*;
 
 let shl_slices = vec![[10, 50], [10, 50], [127, 168], [215, 272]];
 let (out, out_shape) = cint_data.integral_s2ij::<int2e_ip2>(Some(&shl_slices));
-let (ecp, ecp_shape) = cint_data.ecp_integral_s1::<ECPscalar_ipipnuc>(Some(&shl_slices));
+let (ecp, ecp_shape) = cint_data.integral_ecp_s1::<ECPscalar_ipipnuc>(Some(&shl_slices));
+let (sor, sor_shape) = cint_data.integral_spinor_s1::<int2e_ip1ip2>(Some(&shl_slices));
 ```
 
 This user guide will further clarify code this example in

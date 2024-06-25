@@ -384,7 +384,7 @@ impl ECPData {
 }
 
 impl CINTR2CDATA {
-    pub fn ecp_integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_ecp_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
     where
         T: ECPIntegrator
     {

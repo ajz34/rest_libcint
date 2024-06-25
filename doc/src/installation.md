@@ -16,10 +16,16 @@ $ cargo build
 
 Advanced options are useful if internet access to github is blocked, or if you are developer of REST.
 
+```admonish note
+
+**Only one of the following options is required!**
+
 Building process can be controlled by bash environment variables.
 The following building workflows are listed by priority;
 i.e., if environment variable `REST_CINT_DIR` is defined (for 1st workflow),
 then value of `REST_CINT_SRC` (for 2nd workflow) or `REST_CINT_VER` (for 3rd workflow) will be ignored.
+
+```
 
 1. Use locally compiled `libcint` library. In this case, declare environment variable
     ```bash

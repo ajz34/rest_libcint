@@ -261,7 +261,7 @@ pub trait Integrator {
     fn n_spinor_comp() -> usize;
     fn n_center() -> usize;
     fn ng() -> Vec<i32>;
-    fn intor_type() -> &'static str;
+    fn integrator_type() -> &'static str;
     fn name() -> &'static str;
 }
 
@@ -276,7 +276,7 @@ macro_rules! impl_integrator {
         $n_spinor_comp: expr,
         $n_center: expr,
         $ng: expr,
-        $intor_type: literal,
+        $integrator_type: literal,
         $name: literal
     ) => {
 #[allow(non_camel_case_types)]
@@ -334,7 +334,7 @@ impl Integrator for $intor {
     fn n_spinor_comp() -> usize { $n_spinor_comp as usize }
     fn n_center() -> usize { $n_center as usize }
     fn ng() -> Vec<i32> { $ng }
-    fn intor_type() -> &'static str { $intor_type }
+    fn integrator_type() -> &'static str { $integrator_type }
     fn name() -> &'static str { $name }
 }
     };
@@ -354,7 +354,7 @@ def gen_impl_integrator(intor):
     {0:}_spinor,
     {2:}, {3:}, {4:}, vec!{5:},
     "{1:}", "{0:}");\n"""
-    intor_type = intor.split("_")[0]
+    integrator_type = intor.split("_")[0]
     intor_center = intor[:5]
     if intor_center == "int2e":
         intor_center = "int4c"
@@ -365,7 +365,7 @@ def gen_impl_integrator(intor):
     assert len(ng) == 8
     comp_1e, comp_2e, comp_tensor = ng[-3:]
     comp_all = max(comp_1e, 1) * max(comp_2e, 1) * comp_tensor
-    token = token.format(intor, intor_type, comp_tensor, comp_all, n_center, ng)
+    token = token.format(intor, integrator_type, comp_tensor, comp_all, n_center, ng)
     return token
 
 for intor in actual_intor:
