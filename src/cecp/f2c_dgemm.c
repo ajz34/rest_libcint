@@ -19,9 +19,9 @@
     logical nota, notb;
     doublereal temp;
     integer i, j, l;
-    extern logical lsame_(char *, char *);
+    extern logical f2c_lsame_(char *, char *);
     integer nrowa, nrowb;
-    extern /* Subroutine */ int xerbla_(char *, integer *);
+    extern /* Subroutine */ int f2c_xerbla_(char *, integer *);
 
 
 /*  Purpose   
@@ -190,8 +190,8 @@
 #define B(I,J) b[(I)-1 + ((J)-1)* ( *ldb)]
 #define C(I,J) c[(I)-1 + ((J)-1)* ( *ldc)]
 
-    nota = lsame_(transa, "N");
-    notb = lsame_(transb, "N");
+    nota = f2c_lsame_(transa, "N");
+    notb = f2c_lsame_(transb, "N");
     if (nota) {
 	nrowa = *m;
     } else {
@@ -206,9 +206,9 @@
 /*     Test the input parameters. */
 
     info = 0;
-    if (! nota && ! lsame_(transa, "C") && ! lsame_(transa, "T")) {
+    if (! nota && ! f2c_lsame_(transa, "C") && ! f2c_lsame_(transa, "T")) {
 	info = 1;
-    } else if (! notb && ! lsame_(transb, "C") && ! lsame_(transb, 
+    } else if (! notb && ! f2c_lsame_(transb, "C") && ! f2c_lsame_(transb, 
 	    "T")) {
 	info = 2;
     } else if (*m < 0) {
@@ -225,7 +225,7 @@
 	info = 13;
     }
     if (info != 0) {
-	xerbla_("DGEMM ", &info);
+	f2c_xerbla_("DGEMM ", &info);
 	return 0;
     }
 
@@ -375,7 +375,7 @@
 
 #include "f2c.h"
 
-logical lsame_(char *ca, char *cb)
+logical f2c_lsame_(char *ca, char *cb)
 {
 
 
@@ -476,11 +476,11 @@ e
        End of LSAME */
 
     return ret_val;
-} /* lsame_ */
+} /* f2c_lsame_ */
 
 #include "f2c.h"
 
-/* Subroutine */ int xerbla_(char *srname, integer *info)
+/* Subroutine */ int f2c_xerbla_(char *srname, integer *info)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --   
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,   
@@ -518,4 +518,4 @@ e
 /*     End of XERBLA */
 
     return 0;
-} /* xerbla_ */
+} /* f2c_xerbla_ */

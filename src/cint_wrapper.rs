@@ -6,7 +6,7 @@ use crate::cint;
 use crate::cint::CINTOpt;
 use std::os::raw::c_int;
 
-pub trait Integrator {
+pub trait IntorBase {
     unsafe fn optimizer(
         opt: *mut *mut CINTOpt,
         atm: *const c_int,
@@ -51,13 +51,13 @@ pub trait Integrator {
     fn n_spinor_comp() -> usize;
     fn n_center() -> usize;
     fn ng() -> Vec<i32>;
-    fn integrator_type() -> &'static str;
+    fn intor_type() -> &'static str;
     fn name() -> &'static str;
 }
 
-macro_rules! impl_integratorbase {
+macro_rules! impl_intorbase {
     (
-        $integrator: ident,
+        $intor: ident,
         $optimizer: ident,
         $integral_sph: ident,
         $integral_cart: ident,
@@ -66,12 +66,12 @@ macro_rules! impl_integratorbase {
         $n_spinor_comp: expr,
         $n_center: expr,
         $ng: expr,
-        $integrator_type: literal,
+        $intor_type: literal,
         $name: literal
     ) => {
 #[allow(non_camel_case_types)]
-pub struct $integrator;
-impl Integrator for $integrator {
+pub struct $intor;
+impl IntorBase for $intor {
     unsafe fn optimizer(
             opt: *mut *mut CINTOpt,
             atm: *const c_int,
@@ -124,12 +124,12 @@ impl Integrator for $integrator {
     fn n_spinor_comp() -> usize { $n_spinor_comp as usize }
     fn n_center() -> usize { $n_center as usize }
     fn ng() -> Vec<i32> { $ng }
-    fn integrator_type() -> &'static str { $integrator_type }
+    fn intor_type() -> &'static str { $intor_type }
     fn name() -> &'static str { $name }
 }
     };
 }
-impl_integratorbase!(
+impl_intorbase!(
     int4c1e,
     int4c1e_optimizer,
     int4c1e_sph,
@@ -137,7 +137,7 @@ impl_integratorbase!(
     int4c1e_spinor,
     1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int4c1e", "int4c1e");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e,
     int3c1e_optimizer,
     int3c1e_sph,
@@ -145,7 +145,7 @@ impl_integratorbase!(
     int3c1e_spinor,
     1, 1, 3, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int3c1e", "int3c1e");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_rinv,
     int3c1e_rinv_optimizer,
     int3c1e_rinv_sph,
@@ -153,7 +153,7 @@ impl_integratorbase!(
     int3c1e_rinv_spinor,
     1, 1, 3, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int3c1e", "int3c1e_rinv");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_grids,
     int1e_grids_optimizer,
     int1e_grids_sph,
@@ -161,7 +161,7 @@ impl_integratorbase!(
     int1e_grids_spinor,
     1, 1, 2, vec![0, 0, 0, 0, 0, 1, 0, 1],
     "int1e", "int1e_grids");
-impl_integratorbase!(
+impl_intorbase!(
     int2c2e,
     int2c2e_optimizer,
     int2c2e_sph,
@@ -169,7 +169,7 @@ impl_integratorbase!(
     int2c2e_spinor,
     1, 1, 2, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int2c2e", "int2c2e");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_stg,
     int2e_stg_optimizer,
     int2e_stg_sph,
@@ -177,7 +177,7 @@ impl_integratorbase!(
     int2e_stg_spinor,
     1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int2e", "int2e_stg");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_yp,
     int2e_yp_optimizer,
     int2e_yp_sph,
@@ -185,7 +185,7 @@ impl_integratorbase!(
     int2e_yp_spinor,
     1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int2e", "int2e_yp");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_yp_ip1,
     int2e_yp_ip1_optimizer,
     int2e_yp_ip1_sph,
@@ -193,7 +193,7 @@ impl_integratorbase!(
     int2e_yp_ip1_spinor,
     3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int2e", "int2e_yp_ip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_stg_ip1,
     int2e_stg_ip1_optimizer,
     int2e_stg_ip1_sph,
@@ -201,7 +201,7 @@ impl_integratorbase!(
     int2e_stg_ip1_spinor,
     3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int2e", "int2e_stg_ip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_yp_ipip1,
     int2e_yp_ipip1_optimizer,
     int2e_yp_ipip1_sph,
@@ -209,7 +209,7 @@ impl_integratorbase!(
     int2e_yp_ipip1_spinor,
     9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_yp_ipip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_stg_ipip1,
     int2e_stg_ipip1_optimizer,
     int2e_stg_ipip1_sph,
@@ -217,7 +217,7 @@ impl_integratorbase!(
     int2e_stg_ipip1_spinor,
     9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_stg_ipip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_yp_ipvip1,
     int2e_yp_ipvip1_optimizer,
     int2e_yp_ipvip1_sph,
@@ -225,7 +225,7 @@ impl_integratorbase!(
     int2e_yp_ipvip1_spinor,
     9, 9, 4, vec![1, 1, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_yp_ipvip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_stg_ipvip1,
     int2e_stg_ipvip1_optimizer,
     int2e_stg_ipvip1_sph,
@@ -233,7 +233,7 @@ impl_integratorbase!(
     int2e_stg_ipvip1_spinor,
     9, 9, 4, vec![1, 1, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_stg_ipvip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_yp_ip1ip2,
     int2e_yp_ip1ip2_optimizer,
     int2e_yp_ip1ip2_sph,
@@ -241,7 +241,7 @@ impl_integratorbase!(
     int2e_yp_ip1ip2_spinor,
     9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
     "int2e", "int2e_yp_ip1ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_stg_ip1ip2,
     int2e_stg_ip1ip2_optimizer,
     int2e_stg_ip1ip2_sph,
@@ -249,7 +249,7 @@ impl_integratorbase!(
     int2e_stg_ip1ip2_spinor,
     9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
     "int2e", "int2e_stg_ip1ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e,
     int2e_optimizer,
     int2e_sph,
@@ -257,7 +257,7 @@ impl_integratorbase!(
     int2e_spinor,
     1, 1, 4, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int2e", "int2e");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_breit_r1p2,
     int2e_breit_r1p2_optimizer,
     int2e_breit_r1p2_sph,
@@ -265,7 +265,7 @@ impl_integratorbase!(
     int2e_breit_r1p2_spinor,
     1, 1, 4, vec![2, 2, 0, 1, 4, 1, 1, 1],
     "int2e", "int2e_breit_r1p2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_breit_r2p2,
     int2e_breit_r2p2_optimizer,
     int2e_breit_r2p2_sph,
@@ -273,7 +273,7 @@ impl_integratorbase!(
     int2e_breit_r2p2_spinor,
     1, 1, 4, vec![2, 1, 0, 2, 4, 1, 1, 1],
     "int2e", "int2e_breit_r2p2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e,
     int3c2e_optimizer,
     int3c2e_sph,
@@ -281,7 +281,7 @@ impl_integratorbase!(
     int3c2e_spinor,
     1, 1, 3, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int3c2e", "int3c2e");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_r2_origk,
     int3c1e_r2_origk_optimizer,
     int3c1e_r2_origk_sph,
@@ -289,7 +289,7 @@ impl_integratorbase!(
     int3c1e_r2_origk_spinor,
     1, 1, 3, vec![0, 0, 2, 0, 2, 1, 1, 1],
     "int3c1e", "int3c1e_r2_origk");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_r4_origk,
     int3c1e_r4_origk_optimizer,
     int3c1e_r4_origk_sph,
@@ -297,7 +297,7 @@ impl_integratorbase!(
     int3c1e_r4_origk_spinor,
     1, 1, 3, vec![0, 0, 4, 0, 4, 1, 1, 1],
     "int3c1e", "int3c1e_r4_origk");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_r6_origk,
     int3c1e_r6_origk_optimizer,
     int3c1e_r6_origk_sph,
@@ -305,7 +305,7 @@ impl_integratorbase!(
     int3c1e_r6_origk_spinor,
     1, 1, 3, vec![0, 0, 6, 0, 6, 1, 1, 1],
     "int3c1e", "int3c1e_r6_origk");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_ip1_r2_origk,
     int3c1e_ip1_r2_origk_optimizer,
     int3c1e_ip1_r2_origk_sph,
@@ -313,7 +313,7 @@ impl_integratorbase!(
     int3c1e_ip1_r2_origk_spinor,
     3, 3, 3, vec![1, 0, 2, 0, 3, 1, 1, 3],
     "int3c1e", "int3c1e_ip1_r2_origk");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_ip1_r4_origk,
     int3c1e_ip1_r4_origk_optimizer,
     int3c1e_ip1_r4_origk_sph,
@@ -321,7 +321,7 @@ impl_integratorbase!(
     int3c1e_ip1_r4_origk_spinor,
     3, 3, 3, vec![1, 0, 4, 0, 5, 1, 1, 3],
     "int3c1e", "int3c1e_ip1_r4_origk");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_ip1_r6_origk,
     int3c1e_ip1_r6_origk_optimizer,
     int3c1e_ip1_r6_origk_sph,
@@ -329,7 +329,7 @@ impl_integratorbase!(
     int3c1e_ip1_r6_origk_spinor,
     3, 3, 3, vec![1, 0, 6, 0, 7, 1, 1, 3],
     "int3c1e", "int3c1e_ip1_r6_origk");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ovlp,
     int1e_ovlp_optimizer,
     int1e_ovlp_sph,
@@ -337,7 +337,7 @@ impl_integratorbase!(
     int1e_ovlp_spinor,
     1, 1, 2, vec![0, 0, 0, 0, 0, 1, 1, 1],
     "int1e", "int1e_ovlp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_nuc,
     int1e_nuc_optimizer,
     int1e_nuc_sph,
@@ -345,7 +345,7 @@ impl_integratorbase!(
     int1e_nuc_spinor,
     1, 1, 2, vec![0, 0, 0, 0, 0, 1, 0, 1],
     "int1e", "int1e_nuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r2_origi,
     int1e_r2_origi_optimizer,
     int1e_r2_origi_sph,
@@ -353,7 +353,7 @@ impl_integratorbase!(
     int1e_r2_origi_spinor,
     1, 1, 2, vec![2, 0, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_r2_origi");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r4_origi,
     int1e_r4_origi_optimizer,
     int1e_r4_origi_sph,
@@ -361,7 +361,7 @@ impl_integratorbase!(
     int1e_r4_origi_spinor,
     1, 1, 2, vec![4, 0, 0, 0, 4, 1, 1, 1],
     "int1e", "int1e_r4_origi");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r2_origi_ip2,
     int1e_r2_origi_ip2_optimizer,
     int1e_r2_origi_ip2_sph,
@@ -369,7 +369,7 @@ impl_integratorbase!(
     int1e_r2_origi_ip2_spinor,
     3, 3, 2, vec![2, 1, 0, 0, 3, 1, 1, 3],
     "int1e", "int1e_r2_origi_ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r4_origi_ip2,
     int1e_r4_origi_ip2_optimizer,
     int1e_r4_origi_ip2_sph,
@@ -377,7 +377,7 @@ impl_integratorbase!(
     int1e_r4_origi_ip2_spinor,
     3, 3, 2, vec![4, 1, 0, 0, 5, 1, 1, 3],
     "int1e", "int1e_r4_origi_ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipovlp,
     int1e_ipipovlp_optimizer,
     int1e_ipipovlp_sph,
@@ -385,7 +385,7 @@ impl_integratorbase!(
     int1e_ipipovlp_spinor,
     9, 9, 2, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int1e", "int1e_ipipovlp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipovlpip,
     int1e_ipovlpip_optimizer,
     int1e_ipovlpip_sph,
@@ -393,7 +393,7 @@ impl_integratorbase!(
     int1e_ipovlpip_spinor,
     9, 9, 2, vec![1, 1, 0, 0, 2, 1, 1, 9],
     "int1e", "int1e_ipovlpip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipkin,
     int1e_ipipkin_optimizer,
     int1e_ipipkin_sph,
@@ -401,7 +401,7 @@ impl_integratorbase!(
     int1e_ipipkin_spinor,
     9, 9, 2, vec![2, 2, 0, 0, 4, 1, 1, 9],
     "int1e", "int1e_ipipkin");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipkinip,
     int1e_ipkinip_optimizer,
     int1e_ipkinip_sph,
@@ -409,7 +409,7 @@ impl_integratorbase!(
     int1e_ipkinip_spinor,
     9, 9, 2, vec![1, 3, 0, 0, 4, 1, 1, 9],
     "int1e", "int1e_ipkinip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipnuc,
     int1e_ipipnuc_optimizer,
     int1e_ipipnuc_sph,
@@ -417,7 +417,7 @@ impl_integratorbase!(
     int1e_ipipnuc_spinor,
     9, 9, 2, vec![2, 0, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_ipipnuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipnucip,
     int1e_ipnucip_optimizer,
     int1e_ipnucip_sph,
@@ -425,7 +425,7 @@ impl_integratorbase!(
     int1e_ipnucip_spinor,
     9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_ipnucip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipiprinv,
     int1e_ipiprinv_optimizer,
     int1e_ipiprinv_sph,
@@ -433,7 +433,7 @@ impl_integratorbase!(
     int1e_ipiprinv_spinor,
     9, 9, 2, vec![2, 0, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_ipiprinv");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_iprinvip,
     int1e_iprinvip_optimizer,
     int1e_iprinvip_sph,
@@ -441,7 +441,7 @@ impl_integratorbase!(
     int1e_iprinvip_spinor,
     9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_iprinvip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipr,
     int1e_ipipr_optimizer,
     int1e_ipipr_sph,
@@ -449,7 +449,7 @@ impl_integratorbase!(
     int1e_ipipr_spinor,
     27, 27, 2, vec![2, 1, 0, 0, 3, 1, 1, 27],
     "int1e", "int1e_ipipr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_iprip,
     int1e_iprip_optimizer,
     int1e_iprip_sph,
@@ -457,7 +457,7 @@ impl_integratorbase!(
     int1e_iprip_spinor,
     27, 27, 2, vec![1, 2, 0, 0, 3, 1, 1, 27],
     "int1e", "int1e_iprip");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipip1,
     int2e_ipip1_optimizer,
     int2e_ipip1_sph,
@@ -465,7 +465,7 @@ impl_integratorbase!(
     int2e_ipip1_spinor,
     9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_ipip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipvip1,
     int2e_ipvip1_optimizer,
     int2e_ipvip1_sph,
@@ -473,7 +473,7 @@ impl_integratorbase!(
     int2e_ipvip1_spinor,
     9, 9, 4, vec![1, 1, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_ipvip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip1ip2,
     int2e_ip1ip2_optimizer,
     int2e_ip1ip2_sph,
@@ -481,7 +481,7 @@ impl_integratorbase!(
     int2e_ip1ip2_spinor,
     9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
     "int2e", "int2e_ip1ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipippnucp,
     int1e_ipippnucp_optimizer,
     int1e_ipippnucp_sph,
@@ -489,7 +489,7 @@ impl_integratorbase!(
     int1e_ipippnucp_spinor,
     9, 9, 2, vec![3, 1, 0, 0, 4, 1, 0, 9],
     "int1e", "int1e_ipippnucp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ippnucpip,
     int1e_ippnucpip_optimizer,
     int1e_ippnucpip_sph,
@@ -497,7 +497,7 @@ impl_integratorbase!(
     int1e_ippnucpip_spinor,
     9, 9, 2, vec![2, 2, 0, 0, 4, 1, 0, 9],
     "int1e", "int1e_ippnucpip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipprinvp,
     int1e_ipipprinvp_optimizer,
     int1e_ipipprinvp_sph,
@@ -505,7 +505,7 @@ impl_integratorbase!(
     int1e_ipipprinvp_spinor,
     9, 9, 2, vec![3, 1, 0, 0, 4, 1, 0, 9],
     "int1e", "int1e_ipipprinvp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipprinvpip,
     int1e_ipprinvpip_optimizer,
     int1e_ipprinvpip_sph,
@@ -513,7 +513,7 @@ impl_integratorbase!(
     int1e_ipprinvpip_spinor,
     9, 9, 2, vec![2, 2, 0, 0, 4, 1, 0, 9],
     "int1e", "int1e_ipprinvpip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipspnucsp,
     int1e_ipipspnucsp_optimizer,
     int1e_ipipspnucsp_sph,
@@ -521,7 +521,7 @@ impl_integratorbase!(
     int1e_ipipspnucsp_spinor,
     9, 36, 2, vec![3, 1, 0, 0, 4, 4, 0, 9],
     "int1e", "int1e_ipipspnucsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipspnucspip,
     int1e_ipspnucspip_optimizer,
     int1e_ipspnucspip_sph,
@@ -529,7 +529,7 @@ impl_integratorbase!(
     int1e_ipspnucspip_spinor,
     9, 36, 2, vec![2, 2, 0, 0, 4, 4, 0, 9],
     "int1e", "int1e_ipspnucspip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipsprinvsp,
     int1e_ipipsprinvsp_optimizer,
     int1e_ipipsprinvsp_sph,
@@ -537,7 +537,7 @@ impl_integratorbase!(
     int1e_ipipsprinvsp_spinor,
     9, 36, 2, vec![3, 1, 0, 0, 4, 4, 0, 9],
     "int1e", "int1e_ipipsprinvsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipsprinvspip,
     int1e_ipsprinvspip_optimizer,
     int1e_ipsprinvspip_sph,
@@ -545,7 +545,7 @@ impl_integratorbase!(
     int1e_ipsprinvspip_spinor,
     9, 36, 2, vec![2, 2, 0, 0, 4, 4, 0, 9],
     "int1e", "int1e_ipsprinvspip");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipip1ipip2,
     int2e_ipip1ipip2_optimizer,
     int2e_ipip1ipip2_sph,
@@ -553,7 +553,7 @@ impl_integratorbase!(
     int2e_ipip1ipip2_spinor,
     81, 81, 4, vec![2, 0, 2, 0, 4, 1, 1, 81],
     "int2e", "int2e_ipip1ipip2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipvip1ipvip2,
     int2e_ipvip1ipvip2_optimizer,
     int2e_ipvip1ipvip2_sph,
@@ -561,7 +561,7 @@ impl_integratorbase!(
     int2e_ipvip1ipvip2_spinor,
     81, 81, 4, vec![1, 1, 1, 1, 4, 1, 1, 81],
     "int2e", "int2e_ipvip1ipvip2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip1,
     int2e_ip1_optimizer,
     int2e_ip1_sph,
@@ -569,7 +569,7 @@ impl_integratorbase!(
     int2e_ip1_spinor,
     3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int2e", "int2e_ip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip2,
     int2e_ip2_optimizer,
     int2e_ip2_sph,
@@ -577,7 +577,7 @@ impl_integratorbase!(
     int2e_ip2_spinor,
     3, 3, 4, vec![0, 0, 1, 0, 1, 1, 1, 3],
     "int2e", "int2e_ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipspsp1,
     int2e_ipspsp1_optimizer,
     int2e_ipspsp1_sph,
@@ -585,7 +585,7 @@ impl_integratorbase!(
     int2e_ipspsp1_spinor,
     3, 12, 4, vec![2, 1, 0, 0, 3, 4, 1, 3],
     "int2e", "int2e_ipspsp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip1spsp2,
     int2e_ip1spsp2_optimizer,
     int2e_ip1spsp2_sph,
@@ -593,7 +593,7 @@ impl_integratorbase!(
     int2e_ip1spsp2_spinor,
     3, 12, 4, vec![1, 0, 1, 1, 3, 1, 4, 3],
     "int2e", "int2e_ip1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipspsp1spsp2,
     int2e_ipspsp1spsp2_optimizer,
     int2e_ipspsp1spsp2_sph,
@@ -601,7 +601,7 @@ impl_integratorbase!(
     int2e_ipspsp1spsp2_spinor,
     3, 48, 4, vec![2, 1, 1, 1, 5, 4, 4, 3],
     "int2e", "int2e_ipspsp1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipsrsr1,
     int2e_ipsrsr1_optimizer,
     int2e_ipsrsr1_sph,
@@ -609,7 +609,7 @@ impl_integratorbase!(
     int2e_ipsrsr1_spinor,
     3, 12, 4, vec![2, 1, 0, 0, 3, 4, 1, 3],
     "int2e", "int2e_ipsrsr1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip1srsr2,
     int2e_ip1srsr2_optimizer,
     int2e_ip1srsr2_sph,
@@ -617,7 +617,7 @@ impl_integratorbase!(
     int2e_ip1srsr2_spinor,
     3, 12, 4, vec![1, 0, 1, 1, 3, 1, 4, 3],
     "int2e", "int2e_ip1srsr2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipsrsr1srsr2,
     int2e_ipsrsr1srsr2_optimizer,
     int2e_ipsrsr1srsr2_sph,
@@ -625,7 +625,7 @@ impl_integratorbase!(
     int2e_ipsrsr1srsr2_spinor,
     3, 48, 4, vec![2, 1, 1, 1, 5, 4, 4, 3],
     "int2e", "int2e_ipsrsr1srsr2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_p2,
     int3c1e_p2_optimizer,
     int3c1e_p2_sph,
@@ -633,7 +633,7 @@ impl_integratorbase!(
     int3c1e_p2_spinor,
     1, 1, 3, vec![0, 0, 2, 0, 2, 1, 1, 1],
     "int3c1e", "int3c1e_p2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_iprinv,
     int3c1e_iprinv_optimizer,
     int3c1e_iprinv_sph,
@@ -641,7 +641,7 @@ impl_integratorbase!(
     int3c1e_iprinv_spinor,
     3, 3, 3, vec![1, 0, 0, 0, 1, 1, 0, 3],
     "int3c1e", "int3c1e_iprinv");
-impl_integratorbase!(
+impl_intorbase!(
     int3c1e_ip1,
     int3c1e_ip1_optimizer,
     int3c1e_ip1_sph,
@@ -649,7 +649,7 @@ impl_integratorbase!(
     int3c1e_ip1_spinor,
     3, 3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int3c1e", "int3c1e_ip1");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipovlp,
     int1e_ipovlp_optimizer,
     int1e_ipovlp_sph,
@@ -657,7 +657,7 @@ impl_integratorbase!(
     int1e_ipovlp_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int1e", "int1e_ipovlp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ovlpip,
     int1e_ovlpip_optimizer,
     int1e_ovlpip_sph,
@@ -665,7 +665,7 @@ impl_integratorbase!(
     int1e_ovlpip_spinor,
     3, 3, 2, vec![0, 1, 0, 0, 1, 1, 1, 3],
     "int1e", "int1e_ovlpip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipkin,
     int1e_ipkin_optimizer,
     int1e_ipkin_sph,
@@ -673,7 +673,7 @@ impl_integratorbase!(
     int1e_ipkin_spinor,
     3, 3, 2, vec![1, 2, 0, 0, 3, 1, 1, 3],
     "int1e", "int1e_ipkin");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_kinip,
     int1e_kinip_optimizer,
     int1e_kinip_sph,
@@ -681,7 +681,7 @@ impl_integratorbase!(
     int1e_kinip_spinor,
     3, 3, 2, vec![0, 3, 0, 0, 3, 1, 1, 3],
     "int1e", "int1e_kinip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipnuc,
     int1e_ipnuc_optimizer,
     int1e_ipnuc_sph,
@@ -689,7 +689,7 @@ impl_integratorbase!(
     int1e_ipnuc_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
     "int1e", "int1e_ipnuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_iprinv,
     int1e_iprinv_optimizer,
     int1e_iprinv_sph,
@@ -697,7 +697,7 @@ impl_integratorbase!(
     int1e_iprinv_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
     "int1e", "int1e_iprinv");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipspnucsp,
     int1e_ipspnucsp_optimizer,
     int1e_ipspnucsp_sph,
@@ -705,7 +705,7 @@ impl_integratorbase!(
     int1e_ipspnucsp_spinor,
     3, 12, 2, vec![2, 1, 0, 0, 3, 4, 0, 3],
     "int1e", "int1e_ipspnucsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipsprinvsp,
     int1e_ipsprinvsp_optimizer,
     int1e_ipsprinvsp_sph,
@@ -713,7 +713,7 @@ impl_integratorbase!(
     int1e_ipsprinvsp_spinor,
     3, 12, 2, vec![2, 1, 0, 0, 3, 4, 0, 3],
     "int1e", "int1e_ipsprinvsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ippnucp,
     int1e_ippnucp_optimizer,
     int1e_ippnucp_sph,
@@ -721,7 +721,7 @@ impl_integratorbase!(
     int1e_ippnucp_spinor,
     3, 3, 2, vec![2, 1, 0, 0, 3, 1, 0, 3],
     "int1e", "int1e_ippnucp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipprinvp,
     int1e_ipprinvp_optimizer,
     int1e_ipprinvp_sph,
@@ -729,7 +729,7 @@ impl_integratorbase!(
     int1e_ipprinvp_spinor,
     3, 3, 2, vec![2, 1, 0, 0, 3, 1, 0, 3],
     "int1e", "int1e_ipprinvp");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ssp1ssp2,
     int2e_ssp1ssp2_optimizer,
     int2e_ssp1ssp2_sph,
@@ -737,7 +737,7 @@ impl_integratorbase!(
     int2e_ssp1ssp2_spinor,
     1, 16, 4, vec![0, 1, 0, 1, 2, 4, 4, 1],
     "int2e", "int2e_ssp1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ssp1sps2,
     int2e_ssp1sps2_optimizer,
     int2e_ssp1sps2_sph,
@@ -745,7 +745,7 @@ impl_integratorbase!(
     int2e_ssp1sps2_spinor,
     1, 16, 4, vec![0, 1, 1, 0, 2, 4, 4, 1],
     "int2e", "int2e_ssp1sps2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_sps1ssp2,
     int2e_sps1ssp2_optimizer,
     int2e_sps1ssp2_sph,
@@ -753,7 +753,7 @@ impl_integratorbase!(
     int2e_sps1ssp2_spinor,
     1, 16, 4, vec![1, 0, 0, 1, 2, 4, 4, 1],
     "int2e", "int2e_sps1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_sps1sps2,
     int2e_sps1sps2_optimizer,
     int2e_sps1sps2_sph,
@@ -761,7 +761,7 @@ impl_integratorbase!(
     int2e_sps1sps2_spinor,
     1, 16, 4, vec![1, 0, 1, 0, 2, 4, 4, 1],
     "int2e", "int2e_sps1sps2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_cg_ssa10ssp2,
     int2e_cg_ssa10ssp2_optimizer,
     int2e_cg_ssa10ssp2_sph,
@@ -769,7 +769,7 @@ impl_integratorbase!(
     int2e_cg_ssa10ssp2_spinor,
     3, 48, 4, vec![1, 0, 0, 1, 2, 4, 4, 3],
     "int2e", "int2e_cg_ssa10ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_giao_ssa10ssp2,
     int2e_giao_ssa10ssp2_optimizer,
     int2e_giao_ssa10ssp2_sph,
@@ -777,7 +777,7 @@ impl_integratorbase!(
     int2e_giao_ssa10ssp2_spinor,
     3, 48, 4, vec![1, 0, 0, 1, 2, 4, 4, 3],
     "int2e", "int2e_giao_ssa10ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gssp1ssp2,
     int2e_gssp1ssp2_optimizer,
     int2e_gssp1ssp2_sph,
@@ -785,7 +785,7 @@ impl_integratorbase!(
     int2e_gssp1ssp2_spinor,
     3, 48, 4, vec![1, 1, 0, 1, 3, 4, 4, 3],
     "int2e", "int2e_gssp1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r1_ssp1ssp2,
     int2e_gauge_r1_ssp1ssp2_optimizer,
     int2e_gauge_r1_ssp1ssp2_sph,
@@ -793,7 +793,7 @@ impl_integratorbase!(
     int2e_gauge_r1_ssp1ssp2_spinor,
     1, 16, 4, vec![1, 3, 0, 1, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r1_ssp1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r1_ssp1sps2,
     int2e_gauge_r1_ssp1sps2_optimizer,
     int2e_gauge_r1_ssp1sps2_sph,
@@ -801,7 +801,7 @@ impl_integratorbase!(
     int2e_gauge_r1_ssp1sps2_spinor,
     1, 16, 4, vec![1, 3, 1, 0, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r1_ssp1sps2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r1_sps1ssp2,
     int2e_gauge_r1_sps1ssp2_optimizer,
     int2e_gauge_r1_sps1ssp2_sph,
@@ -809,7 +809,7 @@ impl_integratorbase!(
     int2e_gauge_r1_sps1ssp2_spinor,
     1, 16, 4, vec![2, 2, 0, 1, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r1_sps1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r1_sps1sps2,
     int2e_gauge_r1_sps1sps2_optimizer,
     int2e_gauge_r1_sps1sps2_sph,
@@ -817,7 +817,7 @@ impl_integratorbase!(
     int2e_gauge_r1_sps1sps2_spinor,
     1, 16, 4, vec![2, 2, 1, 0, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r1_sps1sps2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r2_ssp1ssp2,
     int2e_gauge_r2_ssp1ssp2_optimizer,
     int2e_gauge_r2_ssp1ssp2_sph,
@@ -825,7 +825,7 @@ impl_integratorbase!(
     int2e_gauge_r2_ssp1ssp2_spinor,
     1, 16, 4, vec![1, 2, 0, 2, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r2_ssp1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r2_ssp1sps2,
     int2e_gauge_r2_ssp1sps2_optimizer,
     int2e_gauge_r2_ssp1sps2_sph,
@@ -833,7 +833,7 @@ impl_integratorbase!(
     int2e_gauge_r2_ssp1sps2_spinor,
     1, 16, 4, vec![1, 2, 1, 1, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r2_ssp1sps2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r2_sps1ssp2,
     int2e_gauge_r2_sps1ssp2_optimizer,
     int2e_gauge_r2_sps1ssp2_sph,
@@ -841,7 +841,7 @@ impl_integratorbase!(
     int2e_gauge_r2_sps1ssp2_spinor,
     1, 16, 4, vec![2, 1, 0, 2, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r2_sps1ssp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gauge_r2_sps1sps2,
     int2e_gauge_r2_sps1sps2_optimizer,
     int2e_gauge_r2_sps1sps2_sph,
@@ -849,7 +849,7 @@ impl_integratorbase!(
     int2e_gauge_r2_sps1sps2_spinor,
     1, 16, 4, vec![2, 1, 1, 1, 4, 4, 4, 1],
     "int2e", "int2e_gauge_r2_sps1sps2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipipnuc,
     int1e_ipipipnuc_optimizer,
     int1e_ipipipnuc_sph,
@@ -857,7 +857,7 @@ impl_integratorbase!(
     int1e_ipipipnuc_spinor,
     27, 27, 2, vec![3, 0, 0, 0, 3, 1, 0, 27],
     "int1e", "int1e_ipipipnuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipiprinv,
     int1e_ipipiprinv_optimizer,
     int1e_ipipiprinv_sph,
@@ -865,7 +865,7 @@ impl_integratorbase!(
     int1e_ipipiprinv_spinor,
     27, 27, 2, vec![3, 0, 0, 0, 3, 1, 0, 27],
     "int1e", "int1e_ipipiprinv");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipnucip,
     int1e_ipipnucip_optimizer,
     int1e_ipipnucip_sph,
@@ -873,7 +873,7 @@ impl_integratorbase!(
     int1e_ipipnucip_spinor,
     27, 27, 2, vec![2, 1, 0, 0, 3, 1, 0, 27],
     "int1e", "int1e_ipipnucip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipiprinvip,
     int1e_ipiprinvip_optimizer,
     int1e_ipiprinvip_sph,
@@ -881,7 +881,7 @@ impl_integratorbase!(
     int1e_ipiprinvip_spinor,
     27, 27, 2, vec![2, 1, 0, 0, 3, 1, 0, 27],
     "int1e", "int1e_ipiprinvip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_kin,
     int1e_kin_optimizer,
     int1e_kin_sph,
@@ -889,7 +889,7 @@ impl_integratorbase!(
     int1e_kin_spinor,
     1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_kin");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ia01p,
     int1e_ia01p_optimizer,
     int1e_ia01p_sph,
@@ -897,7 +897,7 @@ impl_integratorbase!(
     int1e_ia01p_spinor,
     3, 3, 2, vec![1, 2, 0, 0, 2, 1, 0, 3],
     "int1e", "int1e_ia01p");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_giao_irjxp,
     int1e_giao_irjxp_optimizer,
     int1e_giao_irjxp_sph,
@@ -905,7 +905,7 @@ impl_integratorbase!(
     int1e_giao_irjxp_spinor,
     3, 3, 2, vec![0, 2, 0, 0, 2, 1, 1, 3],
     "int1e", "int1e_giao_irjxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_cg_irxp,
     int1e_cg_irxp_optimizer,
     int1e_cg_irxp_sph,
@@ -913,7 +913,7 @@ impl_integratorbase!(
     int1e_cg_irxp_spinor,
     3, 3, 2, vec![0, 2, 0, 0, 2, 1, 1, 3],
     "int1e", "int1e_cg_irxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_giao_a11part,
     int1e_giao_a11part_optimizer,
     int1e_giao_a11part_sph,
@@ -921,7 +921,7 @@ impl_integratorbase!(
     int1e_giao_a11part_spinor,
     9, 9, 2, vec![1, 2, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_giao_a11part");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_cg_a11part,
     int1e_cg_a11part_optimizer,
     int1e_cg_a11part_sph,
@@ -929,7 +929,7 @@ impl_integratorbase!(
     int1e_cg_a11part_spinor,
     9, 9, 2, vec![1, 2, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_cg_a11part");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_a01gp,
     int1e_a01gp_optimizer,
     int1e_a01gp_sph,
@@ -937,7 +937,7 @@ impl_integratorbase!(
     int1e_a01gp_spinor,
     9, 9, 2, vec![2, 2, 0, 0, 3, 1, 0, 9],
     "int1e", "int1e_a01gp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_igkin,
     int1e_igkin_optimizer,
     int1e_igkin_sph,
@@ -945,7 +945,7 @@ impl_integratorbase!(
     int1e_igkin_spinor,
     3, 3, 2, vec![1, 2, 0, 0, 3, 1, 1, 3],
     "int1e", "int1e_igkin");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_igovlp,
     int1e_igovlp_optimizer,
     int1e_igovlp_sph,
@@ -953,7 +953,7 @@ impl_integratorbase!(
     int1e_igovlp_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int1e", "int1e_igovlp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ignuc,
     int1e_ignuc_optimizer,
     int1e_ignuc_sph,
@@ -961,7 +961,7 @@ impl_integratorbase!(
     int1e_ignuc_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
     "int1e", "int1e_ignuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_pnucp,
     int1e_pnucp_optimizer,
     int1e_pnucp_sph,
@@ -969,7 +969,7 @@ impl_integratorbase!(
     int1e_pnucp_spinor,
     1, 1, 2, vec![1, 1, 0, 0, 2, 1, 0, 1],
     "int1e", "int1e_pnucp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_z,
     int1e_z_optimizer,
     int1e_z_sph,
@@ -977,7 +977,7 @@ impl_integratorbase!(
     int1e_z_spinor,
     1, 1, 2, vec![0, 1, 0, 0, 1, 1, 1, 1],
     "int1e", "int1e_z");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_zz,
     int1e_zz_optimizer,
     int1e_zz_sph,
@@ -985,7 +985,7 @@ impl_integratorbase!(
     int1e_zz_spinor,
     1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_zz");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r,
     int1e_r_optimizer,
     int1e_r_sph,
@@ -993,7 +993,7 @@ impl_integratorbase!(
     int1e_r_spinor,
     3, 3, 2, vec![0, 1, 0, 0, 1, 1, 1, 3],
     "int1e", "int1e_r");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r2,
     int1e_r2_optimizer,
     int1e_r2_sph,
@@ -1001,7 +1001,7 @@ impl_integratorbase!(
     int1e_r2_spinor,
     1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_r2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r4,
     int1e_r4_optimizer,
     int1e_r4_sph,
@@ -1009,7 +1009,7 @@ impl_integratorbase!(
     int1e_r4_spinor,
     1, 1, 2, vec![0, 4, 0, 0, 4, 1, 1, 1],
     "int1e", "int1e_r4");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_rr,
     int1e_rr_optimizer,
     int1e_rr_sph,
@@ -1017,7 +1017,7 @@ impl_integratorbase!(
     int1e_rr_spinor,
     9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
     "int1e", "int1e_rr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_rrr,
     int1e_rrr_optimizer,
     int1e_rrr_sph,
@@ -1025,7 +1025,7 @@ impl_integratorbase!(
     int1e_rrr_spinor,
     27, 27, 2, vec![0, 3, 0, 0, 3, 1, 1, 27],
     "int1e", "int1e_rrr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_rrrr,
     int1e_rrrr_optimizer,
     int1e_rrrr_sph,
@@ -1033,7 +1033,7 @@ impl_integratorbase!(
     int1e_rrrr_spinor,
     81, 81, 2, vec![0, 4, 0, 0, 4, 1, 1, 81],
     "int1e", "int1e_rrrr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_z_origj,
     int1e_z_origj_optimizer,
     int1e_z_origj_sph,
@@ -1041,7 +1041,7 @@ impl_integratorbase!(
     int1e_z_origj_spinor,
     1, 1, 2, vec![0, 1, 0, 0, 1, 1, 1, 1],
     "int1e", "int1e_z_origj");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_zz_origj,
     int1e_zz_origj_optimizer,
     int1e_zz_origj_sph,
@@ -1049,7 +1049,7 @@ impl_integratorbase!(
     int1e_zz_origj_spinor,
     1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_zz_origj");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r_origj,
     int1e_r_origj_optimizer,
     int1e_r_origj_sph,
@@ -1057,7 +1057,7 @@ impl_integratorbase!(
     int1e_r_origj_spinor,
     3, 3, 2, vec![0, 1, 0, 0, 1, 1, 1, 3],
     "int1e", "int1e_r_origj");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_rr_origj,
     int1e_rr_origj_optimizer,
     int1e_rr_origj_sph,
@@ -1065,7 +1065,7 @@ impl_integratorbase!(
     int1e_rr_origj_spinor,
     9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
     "int1e", "int1e_rr_origj");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r2_origj,
     int1e_r2_origj_optimizer,
     int1e_r2_origj_sph,
@@ -1073,7 +1073,7 @@ impl_integratorbase!(
     int1e_r2_origj_spinor,
     1, 1, 2, vec![0, 2, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_r2_origj");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_r4_origj,
     int1e_r4_origj_optimizer,
     int1e_r4_origj_sph,
@@ -1081,7 +1081,7 @@ impl_integratorbase!(
     int1e_r4_origj_spinor,
     1, 1, 2, vec![0, 4, 0, 0, 4, 1, 1, 1],
     "int1e", "int1e_r4_origj");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_p4,
     int1e_p4_optimizer,
     int1e_p4_sph,
@@ -1089,7 +1089,7 @@ impl_integratorbase!(
     int1e_p4_spinor,
     1, 1, 2, vec![2, 2, 0, 0, 4, 1, 1, 1],
     "int1e", "int1e_p4");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_prinvp,
     int1e_prinvp_optimizer,
     int1e_prinvp_sph,
@@ -1097,7 +1097,7 @@ impl_integratorbase!(
     int1e_prinvp_spinor,
     1, 1, 2, vec![1, 1, 0, 0, 2, 1, 0, 1],
     "int1e", "int1e_prinvp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_prinvxp,
     int1e_prinvxp_optimizer,
     int1e_prinvxp_sph,
@@ -1105,7 +1105,7 @@ impl_integratorbase!(
     int1e_prinvxp_spinor,
     3, 3, 2, vec![1, 1, 0, 0, 2, 1, 0, 3],
     "int1e", "int1e_prinvxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_pnucxp,
     int1e_pnucxp_optimizer,
     int1e_pnucxp_sph,
@@ -1113,7 +1113,7 @@ impl_integratorbase!(
     int1e_pnucxp_spinor,
     3, 3, 2, vec![1, 1, 0, 0, 2, 1, 0, 3],
     "int1e", "int1e_pnucxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_irp,
     int1e_irp_optimizer,
     int1e_irp_sph,
@@ -1121,7 +1121,7 @@ impl_integratorbase!(
     int1e_irp_spinor,
     9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
     "int1e", "int1e_irp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_irrp,
     int1e_irrp_optimizer,
     int1e_irrp_sph,
@@ -1129,7 +1129,7 @@ impl_integratorbase!(
     int1e_irrp_spinor,
     27, 27, 2, vec![0, 3, 0, 0, 3, 1, 1, 27],
     "int1e", "int1e_irrp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_irpr,
     int1e_irpr_optimizer,
     int1e_irpr_sph,
@@ -1137,7 +1137,7 @@ impl_integratorbase!(
     int1e_irpr_spinor,
     27, 27, 2, vec![0, 3, 0, 0, 3, 1, 1, 27],
     "int1e", "int1e_irpr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ggovlp,
     int1e_ggovlp_optimizer,
     int1e_ggovlp_sph,
@@ -1145,7 +1145,7 @@ impl_integratorbase!(
     int1e_ggovlp_spinor,
     9, 9, 2, vec![0, 2, 0, 0, 2, 1, 1, 9],
     "int1e", "int1e_ggovlp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ggkin,
     int1e_ggkin_optimizer,
     int1e_ggkin_sph,
@@ -1153,7 +1153,7 @@ impl_integratorbase!(
     int1e_ggkin_spinor,
     9, 9, 2, vec![0, 4, 0, 0, 4, 1, 1, 9],
     "int1e", "int1e_ggkin");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ggnuc,
     int1e_ggnuc_optimizer,
     int1e_ggnuc_sph,
@@ -1161,7 +1161,7 @@ impl_integratorbase!(
     int1e_ggnuc_spinor,
     9, 9, 2, vec![0, 2, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_ggnuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_grjxp,
     int1e_grjxp_optimizer,
     int1e_grjxp_sph,
@@ -1169,7 +1169,7 @@ impl_integratorbase!(
     int1e_grjxp_spinor,
     9, 9, 2, vec![0, 3, 0, 0, 3, 1, 1, 9],
     "int1e", "int1e_grjxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_rinv,
     int1e_rinv_optimizer,
     int1e_rinv_sph,
@@ -1177,7 +1177,7 @@ impl_integratorbase!(
     int1e_rinv_spinor,
     1, 1, 2, vec![0, 0, 0, 0, 0, 1, 0, 1],
     "int1e", "int1e_rinv");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_drinv,
     int1e_drinv_optimizer,
     int1e_drinv_sph,
@@ -1185,7 +1185,7 @@ impl_integratorbase!(
     int1e_drinv_spinor,
     3, 3, 2, vec![1, 1, 0, 0, 1, 1, 0, 3],
     "int1e", "int1e_drinv");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_sigma,
     int1e_sigma_optimizer,
     int1e_sigma_sph,
@@ -1193,7 +1193,7 @@ impl_integratorbase!(
     int1e_sigma_spinor,
     3, 12, 2, vec![0, 0, 0, 0, 0, 4, 1, 3],
     "int1e", "int1e_sigma");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spsigmasp,
     int1e_spsigmasp_optimizer,
     int1e_spsigmasp_sph,
@@ -1201,7 +1201,7 @@ impl_integratorbase!(
     int1e_spsigmasp_spinor,
     3, 12, 2, vec![1, 1, 0, 0, 2, 4, 1, 3],
     "int1e", "int1e_spsigmasp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_srsr,
     int1e_srsr_optimizer,
     int1e_srsr_sph,
@@ -1209,7 +1209,7 @@ impl_integratorbase!(
     int1e_srsr_spinor,
     1, 4, 2, vec![1, 1, 0, 0, 2, 4, 1, 1],
     "int1e", "int1e_srsr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_sr,
     int1e_sr_optimizer,
     int1e_sr_sph,
@@ -1217,7 +1217,7 @@ impl_integratorbase!(
     int1e_sr_spinor,
     1, 4, 2, vec![1, 0, 0, 0, 1, 4, 1, 1],
     "int1e", "int1e_sr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_srsp,
     int1e_srsp_optimizer,
     int1e_srsp_sph,
@@ -1225,7 +1225,7 @@ impl_integratorbase!(
     int1e_srsp_spinor,
     1, 4, 2, vec![1, 1, 0, 0, 2, 4, 1, 1],
     "int1e", "int1e_srsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spsp,
     int1e_spsp_optimizer,
     int1e_spsp_sph,
@@ -1233,7 +1233,7 @@ impl_integratorbase!(
     int1e_spsp_spinor,
     1, 1, 2, vec![1, 1, 0, 0, 2, 1, 1, 1],
     "int1e", "int1e_spsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_sp,
     int1e_sp_optimizer,
     int1e_sp_sph,
@@ -1241,7 +1241,7 @@ impl_integratorbase!(
     int1e_sp_spinor,
     1, 4, 2, vec![1, 0, 0, 0, 1, 4, 1, 1],
     "int1e", "int1e_sp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spnucsp,
     int1e_spnucsp_optimizer,
     int1e_spnucsp_sph,
@@ -1249,7 +1249,7 @@ impl_integratorbase!(
     int1e_spnucsp_spinor,
     1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
     "int1e", "int1e_spnucsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_sprinvsp,
     int1e_sprinvsp_optimizer,
     int1e_sprinvsp_sph,
@@ -1257,7 +1257,7 @@ impl_integratorbase!(
     int1e_sprinvsp_spinor,
     1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
     "int1e", "int1e_sprinvsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_srnucsr,
     int1e_srnucsr_optimizer,
     int1e_srnucsr_sph,
@@ -1265,7 +1265,7 @@ impl_integratorbase!(
     int1e_srnucsr_spinor,
     1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
     "int1e", "int1e_srnucsr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_sprsp,
     int1e_sprsp_optimizer,
     int1e_sprsp_sph,
@@ -1273,7 +1273,7 @@ impl_integratorbase!(
     int1e_sprsp_spinor,
     3, 12, 2, vec![1, 2, 0, 0, 3, 4, 1, 3],
     "int1e", "int1e_sprsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_govlp,
     int1e_govlp_optimizer,
     int1e_govlp_sph,
@@ -1281,7 +1281,7 @@ impl_integratorbase!(
     int1e_govlp_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int1e", "int1e_govlp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_gnuc,
     int1e_gnuc_optimizer,
     int1e_gnuc_sph,
@@ -1289,7 +1289,7 @@ impl_integratorbase!(
     int1e_gnuc_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
     "int1e", "int1e_gnuc");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_cg_sa10sa01,
     int1e_cg_sa10sa01_optimizer,
     int1e_cg_sa10sa01_sph,
@@ -1297,7 +1297,7 @@ impl_integratorbase!(
     int1e_cg_sa10sa01_spinor,
     9, 36, 2, vec![2, 1, 0, 0, 2, 4, 0, 9],
     "int1e", "int1e_cg_sa10sa01");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_cg_sa10sp,
     int1e_cg_sa10sp_optimizer,
     int1e_cg_sa10sp_sph,
@@ -1305,7 +1305,7 @@ impl_integratorbase!(
     int1e_cg_sa10sp_spinor,
     3, 12, 2, vec![1, 1, 0, 0, 2, 4, 1, 3],
     "int1e", "int1e_cg_sa10sp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_cg_sa10nucsp,
     int1e_cg_sa10nucsp_optimizer,
     int1e_cg_sa10nucsp_sph,
@@ -1313,7 +1313,7 @@ impl_integratorbase!(
     int1e_cg_sa10nucsp_spinor,
     3, 12, 2, vec![1, 1, 0, 0, 2, 4, 0, 3],
     "int1e", "int1e_cg_sa10nucsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_giao_sa10sa01,
     int1e_giao_sa10sa01_optimizer,
     int1e_giao_sa10sa01_sph,
@@ -1321,7 +1321,7 @@ impl_integratorbase!(
     int1e_giao_sa10sa01_spinor,
     9, 36, 2, vec![2, 1, 0, 0, 2, 4, 0, 9],
     "int1e", "int1e_giao_sa10sa01");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_giao_sa10sp,
     int1e_giao_sa10sp_optimizer,
     int1e_giao_sa10sp_sph,
@@ -1329,7 +1329,7 @@ impl_integratorbase!(
     int1e_giao_sa10sp_spinor,
     3, 12, 2, vec![1, 1, 0, 0, 2, 4, 1, 3],
     "int1e", "int1e_giao_sa10sp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_giao_sa10nucsp,
     int1e_giao_sa10nucsp_optimizer,
     int1e_giao_sa10nucsp_sph,
@@ -1337,7 +1337,7 @@ impl_integratorbase!(
     int1e_giao_sa10nucsp_spinor,
     3, 12, 2, vec![1, 1, 0, 0, 2, 4, 0, 3],
     "int1e", "int1e_giao_sa10nucsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_sa01sp,
     int1e_sa01sp_optimizer,
     int1e_sa01sp_sph,
@@ -1345,7 +1345,7 @@ impl_integratorbase!(
     int1e_sa01sp_spinor,
     3, 12, 2, vec![1, 2, 0, 0, 2, 4, 0, 3],
     "int1e", "int1e_sa01sp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spgsp,
     int1e_spgsp_optimizer,
     int1e_spgsp_sph,
@@ -1353,7 +1353,7 @@ impl_integratorbase!(
     int1e_spgsp_spinor,
     3, 12, 2, vec![2, 1, 0, 0, 3, 4, 1, 3],
     "int1e", "int1e_spgsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spgnucsp,
     int1e_spgnucsp_optimizer,
     int1e_spgnucsp_sph,
@@ -1361,7 +1361,7 @@ impl_integratorbase!(
     int1e_spgnucsp_spinor,
     3, 12, 2, vec![2, 1, 0, 0, 3, 4, 0, 3],
     "int1e", "int1e_spgnucsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spgsa01,
     int1e_spgsa01_optimizer,
     int1e_spgsa01_sph,
@@ -1369,7 +1369,7 @@ impl_integratorbase!(
     int1e_spgsa01_spinor,
     9, 36, 2, vec![3, 1, 0, 0, 3, 4, 0, 9],
     "int1e", "int1e_spgsa01");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ig1,
     int2e_ig1_optimizer,
     int2e_ig1_sph,
@@ -1377,7 +1377,7 @@ impl_integratorbase!(
     int2e_ig1_spinor,
     3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int2e", "int2e_ig1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_gg1,
     int2e_gg1_optimizer,
     int2e_gg1_sph,
@@ -1385,7 +1385,7 @@ impl_integratorbase!(
     int2e_gg1_spinor,
     9, 9, 4, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_gg1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_g1g2,
     int2e_g1g2_optimizer,
     int2e_g1g2_sph,
@@ -1393,7 +1393,7 @@ impl_integratorbase!(
     int2e_g1g2_spinor,
     9, 9, 4, vec![1, 0, 1, 0, 2, 1, 1, 9],
     "int2e", "int2e_g1g2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_p1vxp1,
     int2e_p1vxp1_optimizer,
     int2e_p1vxp1_sph,
@@ -1401,7 +1401,7 @@ impl_integratorbase!(
     int2e_p1vxp1_spinor,
     3, 3, 4, vec![1, 1, 0, 0, 2, 1, 1, 3],
     "int2e", "int2e_p1vxp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip1v_rc1,
     int2e_ip1v_rc1_optimizer,
     int2e_ip1v_rc1_sph,
@@ -1409,7 +1409,7 @@ impl_integratorbase!(
     int2e_ip1v_rc1_spinor,
     9, 9, 4, vec![1, 2, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_ip1v_rc1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ip1v_r1,
     int2e_ip1v_r1_optimizer,
     int2e_ip1v_r1_sph,
@@ -1417,7 +1417,7 @@ impl_integratorbase!(
     int2e_ip1v_r1_spinor,
     9, 9, 4, vec![1, 2, 0, 0, 2, 1, 1, 9],
     "int2e", "int2e_ip1v_r1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipvg1_xp1,
     int2e_ipvg1_xp1_optimizer,
     int2e_ipvg1_xp1_sph,
@@ -1425,7 +1425,7 @@ impl_integratorbase!(
     int2e_ipvg1_xp1_spinor,
     9, 9, 4, vec![2, 1, 0, 0, 3, 1, 1, 9],
     "int2e", "int2e_ipvg1_xp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_ipvg2_xp1,
     int2e_ipvg2_xp1_optimizer,
     int2e_ipvg2_xp1_sph,
@@ -1433,7 +1433,7 @@ impl_integratorbase!(
     int2e_ipvg2_xp1_spinor,
     9, 9, 4, vec![1, 1, 1, 0, 3, 1, 1, 9],
     "int2e", "int2e_ipvg2_xp1");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_inuc_rcxp,
     int1e_inuc_rcxp_optimizer,
     int1e_inuc_rcxp_sph,
@@ -1441,7 +1441,7 @@ impl_integratorbase!(
     int1e_inuc_rcxp_spinor,
     3, 3, 2, vec![0, 2, 0, 0, 2, 1, 0, 3],
     "int1e", "int1e_inuc_rcxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_inuc_rxp,
     int1e_inuc_rxp_optimizer,
     int1e_inuc_rxp_sph,
@@ -1449,7 +1449,7 @@ impl_integratorbase!(
     int1e_inuc_rxp_spinor,
     3, 3, 2, vec![0, 2, 0, 0, 2, 1, 0, 3],
     "int1e", "int1e_inuc_rxp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spspsp,
     int1e_spspsp_optimizer,
     int1e_spspsp_sph,
@@ -1457,7 +1457,7 @@ impl_integratorbase!(
     int1e_spspsp_spinor,
     1, 4, 2, vec![1, 2, 0, 0, 3, 4, 1, 1],
     "int1e", "int1e_spspsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_spnuc,
     int1e_spnuc_optimizer,
     int1e_spnuc_sph,
@@ -1465,7 +1465,7 @@ impl_integratorbase!(
     int1e_spnuc_spinor,
     1, 4, 2, vec![1, 0, 0, 0, 1, 4, 0, 1],
     "int1e", "int1e_spnuc");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spv1,
     int2e_spv1_optimizer,
     int2e_spv1_sph,
@@ -1473,7 +1473,7 @@ impl_integratorbase!(
     int2e_spv1_spinor,
     1, 4, 4, vec![1, 0, 0, 0, 1, 4, 1, 1],
     "int2e", "int2e_spv1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_vsp1,
     int2e_vsp1_optimizer,
     int2e_vsp1_sph,
@@ -1481,7 +1481,7 @@ impl_integratorbase!(
     int2e_vsp1_spinor,
     1, 4, 4, vec![0, 1, 0, 0, 1, 4, 1, 1],
     "int2e", "int2e_vsp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spsp2,
     int2e_spsp2_optimizer,
     int2e_spsp2_sph,
@@ -1489,7 +1489,7 @@ impl_integratorbase!(
     int2e_spsp2_spinor,
     1, 4, 4, vec![0, 0, 1, 1, 2, 1, 4, 1],
     "int2e", "int2e_spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spv1spv2,
     int2e_spv1spv2_optimizer,
     int2e_spv1spv2_sph,
@@ -1497,7 +1497,7 @@ impl_integratorbase!(
     int2e_spv1spv2_spinor,
     1, 16, 4, vec![1, 0, 1, 0, 2, 4, 4, 1],
     "int2e", "int2e_spv1spv2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_vsp1spv2,
     int2e_vsp1spv2_optimizer,
     int2e_vsp1spv2_sph,
@@ -1505,7 +1505,7 @@ impl_integratorbase!(
     int2e_vsp1spv2_spinor,
     1, 16, 4, vec![0, 1, 1, 0, 2, 4, 4, 1],
     "int2e", "int2e_vsp1spv2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spv1vsp2,
     int2e_spv1vsp2_optimizer,
     int2e_spv1vsp2_sph,
@@ -1513,7 +1513,7 @@ impl_integratorbase!(
     int2e_spv1vsp2_spinor,
     1, 16, 4, vec![1, 0, 0, 1, 2, 4, 4, 1],
     "int2e", "int2e_spv1vsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_vsp1vsp2,
     int2e_vsp1vsp2_optimizer,
     int2e_vsp1vsp2_sph,
@@ -1521,7 +1521,7 @@ impl_integratorbase!(
     int2e_vsp1vsp2_spinor,
     1, 16, 4, vec![0, 1, 0, 1, 2, 4, 4, 1],
     "int2e", "int2e_vsp1vsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spv1spsp2,
     int2e_spv1spsp2_optimizer,
     int2e_spv1spsp2_sph,
@@ -1529,7 +1529,7 @@ impl_integratorbase!(
     int2e_spv1spsp2_spinor,
     1, 16, 4, vec![1, 0, 1, 1, 3, 4, 4, 1],
     "int2e", "int2e_spv1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_vsp1spsp2,
     int2e_vsp1spsp2_optimizer,
     int2e_vsp1spsp2_sph,
@@ -1537,7 +1537,7 @@ impl_integratorbase!(
     int2e_vsp1spsp2_spinor,
     1, 16, 4, vec![0, 1, 1, 1, 3, 4, 4, 1],
     "int2e", "int2e_vsp1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipiprinvipip,
     int1e_ipiprinvipip_optimizer,
     int1e_ipiprinvipip_sph,
@@ -1545,7 +1545,7 @@ impl_integratorbase!(
     int1e_ipiprinvipip_spinor,
     81, 81, 2, vec![2, 2, 0, 0, 4, 1, 0, 81],
     "int1e", "int1e_ipiprinvipip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipiprinvip,
     int1e_ipipiprinvip_optimizer,
     int1e_ipipiprinvip_sph,
@@ -1553,7 +1553,7 @@ impl_integratorbase!(
     int1e_ipipiprinvip_spinor,
     81, 81, 2, vec![3, 1, 0, 0, 4, 1, 0, 81],
     "int1e", "int1e_ipipiprinvip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipipipiprinv,
     int1e_ipipipiprinv_optimizer,
     int1e_ipipipiprinv_sph,
@@ -1561,7 +1561,7 @@ impl_integratorbase!(
     int1e_ipipipiprinv_spinor,
     81, 81, 2, vec![4, 0, 0, 0, 4, 1, 0, 81],
     "int1e", "int1e_ipipipiprinv");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spsp1,
     int2e_spsp1_optimizer,
     int2e_spsp1_sph,
@@ -1569,7 +1569,7 @@ impl_integratorbase!(
     int2e_spsp1_spinor,
     1, 4, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
     "int2e", "int2e_spsp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spsp1spsp2,
     int2e_spsp1spsp2_optimizer,
     int2e_spsp1spsp2_sph,
@@ -1577,7 +1577,7 @@ impl_integratorbase!(
     int2e_spsp1spsp2_spinor,
     1, 16, 4, vec![1, 1, 1, 1, 4, 4, 4, 1],
     "int2e", "int2e_spsp1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_srsr1,
     int2e_srsr1_optimizer,
     int2e_srsr1_sph,
@@ -1585,7 +1585,7 @@ impl_integratorbase!(
     int2e_srsr1_spinor,
     1, 4, 4, vec![1, 1, 0, 0, 2, 4, 1, 1],
     "int2e", "int2e_srsr1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_srsr1srsr2,
     int2e_srsr1srsr2_optimizer,
     int2e_srsr1srsr2_sph,
@@ -1593,7 +1593,7 @@ impl_integratorbase!(
     int2e_srsr1srsr2_spinor,
     1, 16, 4, vec![1, 1, 1, 1, 4, 4, 4, 1],
     "int2e", "int2e_srsr1srsr2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_cg_sa10sp1,
     int2e_cg_sa10sp1_optimizer,
     int2e_cg_sa10sp1_sph,
@@ -1601,7 +1601,7 @@ impl_integratorbase!(
     int2e_cg_sa10sp1_spinor,
     3, 12, 4, vec![1, 1, 0, 0, 2, 4, 1, 3],
     "int2e", "int2e_cg_sa10sp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_cg_sa10sp1spsp2,
     int2e_cg_sa10sp1spsp2_optimizer,
     int2e_cg_sa10sp1spsp2_sph,
@@ -1609,7 +1609,7 @@ impl_integratorbase!(
     int2e_cg_sa10sp1spsp2_spinor,
     3, 48, 4, vec![1, 1, 1, 1, 4, 4, 4, 3],
     "int2e", "int2e_cg_sa10sp1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_giao_sa10sp1,
     int2e_giao_sa10sp1_optimizer,
     int2e_giao_sa10sp1_sph,
@@ -1617,7 +1617,7 @@ impl_integratorbase!(
     int2e_giao_sa10sp1_spinor,
     3, 12, 4, vec![1, 1, 0, 0, 2, 4, 1, 3],
     "int2e", "int2e_giao_sa10sp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_giao_sa10sp1spsp2,
     int2e_giao_sa10sp1spsp2_optimizer,
     int2e_giao_sa10sp1spsp2_sph,
@@ -1625,7 +1625,7 @@ impl_integratorbase!(
     int2e_giao_sa10sp1spsp2_spinor,
     3, 48, 4, vec![1, 1, 1, 1, 4, 4, 4, 3],
     "int2e", "int2e_giao_sa10sp1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_g1,
     int2e_g1_optimizer,
     int2e_g1_sph,
@@ -1633,7 +1633,7 @@ impl_integratorbase!(
     int2e_g1_spinor,
     3, 3, 4, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int2e", "int2e_g1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spgsp1,
     int2e_spgsp1_optimizer,
     int2e_spgsp1_sph,
@@ -1641,7 +1641,7 @@ impl_integratorbase!(
     int2e_spgsp1_spinor,
     3, 12, 4, vec![2, 1, 0, 0, 3, 4, 1, 3],
     "int2e", "int2e_spgsp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_g1spsp2,
     int2e_g1spsp2_optimizer,
     int2e_g1spsp2_sph,
@@ -1649,7 +1649,7 @@ impl_integratorbase!(
     int2e_g1spsp2_spinor,
     3, 12, 4, vec![1, 0, 1, 1, 3, 1, 4, 3],
     "int2e", "int2e_g1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_spgsp1spsp2,
     int2e_spgsp1spsp2_optimizer,
     int2e_spgsp1spsp2_sph,
@@ -1657,7 +1657,7 @@ impl_integratorbase!(
     int2e_spgsp1spsp2_spinor,
     3, 48, 4, vec![2, 1, 1, 1, 5, 4, 4, 3],
     "int2e", "int2e_spgsp1spsp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_pp1,
     int2e_pp1_optimizer,
     int2e_pp1_sph,
@@ -1665,7 +1665,7 @@ impl_integratorbase!(
     int2e_pp1_spinor,
     1, 1, 4, vec![1, 1, 0, 0, 2, 1, 1, 1],
     "int2e", "int2e_pp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_pp2,
     int2e_pp2_optimizer,
     int2e_pp2_sph,
@@ -1673,7 +1673,7 @@ impl_integratorbase!(
     int2e_pp2_spinor,
     1, 1, 4, vec![0, 0, 1, 1, 2, 1, 1, 1],
     "int2e", "int2e_pp2");
-impl_integratorbase!(
+impl_intorbase!(
     int2e_pp1pp2,
     int2e_pp1pp2_optimizer,
     int2e_pp1pp2_sph,
@@ -1681,7 +1681,7 @@ impl_integratorbase!(
     int2e_pp1pp2_spinor,
     1, 1, 4, vec![1, 1, 1, 1, 4, 1, 1, 1],
     "int2e", "int2e_pp1pp2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_grids_ip,
     int1e_grids_ip_optimizer,
     int1e_grids_ip_sph,
@@ -1689,7 +1689,7 @@ impl_integratorbase!(
     int1e_grids_ip_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 0, 3],
     "int1e", "int1e_grids_ip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_grids_ipvip,
     int1e_grids_ipvip_optimizer,
     int1e_grids_ipvip_sph,
@@ -1697,7 +1697,7 @@ impl_integratorbase!(
     int1e_grids_ipvip_spinor,
     9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_grids_ipvip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_grids_spvsp,
     int1e_grids_spvsp_optimizer,
     int1e_grids_spvsp_sph,
@@ -1705,7 +1705,7 @@ impl_integratorbase!(
     int1e_grids_spvsp_spinor,
     1, 4, 2, vec![1, 1, 0, 0, 2, 4, 0, 1],
     "int1e", "int1e_grids_spvsp");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_grids_ipip,
     int1e_grids_ipip_optimizer,
     int1e_grids_ipip_sph,
@@ -1713,7 +1713,7 @@ impl_integratorbase!(
     int1e_grids_ipip_spinor,
     9, 9, 2, vec![2, 0, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_grids_ipip");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ip1,
     int3c2e_ip1_optimizer,
     int3c2e_ip1_sph,
@@ -1721,7 +1721,7 @@ impl_integratorbase!(
     int3c2e_ip1_spinor,
     3, 3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int3c2e", "int3c2e_ip1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ip2,
     int3c2e_ip2_optimizer,
     int3c2e_ip2_sph,
@@ -1729,7 +1729,7 @@ impl_integratorbase!(
     int3c2e_ip2_spinor,
     3, 3, 3, vec![0, 0, 1, 0, 1, 1, 1, 3],
     "int3c2e", "int3c2e_ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_pvp1,
     int3c2e_pvp1_optimizer,
     int3c2e_pvp1_sph,
@@ -1737,7 +1737,7 @@ impl_integratorbase!(
     int3c2e_pvp1_spinor,
     1, 1, 3, vec![1, 1, 0, 0, 2, 1, 1, 1],
     "int3c2e", "int3c2e_pvp1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_pvxp1,
     int3c2e_pvxp1_optimizer,
     int3c2e_pvxp1_sph,
@@ -1745,7 +1745,7 @@ impl_integratorbase!(
     int3c2e_pvxp1_spinor,
     3, 3, 3, vec![1, 1, 0, 0, 2, 1, 1, 3],
     "int3c2e", "int3c2e_pvxp1");
-impl_integratorbase!(
+impl_intorbase!(
     int2c2e_ip1,
     int2c2e_ip1_optimizer,
     int2c2e_ip1_sph,
@@ -1753,7 +1753,7 @@ impl_integratorbase!(
     int2c2e_ip1_spinor,
     3, 3, 2, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int2c2e", "int2c2e_ip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2c2e_ip2,
     int2c2e_ip2_optimizer,
     int2c2e_ip2_sph,
@@ -1761,7 +1761,7 @@ impl_integratorbase!(
     int2c2e_ip2_spinor,
     3, 3, 2, vec![0, 0, 1, 0, 1, 1, 1, 3],
     "int2c2e", "int2c2e_ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ig1,
     int3c2e_ig1_optimizer,
     int3c2e_ig1_sph,
@@ -1769,7 +1769,7 @@ impl_integratorbase!(
     int3c2e_ig1_spinor,
     3, 3, 3, vec![1, 0, 0, 0, 1, 1, 1, 3],
     "int3c2e", "int3c2e_ig1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_spsp1,
     int3c2e_spsp1_optimizer,
     int3c2e_spsp1_sph,
@@ -1777,7 +1777,7 @@ impl_integratorbase!(
     int3c2e_spsp1_spinor,
     1, 4, 3, vec![1, 1, 0, 0, 2, 4, 1, 1],
     "int3c2e", "int3c2e_spsp1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ipspsp1,
     int3c2e_ipspsp1_optimizer,
     int3c2e_ipspsp1_sph,
@@ -1785,7 +1785,7 @@ impl_integratorbase!(
     int3c2e_ipspsp1_spinor,
     3, 12, 3, vec![2, 1, 0, 0, 3, 4, 1, 3],
     "int3c2e", "int3c2e_ipspsp1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_spsp1ip2,
     int3c2e_spsp1ip2_optimizer,
     int3c2e_spsp1ip2_sph,
@@ -1793,7 +1793,7 @@ impl_integratorbase!(
     int3c2e_spsp1ip2_spinor,
     3, 12, 3, vec![1, 1, 1, 0, 3, 4, 1, 3],
     "int3c2e", "int3c2e_spsp1ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ipip1,
     int3c2e_ipip1_optimizer,
     int3c2e_ipip1_sph,
@@ -1801,7 +1801,7 @@ impl_integratorbase!(
     int3c2e_ipip1_spinor,
     9, 9, 3, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int3c2e", "int3c2e_ipip1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ipip2,
     int3c2e_ipip2_optimizer,
     int3c2e_ipip2_sph,
@@ -1809,7 +1809,7 @@ impl_integratorbase!(
     int3c2e_ipip2_spinor,
     9, 9, 3, vec![0, 0, 2, 0, 2, 1, 1, 9],
     "int3c2e", "int3c2e_ipip2");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ipvip1,
     int3c2e_ipvip1_optimizer,
     int3c2e_ipvip1_sph,
@@ -1817,7 +1817,7 @@ impl_integratorbase!(
     int3c2e_ipvip1_spinor,
     9, 9, 3, vec![1, 1, 0, 0, 2, 1, 1, 9],
     "int3c2e", "int3c2e_ipvip1");
-impl_integratorbase!(
+impl_intorbase!(
     int3c2e_ip1ip2,
     int3c2e_ip1ip2_optimizer,
     int3c2e_ip1ip2_sph,
@@ -1825,7 +1825,7 @@ impl_integratorbase!(
     int3c2e_ip1ip2_spinor,
     9, 9, 3, vec![1, 0, 1, 0, 2, 1, 1, 9],
     "int3c2e", "int3c2e_ip1ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int2c2e_ipip1,
     int2c2e_ipip1_optimizer,
     int2c2e_ipip1_sph,
@@ -1833,7 +1833,7 @@ impl_integratorbase!(
     int2c2e_ipip1_spinor,
     9, 9, 2, vec![2, 0, 0, 0, 2, 1, 1, 9],
     "int2c2e", "int2c2e_ipip1");
-impl_integratorbase!(
+impl_intorbase!(
     int2c2e_ip1ip2,
     int2c2e_ip1ip2_optimizer,
     int2c2e_ip1ip2_sph,
@@ -1841,7 +1841,7 @@ impl_integratorbase!(
     int2c2e_ip1ip2_spinor,
     9, 9, 2, vec![1, 0, 1, 0, 2, 1, 1, 9],
     "int2c2e", "int2c2e_ip1ip2");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_iprinvr,
     int1e_iprinvr_optimizer,
     int1e_iprinvr_sph,
@@ -1849,7 +1849,7 @@ impl_integratorbase!(
     int1e_iprinvr_spinor,
     9, 9, 2, vec![1, 1, 0, 0, 2, 1, 0, 9],
     "int1e", "int1e_iprinvr");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_iprinviprip,
     int1e_iprinviprip_optimizer,
     int1e_iprinviprip_sph,
@@ -1857,7 +1857,7 @@ impl_integratorbase!(
     int1e_iprinviprip_spinor,
     81, 81, 2, vec![1, 3, 0, 0, 4, 1, 0, 81],
     "int1e", "int1e_iprinviprip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_rinvipiprip,
     int1e_rinvipiprip_optimizer,
     int1e_rinvipiprip_sph,
@@ -1865,7 +1865,7 @@ impl_integratorbase!(
     int1e_rinvipiprip_spinor,
     81, 81, 2, vec![0, 4, 0, 0, 4, 1, 0, 81],
     "int1e", "int1e_rinvipiprip");
-impl_integratorbase!(
+impl_intorbase!(
     int1e_ipiprinvrip,
     int1e_ipiprinvrip_optimizer,
     int1e_ipiprinvrip_sph,
@@ -1881,10 +1881,19 @@ impl_integratorbase!(
 use crate::CINTR2CDATA;
 
 /// optimizer macro rules
-macro_rules! impl_integrator_optimizer {
-    ($name:expr, $optim_rust:ident, $optim_cint:ident) => {
-        #[doc(hidden)]
+macro_rules! impl_intor_optimizer {
+    ($name:expr, $optim_rust:ident, $coptim_rust:ident, $optim_cint:ident) => {
         pub fn $optim_rust(&mut self){
+            self.cint_del_optimizer_rust();
+            unsafe {
+                cint::$optim_cint(
+                    &mut self.c_opt,
+                    self.c_atm.as_mut_ptr(), self.c_natm,
+                    self.c_bas.as_mut_ptr(), self.c_nbas,
+                    self.c_env.as_mut_ptr());
+            }
+        }
+        pub fn $coptim_rust(&mut self){
             self.cint_del_optimizer_rust();
             unsafe {
                 cint::$optim_cint(
@@ -1898,222 +1907,222 @@ macro_rules! impl_integrator_optimizer {
 }
 
 impl CINTR2CDATA {
-    impl_integrator_optimizer!("int4c1e", int4c1e_optimizer_rust, int4c1e_optimizer);
-    impl_integrator_optimizer!("int3c1e", int3c1e_optimizer_rust, int3c1e_optimizer);
-    impl_integrator_optimizer!("int3c1e_rinv", int3c1e_rinv_optimizer_rust, int3c1e_rinv_optimizer);
-    impl_integrator_optimizer!("int1e_grids", int1e_grids_optimizer_rust, int1e_grids_optimizer);
-    impl_integrator_optimizer!("int2c2e", int2c2e_optimizer_rust, int2c2e_optimizer);
-    impl_integrator_optimizer!("int2e_stg", int2e_stg_optimizer_rust, int2e_stg_optimizer);
-    impl_integrator_optimizer!("int2e_yp", int2e_yp_optimizer_rust, int2e_yp_optimizer);
-    impl_integrator_optimizer!("int2e_yp_ip1", int2e_yp_ip1_optimizer_rust, int2e_yp_ip1_optimizer);
-    impl_integrator_optimizer!("int2e_stg_ip1", int2e_stg_ip1_optimizer_rust, int2e_stg_ip1_optimizer);
-    impl_integrator_optimizer!("int2e_yp_ipip1", int2e_yp_ipip1_optimizer_rust, int2e_yp_ipip1_optimizer);
-    impl_integrator_optimizer!("int2e_stg_ipip1", int2e_stg_ipip1_optimizer_rust, int2e_stg_ipip1_optimizer);
-    impl_integrator_optimizer!("int2e_yp_ipvip1", int2e_yp_ipvip1_optimizer_rust, int2e_yp_ipvip1_optimizer);
-    impl_integrator_optimizer!("int2e_stg_ipvip1", int2e_stg_ipvip1_optimizer_rust, int2e_stg_ipvip1_optimizer);
-    impl_integrator_optimizer!("int2e_yp_ip1ip2", int2e_yp_ip1ip2_optimizer_rust, int2e_yp_ip1ip2_optimizer);
-    impl_integrator_optimizer!("int2e_stg_ip1ip2", int2e_stg_ip1ip2_optimizer_rust, int2e_stg_ip1ip2_optimizer);
-    impl_integrator_optimizer!("int2e", int2e_optimizer_rust, int2e_optimizer);
-    impl_integrator_optimizer!("int2e_breit_r1p2", int2e_breit_r1p2_optimizer_rust, int2e_breit_r1p2_optimizer);
-    impl_integrator_optimizer!("int2e_breit_r2p2", int2e_breit_r2p2_optimizer_rust, int2e_breit_r2p2_optimizer);
-    impl_integrator_optimizer!("int3c2e", int3c2e_optimizer_rust, int3c2e_optimizer);
-    impl_integrator_optimizer!("int3c1e_r2_origk", int3c1e_r2_origk_optimizer_rust, int3c1e_r2_origk_optimizer);
-    impl_integrator_optimizer!("int3c1e_r4_origk", int3c1e_r4_origk_optimizer_rust, int3c1e_r4_origk_optimizer);
-    impl_integrator_optimizer!("int3c1e_r6_origk", int3c1e_r6_origk_optimizer_rust, int3c1e_r6_origk_optimizer);
-    impl_integrator_optimizer!("int3c1e_ip1_r2_origk", int3c1e_ip1_r2_origk_optimizer_rust, int3c1e_ip1_r2_origk_optimizer);
-    impl_integrator_optimizer!("int3c1e_ip1_r4_origk", int3c1e_ip1_r4_origk_optimizer_rust, int3c1e_ip1_r4_origk_optimizer);
-    impl_integrator_optimizer!("int3c1e_ip1_r6_origk", int3c1e_ip1_r6_origk_optimizer_rust, int3c1e_ip1_r6_origk_optimizer);
-    impl_integrator_optimizer!("int1e_ovlp", int1e_ovlp_optimizer_rust, int1e_ovlp_optimizer);
-    impl_integrator_optimizer!("int1e_nuc", int1e_nuc_optimizer_rust, int1e_nuc_optimizer);
-    impl_integrator_optimizer!("int1e_r2_origi", int1e_r2_origi_optimizer_rust, int1e_r2_origi_optimizer);
-    impl_integrator_optimizer!("int1e_r4_origi", int1e_r4_origi_optimizer_rust, int1e_r4_origi_optimizer);
-    impl_integrator_optimizer!("int1e_r2_origi_ip2", int1e_r2_origi_ip2_optimizer_rust, int1e_r2_origi_ip2_optimizer);
-    impl_integrator_optimizer!("int1e_r4_origi_ip2", int1e_r4_origi_ip2_optimizer_rust, int1e_r4_origi_ip2_optimizer);
-    impl_integrator_optimizer!("int1e_ipipovlp", int1e_ipipovlp_optimizer_rust, int1e_ipipovlp_optimizer);
-    impl_integrator_optimizer!("int1e_ipovlpip", int1e_ipovlpip_optimizer_rust, int1e_ipovlpip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipkin", int1e_ipipkin_optimizer_rust, int1e_ipipkin_optimizer);
-    impl_integrator_optimizer!("int1e_ipkinip", int1e_ipkinip_optimizer_rust, int1e_ipkinip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipnuc", int1e_ipipnuc_optimizer_rust, int1e_ipipnuc_optimizer);
-    impl_integrator_optimizer!("int1e_ipnucip", int1e_ipnucip_optimizer_rust, int1e_ipnucip_optimizer);
-    impl_integrator_optimizer!("int1e_ipiprinv", int1e_ipiprinv_optimizer_rust, int1e_ipiprinv_optimizer);
-    impl_integrator_optimizer!("int1e_iprinvip", int1e_iprinvip_optimizer_rust, int1e_iprinvip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipr", int1e_ipipr_optimizer_rust, int1e_ipipr_optimizer);
-    impl_integrator_optimizer!("int1e_iprip", int1e_iprip_optimizer_rust, int1e_iprip_optimizer);
-    impl_integrator_optimizer!("int2e_ipip1", int2e_ipip1_optimizer_rust, int2e_ipip1_optimizer);
-    impl_integrator_optimizer!("int2e_ipvip1", int2e_ipvip1_optimizer_rust, int2e_ipvip1_optimizer);
-    impl_integrator_optimizer!("int2e_ip1ip2", int2e_ip1ip2_optimizer_rust, int2e_ip1ip2_optimizer);
-    impl_integrator_optimizer!("int1e_ipippnucp", int1e_ipippnucp_optimizer_rust, int1e_ipippnucp_optimizer);
-    impl_integrator_optimizer!("int1e_ippnucpip", int1e_ippnucpip_optimizer_rust, int1e_ippnucpip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipprinvp", int1e_ipipprinvp_optimizer_rust, int1e_ipipprinvp_optimizer);
-    impl_integrator_optimizer!("int1e_ipprinvpip", int1e_ipprinvpip_optimizer_rust, int1e_ipprinvpip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipspnucsp", int1e_ipipspnucsp_optimizer_rust, int1e_ipipspnucsp_optimizer);
-    impl_integrator_optimizer!("int1e_ipspnucspip", int1e_ipspnucspip_optimizer_rust, int1e_ipspnucspip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipsprinvsp", int1e_ipipsprinvsp_optimizer_rust, int1e_ipipsprinvsp_optimizer);
-    impl_integrator_optimizer!("int1e_ipsprinvspip", int1e_ipsprinvspip_optimizer_rust, int1e_ipsprinvspip_optimizer);
-    impl_integrator_optimizer!("int2e_ipip1ipip2", int2e_ipip1ipip2_optimizer_rust, int2e_ipip1ipip2_optimizer);
-    impl_integrator_optimizer!("int2e_ipvip1ipvip2", int2e_ipvip1ipvip2_optimizer_rust, int2e_ipvip1ipvip2_optimizer);
-    impl_integrator_optimizer!("int2e_ip1", int2e_ip1_optimizer_rust, int2e_ip1_optimizer);
-    impl_integrator_optimizer!("int2e_ip2", int2e_ip2_optimizer_rust, int2e_ip2_optimizer);
-    impl_integrator_optimizer!("int2e_ipspsp1", int2e_ipspsp1_optimizer_rust, int2e_ipspsp1_optimizer);
-    impl_integrator_optimizer!("int2e_ip1spsp2", int2e_ip1spsp2_optimizer_rust, int2e_ip1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_ipspsp1spsp2", int2e_ipspsp1spsp2_optimizer_rust, int2e_ipspsp1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_ipsrsr1", int2e_ipsrsr1_optimizer_rust, int2e_ipsrsr1_optimizer);
-    impl_integrator_optimizer!("int2e_ip1srsr2", int2e_ip1srsr2_optimizer_rust, int2e_ip1srsr2_optimizer);
-    impl_integrator_optimizer!("int2e_ipsrsr1srsr2", int2e_ipsrsr1srsr2_optimizer_rust, int2e_ipsrsr1srsr2_optimizer);
-    impl_integrator_optimizer!("int3c1e_p2", int3c1e_p2_optimizer_rust, int3c1e_p2_optimizer);
-    impl_integrator_optimizer!("int3c1e_iprinv", int3c1e_iprinv_optimizer_rust, int3c1e_iprinv_optimizer);
-    impl_integrator_optimizer!("int3c1e_ip1", int3c1e_ip1_optimizer_rust, int3c1e_ip1_optimizer);
-    impl_integrator_optimizer!("int1e_ipovlp", int1e_ipovlp_optimizer_rust, int1e_ipovlp_optimizer);
-    impl_integrator_optimizer!("int1e_ovlpip", int1e_ovlpip_optimizer_rust, int1e_ovlpip_optimizer);
-    impl_integrator_optimizer!("int1e_ipkin", int1e_ipkin_optimizer_rust, int1e_ipkin_optimizer);
-    impl_integrator_optimizer!("int1e_kinip", int1e_kinip_optimizer_rust, int1e_kinip_optimizer);
-    impl_integrator_optimizer!("int1e_ipnuc", int1e_ipnuc_optimizer_rust, int1e_ipnuc_optimizer);
-    impl_integrator_optimizer!("int1e_iprinv", int1e_iprinv_optimizer_rust, int1e_iprinv_optimizer);
-    impl_integrator_optimizer!("int1e_ipspnucsp", int1e_ipspnucsp_optimizer_rust, int1e_ipspnucsp_optimizer);
-    impl_integrator_optimizer!("int1e_ipsprinvsp", int1e_ipsprinvsp_optimizer_rust, int1e_ipsprinvsp_optimizer);
-    impl_integrator_optimizer!("int1e_ippnucp", int1e_ippnucp_optimizer_rust, int1e_ippnucp_optimizer);
-    impl_integrator_optimizer!("int1e_ipprinvp", int1e_ipprinvp_optimizer_rust, int1e_ipprinvp_optimizer);
-    impl_integrator_optimizer!("int2e_ssp1ssp2", int2e_ssp1ssp2_optimizer_rust, int2e_ssp1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_ssp1sps2", int2e_ssp1sps2_optimizer_rust, int2e_ssp1sps2_optimizer);
-    impl_integrator_optimizer!("int2e_sps1ssp2", int2e_sps1ssp2_optimizer_rust, int2e_sps1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_sps1sps2", int2e_sps1sps2_optimizer_rust, int2e_sps1sps2_optimizer);
-    impl_integrator_optimizer!("int2e_cg_ssa10ssp2", int2e_cg_ssa10ssp2_optimizer_rust, int2e_cg_ssa10ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_giao_ssa10ssp2", int2e_giao_ssa10ssp2_optimizer_rust, int2e_giao_ssa10ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_gssp1ssp2", int2e_gssp1ssp2_optimizer_rust, int2e_gssp1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r1_ssp1ssp2", int2e_gauge_r1_ssp1ssp2_optimizer_rust, int2e_gauge_r1_ssp1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r1_ssp1sps2", int2e_gauge_r1_ssp1sps2_optimizer_rust, int2e_gauge_r1_ssp1sps2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r1_sps1ssp2", int2e_gauge_r1_sps1ssp2_optimizer_rust, int2e_gauge_r1_sps1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r1_sps1sps2", int2e_gauge_r1_sps1sps2_optimizer_rust, int2e_gauge_r1_sps1sps2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r2_ssp1ssp2", int2e_gauge_r2_ssp1ssp2_optimizer_rust, int2e_gauge_r2_ssp1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r2_ssp1sps2", int2e_gauge_r2_ssp1sps2_optimizer_rust, int2e_gauge_r2_ssp1sps2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r2_sps1ssp2", int2e_gauge_r2_sps1ssp2_optimizer_rust, int2e_gauge_r2_sps1ssp2_optimizer);
-    impl_integrator_optimizer!("int2e_gauge_r2_sps1sps2", int2e_gauge_r2_sps1sps2_optimizer_rust, int2e_gauge_r2_sps1sps2_optimizer);
-    impl_integrator_optimizer!("int1e_ipipipnuc", int1e_ipipipnuc_optimizer_rust, int1e_ipipipnuc_optimizer);
-    impl_integrator_optimizer!("int1e_ipipiprinv", int1e_ipipiprinv_optimizer_rust, int1e_ipipiprinv_optimizer);
-    impl_integrator_optimizer!("int1e_ipipnucip", int1e_ipipnucip_optimizer_rust, int1e_ipipnucip_optimizer);
-    impl_integrator_optimizer!("int1e_ipiprinvip", int1e_ipiprinvip_optimizer_rust, int1e_ipiprinvip_optimizer);
-    impl_integrator_optimizer!("int1e_kin", int1e_kin_optimizer_rust, int1e_kin_optimizer);
-    impl_integrator_optimizer!("int1e_ia01p", int1e_ia01p_optimizer_rust, int1e_ia01p_optimizer);
-    impl_integrator_optimizer!("int1e_giao_irjxp", int1e_giao_irjxp_optimizer_rust, int1e_giao_irjxp_optimizer);
-    impl_integrator_optimizer!("int1e_cg_irxp", int1e_cg_irxp_optimizer_rust, int1e_cg_irxp_optimizer);
-    impl_integrator_optimizer!("int1e_giao_a11part", int1e_giao_a11part_optimizer_rust, int1e_giao_a11part_optimizer);
-    impl_integrator_optimizer!("int1e_cg_a11part", int1e_cg_a11part_optimizer_rust, int1e_cg_a11part_optimizer);
-    impl_integrator_optimizer!("int1e_a01gp", int1e_a01gp_optimizer_rust, int1e_a01gp_optimizer);
-    impl_integrator_optimizer!("int1e_igkin", int1e_igkin_optimizer_rust, int1e_igkin_optimizer);
-    impl_integrator_optimizer!("int1e_igovlp", int1e_igovlp_optimizer_rust, int1e_igovlp_optimizer);
-    impl_integrator_optimizer!("int1e_ignuc", int1e_ignuc_optimizer_rust, int1e_ignuc_optimizer);
-    impl_integrator_optimizer!("int1e_pnucp", int1e_pnucp_optimizer_rust, int1e_pnucp_optimizer);
-    impl_integrator_optimizer!("int1e_z", int1e_z_optimizer_rust, int1e_z_optimizer);
-    impl_integrator_optimizer!("int1e_zz", int1e_zz_optimizer_rust, int1e_zz_optimizer);
-    impl_integrator_optimizer!("int1e_r", int1e_r_optimizer_rust, int1e_r_optimizer);
-    impl_integrator_optimizer!("int1e_r2", int1e_r2_optimizer_rust, int1e_r2_optimizer);
-    impl_integrator_optimizer!("int1e_r4", int1e_r4_optimizer_rust, int1e_r4_optimizer);
-    impl_integrator_optimizer!("int1e_rr", int1e_rr_optimizer_rust, int1e_rr_optimizer);
-    impl_integrator_optimizer!("int1e_rrr", int1e_rrr_optimizer_rust, int1e_rrr_optimizer);
-    impl_integrator_optimizer!("int1e_rrrr", int1e_rrrr_optimizer_rust, int1e_rrrr_optimizer);
-    impl_integrator_optimizer!("int1e_z_origj", int1e_z_origj_optimizer_rust, int1e_z_origj_optimizer);
-    impl_integrator_optimizer!("int1e_zz_origj", int1e_zz_origj_optimizer_rust, int1e_zz_origj_optimizer);
-    impl_integrator_optimizer!("int1e_r_origj", int1e_r_origj_optimizer_rust, int1e_r_origj_optimizer);
-    impl_integrator_optimizer!("int1e_rr_origj", int1e_rr_origj_optimizer_rust, int1e_rr_origj_optimizer);
-    impl_integrator_optimizer!("int1e_r2_origj", int1e_r2_origj_optimizer_rust, int1e_r2_origj_optimizer);
-    impl_integrator_optimizer!("int1e_r4_origj", int1e_r4_origj_optimizer_rust, int1e_r4_origj_optimizer);
-    impl_integrator_optimizer!("int1e_p4", int1e_p4_optimizer_rust, int1e_p4_optimizer);
-    impl_integrator_optimizer!("int1e_prinvp", int1e_prinvp_optimizer_rust, int1e_prinvp_optimizer);
-    impl_integrator_optimizer!("int1e_prinvxp", int1e_prinvxp_optimizer_rust, int1e_prinvxp_optimizer);
-    impl_integrator_optimizer!("int1e_pnucxp", int1e_pnucxp_optimizer_rust, int1e_pnucxp_optimizer);
-    impl_integrator_optimizer!("int1e_irp", int1e_irp_optimizer_rust, int1e_irp_optimizer);
-    impl_integrator_optimizer!("int1e_irrp", int1e_irrp_optimizer_rust, int1e_irrp_optimizer);
-    impl_integrator_optimizer!("int1e_irpr", int1e_irpr_optimizer_rust, int1e_irpr_optimizer);
-    impl_integrator_optimizer!("int1e_ggovlp", int1e_ggovlp_optimizer_rust, int1e_ggovlp_optimizer);
-    impl_integrator_optimizer!("int1e_ggkin", int1e_ggkin_optimizer_rust, int1e_ggkin_optimizer);
-    impl_integrator_optimizer!("int1e_ggnuc", int1e_ggnuc_optimizer_rust, int1e_ggnuc_optimizer);
-    impl_integrator_optimizer!("int1e_grjxp", int1e_grjxp_optimizer_rust, int1e_grjxp_optimizer);
-    impl_integrator_optimizer!("int1e_rinv", int1e_rinv_optimizer_rust, int1e_rinv_optimizer);
-    impl_integrator_optimizer!("int1e_drinv", int1e_drinv_optimizer_rust, int1e_drinv_optimizer);
-    impl_integrator_optimizer!("int1e_sigma", int1e_sigma_optimizer_rust, int1e_sigma_optimizer);
-    impl_integrator_optimizer!("int1e_spsigmasp", int1e_spsigmasp_optimizer_rust, int1e_spsigmasp_optimizer);
-    impl_integrator_optimizer!("int1e_srsr", int1e_srsr_optimizer_rust, int1e_srsr_optimizer);
-    impl_integrator_optimizer!("int1e_sr", int1e_sr_optimizer_rust, int1e_sr_optimizer);
-    impl_integrator_optimizer!("int1e_srsp", int1e_srsp_optimizer_rust, int1e_srsp_optimizer);
-    impl_integrator_optimizer!("int1e_spsp", int1e_spsp_optimizer_rust, int1e_spsp_optimizer);
-    impl_integrator_optimizer!("int1e_sp", int1e_sp_optimizer_rust, int1e_sp_optimizer);
-    impl_integrator_optimizer!("int1e_spnucsp", int1e_spnucsp_optimizer_rust, int1e_spnucsp_optimizer);
-    impl_integrator_optimizer!("int1e_sprinvsp", int1e_sprinvsp_optimizer_rust, int1e_sprinvsp_optimizer);
-    impl_integrator_optimizer!("int1e_srnucsr", int1e_srnucsr_optimizer_rust, int1e_srnucsr_optimizer);
-    impl_integrator_optimizer!("int1e_sprsp", int1e_sprsp_optimizer_rust, int1e_sprsp_optimizer);
-    impl_integrator_optimizer!("int1e_govlp", int1e_govlp_optimizer_rust, int1e_govlp_optimizer);
-    impl_integrator_optimizer!("int1e_gnuc", int1e_gnuc_optimizer_rust, int1e_gnuc_optimizer);
-    impl_integrator_optimizer!("int1e_cg_sa10sa01", int1e_cg_sa10sa01_optimizer_rust, int1e_cg_sa10sa01_optimizer);
-    impl_integrator_optimizer!("int1e_cg_sa10sp", int1e_cg_sa10sp_optimizer_rust, int1e_cg_sa10sp_optimizer);
-    impl_integrator_optimizer!("int1e_cg_sa10nucsp", int1e_cg_sa10nucsp_optimizer_rust, int1e_cg_sa10nucsp_optimizer);
-    impl_integrator_optimizer!("int1e_giao_sa10sa01", int1e_giao_sa10sa01_optimizer_rust, int1e_giao_sa10sa01_optimizer);
-    impl_integrator_optimizer!("int1e_giao_sa10sp", int1e_giao_sa10sp_optimizer_rust, int1e_giao_sa10sp_optimizer);
-    impl_integrator_optimizer!("int1e_giao_sa10nucsp", int1e_giao_sa10nucsp_optimizer_rust, int1e_giao_sa10nucsp_optimizer);
-    impl_integrator_optimizer!("int1e_sa01sp", int1e_sa01sp_optimizer_rust, int1e_sa01sp_optimizer);
-    impl_integrator_optimizer!("int1e_spgsp", int1e_spgsp_optimizer_rust, int1e_spgsp_optimizer);
-    impl_integrator_optimizer!("int1e_spgnucsp", int1e_spgnucsp_optimizer_rust, int1e_spgnucsp_optimizer);
-    impl_integrator_optimizer!("int1e_spgsa01", int1e_spgsa01_optimizer_rust, int1e_spgsa01_optimizer);
-    impl_integrator_optimizer!("int2e_ig1", int2e_ig1_optimizer_rust, int2e_ig1_optimizer);
-    impl_integrator_optimizer!("int2e_gg1", int2e_gg1_optimizer_rust, int2e_gg1_optimizer);
-    impl_integrator_optimizer!("int2e_g1g2", int2e_g1g2_optimizer_rust, int2e_g1g2_optimizer);
-    impl_integrator_optimizer!("int2e_p1vxp1", int2e_p1vxp1_optimizer_rust, int2e_p1vxp1_optimizer);
-    impl_integrator_optimizer!("int2e_ip1v_rc1", int2e_ip1v_rc1_optimizer_rust, int2e_ip1v_rc1_optimizer);
-    impl_integrator_optimizer!("int2e_ip1v_r1", int2e_ip1v_r1_optimizer_rust, int2e_ip1v_r1_optimizer);
-    impl_integrator_optimizer!("int2e_ipvg1_xp1", int2e_ipvg1_xp1_optimizer_rust, int2e_ipvg1_xp1_optimizer);
-    impl_integrator_optimizer!("int2e_ipvg2_xp1", int2e_ipvg2_xp1_optimizer_rust, int2e_ipvg2_xp1_optimizer);
-    impl_integrator_optimizer!("int1e_inuc_rcxp", int1e_inuc_rcxp_optimizer_rust, int1e_inuc_rcxp_optimizer);
-    impl_integrator_optimizer!("int1e_inuc_rxp", int1e_inuc_rxp_optimizer_rust, int1e_inuc_rxp_optimizer);
-    impl_integrator_optimizer!("int1e_spspsp", int1e_spspsp_optimizer_rust, int1e_spspsp_optimizer);
-    impl_integrator_optimizer!("int1e_spnuc", int1e_spnuc_optimizer_rust, int1e_spnuc_optimizer);
-    impl_integrator_optimizer!("int2e_spv1", int2e_spv1_optimizer_rust, int2e_spv1_optimizer);
-    impl_integrator_optimizer!("int2e_vsp1", int2e_vsp1_optimizer_rust, int2e_vsp1_optimizer);
-    impl_integrator_optimizer!("int2e_spsp2", int2e_spsp2_optimizer_rust, int2e_spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_spv1spv2", int2e_spv1spv2_optimizer_rust, int2e_spv1spv2_optimizer);
-    impl_integrator_optimizer!("int2e_vsp1spv2", int2e_vsp1spv2_optimizer_rust, int2e_vsp1spv2_optimizer);
-    impl_integrator_optimizer!("int2e_spv1vsp2", int2e_spv1vsp2_optimizer_rust, int2e_spv1vsp2_optimizer);
-    impl_integrator_optimizer!("int2e_vsp1vsp2", int2e_vsp1vsp2_optimizer_rust, int2e_vsp1vsp2_optimizer);
-    impl_integrator_optimizer!("int2e_spv1spsp2", int2e_spv1spsp2_optimizer_rust, int2e_spv1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_vsp1spsp2", int2e_vsp1spsp2_optimizer_rust, int2e_vsp1spsp2_optimizer);
-    impl_integrator_optimizer!("int1e_ipiprinvipip", int1e_ipiprinvipip_optimizer_rust, int1e_ipiprinvipip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipiprinvip", int1e_ipipiprinvip_optimizer_rust, int1e_ipipiprinvip_optimizer);
-    impl_integrator_optimizer!("int1e_ipipipiprinv", int1e_ipipipiprinv_optimizer_rust, int1e_ipipipiprinv_optimizer);
-    impl_integrator_optimizer!("int2e_spsp1", int2e_spsp1_optimizer_rust, int2e_spsp1_optimizer);
-    impl_integrator_optimizer!("int2e_spsp1spsp2", int2e_spsp1spsp2_optimizer_rust, int2e_spsp1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_srsr1", int2e_srsr1_optimizer_rust, int2e_srsr1_optimizer);
-    impl_integrator_optimizer!("int2e_srsr1srsr2", int2e_srsr1srsr2_optimizer_rust, int2e_srsr1srsr2_optimizer);
-    impl_integrator_optimizer!("int2e_cg_sa10sp1", int2e_cg_sa10sp1_optimizer_rust, int2e_cg_sa10sp1_optimizer);
-    impl_integrator_optimizer!("int2e_cg_sa10sp1spsp2", int2e_cg_sa10sp1spsp2_optimizer_rust, int2e_cg_sa10sp1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_giao_sa10sp1", int2e_giao_sa10sp1_optimizer_rust, int2e_giao_sa10sp1_optimizer);
-    impl_integrator_optimizer!("int2e_giao_sa10sp1spsp2", int2e_giao_sa10sp1spsp2_optimizer_rust, int2e_giao_sa10sp1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_g1", int2e_g1_optimizer_rust, int2e_g1_optimizer);
-    impl_integrator_optimizer!("int2e_spgsp1", int2e_spgsp1_optimizer_rust, int2e_spgsp1_optimizer);
-    impl_integrator_optimizer!("int2e_g1spsp2", int2e_g1spsp2_optimizer_rust, int2e_g1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_spgsp1spsp2", int2e_spgsp1spsp2_optimizer_rust, int2e_spgsp1spsp2_optimizer);
-    impl_integrator_optimizer!("int2e_pp1", int2e_pp1_optimizer_rust, int2e_pp1_optimizer);
-    impl_integrator_optimizer!("int2e_pp2", int2e_pp2_optimizer_rust, int2e_pp2_optimizer);
-    impl_integrator_optimizer!("int2e_pp1pp2", int2e_pp1pp2_optimizer_rust, int2e_pp1pp2_optimizer);
-    impl_integrator_optimizer!("int1e_grids_ip", int1e_grids_ip_optimizer_rust, int1e_grids_ip_optimizer);
-    impl_integrator_optimizer!("int1e_grids_ipvip", int1e_grids_ipvip_optimizer_rust, int1e_grids_ipvip_optimizer);
-    impl_integrator_optimizer!("int1e_grids_spvsp", int1e_grids_spvsp_optimizer_rust, int1e_grids_spvsp_optimizer);
-    impl_integrator_optimizer!("int1e_grids_ipip", int1e_grids_ipip_optimizer_rust, int1e_grids_ipip_optimizer);
-    impl_integrator_optimizer!("int3c2e_ip1", int3c2e_ip1_optimizer_rust, int3c2e_ip1_optimizer);
-    impl_integrator_optimizer!("int3c2e_ip2", int3c2e_ip2_optimizer_rust, int3c2e_ip2_optimizer);
-    impl_integrator_optimizer!("int3c2e_pvp1", int3c2e_pvp1_optimizer_rust, int3c2e_pvp1_optimizer);
-    impl_integrator_optimizer!("int3c2e_pvxp1", int3c2e_pvxp1_optimizer_rust, int3c2e_pvxp1_optimizer);
-    impl_integrator_optimizer!("int2c2e_ip1", int2c2e_ip1_optimizer_rust, int2c2e_ip1_optimizer);
-    impl_integrator_optimizer!("int2c2e_ip2", int2c2e_ip2_optimizer_rust, int2c2e_ip2_optimizer);
-    impl_integrator_optimizer!("int3c2e_ig1", int3c2e_ig1_optimizer_rust, int3c2e_ig1_optimizer);
-    impl_integrator_optimizer!("int3c2e_spsp1", int3c2e_spsp1_optimizer_rust, int3c2e_spsp1_optimizer);
-    impl_integrator_optimizer!("int3c2e_ipspsp1", int3c2e_ipspsp1_optimizer_rust, int3c2e_ipspsp1_optimizer);
-    impl_integrator_optimizer!("int3c2e_spsp1ip2", int3c2e_spsp1ip2_optimizer_rust, int3c2e_spsp1ip2_optimizer);
-    impl_integrator_optimizer!("int3c2e_ipip1", int3c2e_ipip1_optimizer_rust, int3c2e_ipip1_optimizer);
-    impl_integrator_optimizer!("int3c2e_ipip2", int3c2e_ipip2_optimizer_rust, int3c2e_ipip2_optimizer);
-    impl_integrator_optimizer!("int3c2e_ipvip1", int3c2e_ipvip1_optimizer_rust, int3c2e_ipvip1_optimizer);
-    impl_integrator_optimizer!("int3c2e_ip1ip2", int3c2e_ip1ip2_optimizer_rust, int3c2e_ip1ip2_optimizer);
-    impl_integrator_optimizer!("int2c2e_ipip1", int2c2e_ipip1_optimizer_rust, int2c2e_ipip1_optimizer);
-    impl_integrator_optimizer!("int2c2e_ip1ip2", int2c2e_ip1ip2_optimizer_rust, int2c2e_ip1ip2_optimizer);
-    impl_integrator_optimizer!("int1e_iprinvr", int1e_iprinvr_optimizer_rust, int1e_iprinvr_optimizer);
-    impl_integrator_optimizer!("int1e_iprinviprip", int1e_iprinviprip_optimizer_rust, int1e_iprinviprip_optimizer);
-    impl_integrator_optimizer!("int1e_rinvipiprip", int1e_rinvipiprip_optimizer_rust, int1e_rinvipiprip_optimizer);
-    impl_integrator_optimizer!("int1e_ipiprinvrip", int1e_ipiprinvrip_optimizer_rust, int1e_ipiprinvrip_optimizer);
+    impl_intor_optimizer!("int4c1e", int4c1e_optimizer_rust, cint4c1e_optimizer_rust, int4c1e_optimizer);
+    impl_intor_optimizer!("int3c1e", int3c1e_optimizer_rust, cint3c1e_optimizer_rust, int3c1e_optimizer);
+    impl_intor_optimizer!("int3c1e_rinv", int3c1e_rinv_optimizer_rust, cint3c1e_rinv_optimizer_rust, int3c1e_rinv_optimizer);
+    impl_intor_optimizer!("int1e_grids", int1e_grids_optimizer_rust, cint1e_grids_optimizer_rust, int1e_grids_optimizer);
+    impl_intor_optimizer!("int2c2e", int2c2e_optimizer_rust, cint2c2e_optimizer_rust, int2c2e_optimizer);
+    impl_intor_optimizer!("int2e_stg", int2e_stg_optimizer_rust, cint2e_stg_optimizer_rust, int2e_stg_optimizer);
+    impl_intor_optimizer!("int2e_yp", int2e_yp_optimizer_rust, cint2e_yp_optimizer_rust, int2e_yp_optimizer);
+    impl_intor_optimizer!("int2e_yp_ip1", int2e_yp_ip1_optimizer_rust, cint2e_yp_ip1_optimizer_rust, int2e_yp_ip1_optimizer);
+    impl_intor_optimizer!("int2e_stg_ip1", int2e_stg_ip1_optimizer_rust, cint2e_stg_ip1_optimizer_rust, int2e_stg_ip1_optimizer);
+    impl_intor_optimizer!("int2e_yp_ipip1", int2e_yp_ipip1_optimizer_rust, cint2e_yp_ipip1_optimizer_rust, int2e_yp_ipip1_optimizer);
+    impl_intor_optimizer!("int2e_stg_ipip1", int2e_stg_ipip1_optimizer_rust, cint2e_stg_ipip1_optimizer_rust, int2e_stg_ipip1_optimizer);
+    impl_intor_optimizer!("int2e_yp_ipvip1", int2e_yp_ipvip1_optimizer_rust, cint2e_yp_ipvip1_optimizer_rust, int2e_yp_ipvip1_optimizer);
+    impl_intor_optimizer!("int2e_stg_ipvip1", int2e_stg_ipvip1_optimizer_rust, cint2e_stg_ipvip1_optimizer_rust, int2e_stg_ipvip1_optimizer);
+    impl_intor_optimizer!("int2e_yp_ip1ip2", int2e_yp_ip1ip2_optimizer_rust, cint2e_yp_ip1ip2_optimizer_rust, int2e_yp_ip1ip2_optimizer);
+    impl_intor_optimizer!("int2e_stg_ip1ip2", int2e_stg_ip1ip2_optimizer_rust, cint2e_stg_ip1ip2_optimizer_rust, int2e_stg_ip1ip2_optimizer);
+    impl_intor_optimizer!("int2e", int2e_optimizer_rust, cint2e_optimizer_rust, int2e_optimizer);
+    impl_intor_optimizer!("int2e_breit_r1p2", int2e_breit_r1p2_optimizer_rust, cint2e_breit_r1p2_optimizer_rust, int2e_breit_r1p2_optimizer);
+    impl_intor_optimizer!("int2e_breit_r2p2", int2e_breit_r2p2_optimizer_rust, cint2e_breit_r2p2_optimizer_rust, int2e_breit_r2p2_optimizer);
+    impl_intor_optimizer!("int3c2e", int3c2e_optimizer_rust, cint3c2e_optimizer_rust, int3c2e_optimizer);
+    impl_intor_optimizer!("int3c1e_r2_origk", int3c1e_r2_origk_optimizer_rust, cint3c1e_r2_origk_optimizer_rust, int3c1e_r2_origk_optimizer);
+    impl_intor_optimizer!("int3c1e_r4_origk", int3c1e_r4_origk_optimizer_rust, cint3c1e_r4_origk_optimizer_rust, int3c1e_r4_origk_optimizer);
+    impl_intor_optimizer!("int3c1e_r6_origk", int3c1e_r6_origk_optimizer_rust, cint3c1e_r6_origk_optimizer_rust, int3c1e_r6_origk_optimizer);
+    impl_intor_optimizer!("int3c1e_ip1_r2_origk", int3c1e_ip1_r2_origk_optimizer_rust, cint3c1e_ip1_r2_origk_optimizer_rust, int3c1e_ip1_r2_origk_optimizer);
+    impl_intor_optimizer!("int3c1e_ip1_r4_origk", int3c1e_ip1_r4_origk_optimizer_rust, cint3c1e_ip1_r4_origk_optimizer_rust, int3c1e_ip1_r4_origk_optimizer);
+    impl_intor_optimizer!("int3c1e_ip1_r6_origk", int3c1e_ip1_r6_origk_optimizer_rust, cint3c1e_ip1_r6_origk_optimizer_rust, int3c1e_ip1_r6_origk_optimizer);
+    impl_intor_optimizer!("int1e_ovlp", int1e_ovlp_optimizer_rust, cint1e_ovlp_optimizer_rust, int1e_ovlp_optimizer);
+    impl_intor_optimizer!("int1e_nuc", int1e_nuc_optimizer_rust, cint1e_nuc_optimizer_rust, int1e_nuc_optimizer);
+    impl_intor_optimizer!("int1e_r2_origi", int1e_r2_origi_optimizer_rust, cint1e_r2_origi_optimizer_rust, int1e_r2_origi_optimizer);
+    impl_intor_optimizer!("int1e_r4_origi", int1e_r4_origi_optimizer_rust, cint1e_r4_origi_optimizer_rust, int1e_r4_origi_optimizer);
+    impl_intor_optimizer!("int1e_r2_origi_ip2", int1e_r2_origi_ip2_optimizer_rust, cint1e_r2_origi_ip2_optimizer_rust, int1e_r2_origi_ip2_optimizer);
+    impl_intor_optimizer!("int1e_r4_origi_ip2", int1e_r4_origi_ip2_optimizer_rust, cint1e_r4_origi_ip2_optimizer_rust, int1e_r4_origi_ip2_optimizer);
+    impl_intor_optimizer!("int1e_ipipovlp", int1e_ipipovlp_optimizer_rust, cint1e_ipipovlp_optimizer_rust, int1e_ipipovlp_optimizer);
+    impl_intor_optimizer!("int1e_ipovlpip", int1e_ipovlpip_optimizer_rust, cint1e_ipovlpip_optimizer_rust, int1e_ipovlpip_optimizer);
+    impl_intor_optimizer!("int1e_ipipkin", int1e_ipipkin_optimizer_rust, cint1e_ipipkin_optimizer_rust, int1e_ipipkin_optimizer);
+    impl_intor_optimizer!("int1e_ipkinip", int1e_ipkinip_optimizer_rust, cint1e_ipkinip_optimizer_rust, int1e_ipkinip_optimizer);
+    impl_intor_optimizer!("int1e_ipipnuc", int1e_ipipnuc_optimizer_rust, cint1e_ipipnuc_optimizer_rust, int1e_ipipnuc_optimizer);
+    impl_intor_optimizer!("int1e_ipnucip", int1e_ipnucip_optimizer_rust, cint1e_ipnucip_optimizer_rust, int1e_ipnucip_optimizer);
+    impl_intor_optimizer!("int1e_ipiprinv", int1e_ipiprinv_optimizer_rust, cint1e_ipiprinv_optimizer_rust, int1e_ipiprinv_optimizer);
+    impl_intor_optimizer!("int1e_iprinvip", int1e_iprinvip_optimizer_rust, cint1e_iprinvip_optimizer_rust, int1e_iprinvip_optimizer);
+    impl_intor_optimizer!("int1e_ipipr", int1e_ipipr_optimizer_rust, cint1e_ipipr_optimizer_rust, int1e_ipipr_optimizer);
+    impl_intor_optimizer!("int1e_iprip", int1e_iprip_optimizer_rust, cint1e_iprip_optimizer_rust, int1e_iprip_optimizer);
+    impl_intor_optimizer!("int2e_ipip1", int2e_ipip1_optimizer_rust, cint2e_ipip1_optimizer_rust, int2e_ipip1_optimizer);
+    impl_intor_optimizer!("int2e_ipvip1", int2e_ipvip1_optimizer_rust, cint2e_ipvip1_optimizer_rust, int2e_ipvip1_optimizer);
+    impl_intor_optimizer!("int2e_ip1ip2", int2e_ip1ip2_optimizer_rust, cint2e_ip1ip2_optimizer_rust, int2e_ip1ip2_optimizer);
+    impl_intor_optimizer!("int1e_ipippnucp", int1e_ipippnucp_optimizer_rust, cint1e_ipippnucp_optimizer_rust, int1e_ipippnucp_optimizer);
+    impl_intor_optimizer!("int1e_ippnucpip", int1e_ippnucpip_optimizer_rust, cint1e_ippnucpip_optimizer_rust, int1e_ippnucpip_optimizer);
+    impl_intor_optimizer!("int1e_ipipprinvp", int1e_ipipprinvp_optimizer_rust, cint1e_ipipprinvp_optimizer_rust, int1e_ipipprinvp_optimizer);
+    impl_intor_optimizer!("int1e_ipprinvpip", int1e_ipprinvpip_optimizer_rust, cint1e_ipprinvpip_optimizer_rust, int1e_ipprinvpip_optimizer);
+    impl_intor_optimizer!("int1e_ipipspnucsp", int1e_ipipspnucsp_optimizer_rust, cint1e_ipipspnucsp_optimizer_rust, int1e_ipipspnucsp_optimizer);
+    impl_intor_optimizer!("int1e_ipspnucspip", int1e_ipspnucspip_optimizer_rust, cint1e_ipspnucspip_optimizer_rust, int1e_ipspnucspip_optimizer);
+    impl_intor_optimizer!("int1e_ipipsprinvsp", int1e_ipipsprinvsp_optimizer_rust, cint1e_ipipsprinvsp_optimizer_rust, int1e_ipipsprinvsp_optimizer);
+    impl_intor_optimizer!("int1e_ipsprinvspip", int1e_ipsprinvspip_optimizer_rust, cint1e_ipsprinvspip_optimizer_rust, int1e_ipsprinvspip_optimizer);
+    impl_intor_optimizer!("int2e_ipip1ipip2", int2e_ipip1ipip2_optimizer_rust, cint2e_ipip1ipip2_optimizer_rust, int2e_ipip1ipip2_optimizer);
+    impl_intor_optimizer!("int2e_ipvip1ipvip2", int2e_ipvip1ipvip2_optimizer_rust, cint2e_ipvip1ipvip2_optimizer_rust, int2e_ipvip1ipvip2_optimizer);
+    impl_intor_optimizer!("int2e_ip1", int2e_ip1_optimizer_rust, cint2e_ip1_optimizer_rust, int2e_ip1_optimizer);
+    impl_intor_optimizer!("int2e_ip2", int2e_ip2_optimizer_rust, cint2e_ip2_optimizer_rust, int2e_ip2_optimizer);
+    impl_intor_optimizer!("int2e_ipspsp1", int2e_ipspsp1_optimizer_rust, cint2e_ipspsp1_optimizer_rust, int2e_ipspsp1_optimizer);
+    impl_intor_optimizer!("int2e_ip1spsp2", int2e_ip1spsp2_optimizer_rust, cint2e_ip1spsp2_optimizer_rust, int2e_ip1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_ipspsp1spsp2", int2e_ipspsp1spsp2_optimizer_rust, cint2e_ipspsp1spsp2_optimizer_rust, int2e_ipspsp1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_ipsrsr1", int2e_ipsrsr1_optimizer_rust, cint2e_ipsrsr1_optimizer_rust, int2e_ipsrsr1_optimizer);
+    impl_intor_optimizer!("int2e_ip1srsr2", int2e_ip1srsr2_optimizer_rust, cint2e_ip1srsr2_optimizer_rust, int2e_ip1srsr2_optimizer);
+    impl_intor_optimizer!("int2e_ipsrsr1srsr2", int2e_ipsrsr1srsr2_optimizer_rust, cint2e_ipsrsr1srsr2_optimizer_rust, int2e_ipsrsr1srsr2_optimizer);
+    impl_intor_optimizer!("int3c1e_p2", int3c1e_p2_optimizer_rust, cint3c1e_p2_optimizer_rust, int3c1e_p2_optimizer);
+    impl_intor_optimizer!("int3c1e_iprinv", int3c1e_iprinv_optimizer_rust, cint3c1e_iprinv_optimizer_rust, int3c1e_iprinv_optimizer);
+    impl_intor_optimizer!("int3c1e_ip1", int3c1e_ip1_optimizer_rust, cint3c1e_ip1_optimizer_rust, int3c1e_ip1_optimizer);
+    impl_intor_optimizer!("int1e_ipovlp", int1e_ipovlp_optimizer_rust, cint1e_ipovlp_optimizer_rust, int1e_ipovlp_optimizer);
+    impl_intor_optimizer!("int1e_ovlpip", int1e_ovlpip_optimizer_rust, cint1e_ovlpip_optimizer_rust, int1e_ovlpip_optimizer);
+    impl_intor_optimizer!("int1e_ipkin", int1e_ipkin_optimizer_rust, cint1e_ipkin_optimizer_rust, int1e_ipkin_optimizer);
+    impl_intor_optimizer!("int1e_kinip", int1e_kinip_optimizer_rust, cint1e_kinip_optimizer_rust, int1e_kinip_optimizer);
+    impl_intor_optimizer!("int1e_ipnuc", int1e_ipnuc_optimizer_rust, cint1e_ipnuc_optimizer_rust, int1e_ipnuc_optimizer);
+    impl_intor_optimizer!("int1e_iprinv", int1e_iprinv_optimizer_rust, cint1e_iprinv_optimizer_rust, int1e_iprinv_optimizer);
+    impl_intor_optimizer!("int1e_ipspnucsp", int1e_ipspnucsp_optimizer_rust, cint1e_ipspnucsp_optimizer_rust, int1e_ipspnucsp_optimizer);
+    impl_intor_optimizer!("int1e_ipsprinvsp", int1e_ipsprinvsp_optimizer_rust, cint1e_ipsprinvsp_optimizer_rust, int1e_ipsprinvsp_optimizer);
+    impl_intor_optimizer!("int1e_ippnucp", int1e_ippnucp_optimizer_rust, cint1e_ippnucp_optimizer_rust, int1e_ippnucp_optimizer);
+    impl_intor_optimizer!("int1e_ipprinvp", int1e_ipprinvp_optimizer_rust, cint1e_ipprinvp_optimizer_rust, int1e_ipprinvp_optimizer);
+    impl_intor_optimizer!("int2e_ssp1ssp2", int2e_ssp1ssp2_optimizer_rust, cint2e_ssp1ssp2_optimizer_rust, int2e_ssp1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_ssp1sps2", int2e_ssp1sps2_optimizer_rust, cint2e_ssp1sps2_optimizer_rust, int2e_ssp1sps2_optimizer);
+    impl_intor_optimizer!("int2e_sps1ssp2", int2e_sps1ssp2_optimizer_rust, cint2e_sps1ssp2_optimizer_rust, int2e_sps1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_sps1sps2", int2e_sps1sps2_optimizer_rust, cint2e_sps1sps2_optimizer_rust, int2e_sps1sps2_optimizer);
+    impl_intor_optimizer!("int2e_cg_ssa10ssp2", int2e_cg_ssa10ssp2_optimizer_rust, cint2e_cg_ssa10ssp2_optimizer_rust, int2e_cg_ssa10ssp2_optimizer);
+    impl_intor_optimizer!("int2e_giao_ssa10ssp2", int2e_giao_ssa10ssp2_optimizer_rust, cint2e_giao_ssa10ssp2_optimizer_rust, int2e_giao_ssa10ssp2_optimizer);
+    impl_intor_optimizer!("int2e_gssp1ssp2", int2e_gssp1ssp2_optimizer_rust, cint2e_gssp1ssp2_optimizer_rust, int2e_gssp1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r1_ssp1ssp2", int2e_gauge_r1_ssp1ssp2_optimizer_rust, cint2e_gauge_r1_ssp1ssp2_optimizer_rust, int2e_gauge_r1_ssp1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r1_ssp1sps2", int2e_gauge_r1_ssp1sps2_optimizer_rust, cint2e_gauge_r1_ssp1sps2_optimizer_rust, int2e_gauge_r1_ssp1sps2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r1_sps1ssp2", int2e_gauge_r1_sps1ssp2_optimizer_rust, cint2e_gauge_r1_sps1ssp2_optimizer_rust, int2e_gauge_r1_sps1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r1_sps1sps2", int2e_gauge_r1_sps1sps2_optimizer_rust, cint2e_gauge_r1_sps1sps2_optimizer_rust, int2e_gauge_r1_sps1sps2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r2_ssp1ssp2", int2e_gauge_r2_ssp1ssp2_optimizer_rust, cint2e_gauge_r2_ssp1ssp2_optimizer_rust, int2e_gauge_r2_ssp1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r2_ssp1sps2", int2e_gauge_r2_ssp1sps2_optimizer_rust, cint2e_gauge_r2_ssp1sps2_optimizer_rust, int2e_gauge_r2_ssp1sps2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r2_sps1ssp2", int2e_gauge_r2_sps1ssp2_optimizer_rust, cint2e_gauge_r2_sps1ssp2_optimizer_rust, int2e_gauge_r2_sps1ssp2_optimizer);
+    impl_intor_optimizer!("int2e_gauge_r2_sps1sps2", int2e_gauge_r2_sps1sps2_optimizer_rust, cint2e_gauge_r2_sps1sps2_optimizer_rust, int2e_gauge_r2_sps1sps2_optimizer);
+    impl_intor_optimizer!("int1e_ipipipnuc", int1e_ipipipnuc_optimizer_rust, cint1e_ipipipnuc_optimizer_rust, int1e_ipipipnuc_optimizer);
+    impl_intor_optimizer!("int1e_ipipiprinv", int1e_ipipiprinv_optimizer_rust, cint1e_ipipiprinv_optimizer_rust, int1e_ipipiprinv_optimizer);
+    impl_intor_optimizer!("int1e_ipipnucip", int1e_ipipnucip_optimizer_rust, cint1e_ipipnucip_optimizer_rust, int1e_ipipnucip_optimizer);
+    impl_intor_optimizer!("int1e_ipiprinvip", int1e_ipiprinvip_optimizer_rust, cint1e_ipiprinvip_optimizer_rust, int1e_ipiprinvip_optimizer);
+    impl_intor_optimizer!("int1e_kin", int1e_kin_optimizer_rust, cint1e_kin_optimizer_rust, int1e_kin_optimizer);
+    impl_intor_optimizer!("int1e_ia01p", int1e_ia01p_optimizer_rust, cint1e_ia01p_optimizer_rust, int1e_ia01p_optimizer);
+    impl_intor_optimizer!("int1e_giao_irjxp", int1e_giao_irjxp_optimizer_rust, cint1e_giao_irjxp_optimizer_rust, int1e_giao_irjxp_optimizer);
+    impl_intor_optimizer!("int1e_cg_irxp", int1e_cg_irxp_optimizer_rust, cint1e_cg_irxp_optimizer_rust, int1e_cg_irxp_optimizer);
+    impl_intor_optimizer!("int1e_giao_a11part", int1e_giao_a11part_optimizer_rust, cint1e_giao_a11part_optimizer_rust, int1e_giao_a11part_optimizer);
+    impl_intor_optimizer!("int1e_cg_a11part", int1e_cg_a11part_optimizer_rust, cint1e_cg_a11part_optimizer_rust, int1e_cg_a11part_optimizer);
+    impl_intor_optimizer!("int1e_a01gp", int1e_a01gp_optimizer_rust, cint1e_a01gp_optimizer_rust, int1e_a01gp_optimizer);
+    impl_intor_optimizer!("int1e_igkin", int1e_igkin_optimizer_rust, cint1e_igkin_optimizer_rust, int1e_igkin_optimizer);
+    impl_intor_optimizer!("int1e_igovlp", int1e_igovlp_optimizer_rust, cint1e_igovlp_optimizer_rust, int1e_igovlp_optimizer);
+    impl_intor_optimizer!("int1e_ignuc", int1e_ignuc_optimizer_rust, cint1e_ignuc_optimizer_rust, int1e_ignuc_optimizer);
+    impl_intor_optimizer!("int1e_pnucp", int1e_pnucp_optimizer_rust, cint1e_pnucp_optimizer_rust, int1e_pnucp_optimizer);
+    impl_intor_optimizer!("int1e_z", int1e_z_optimizer_rust, cint1e_z_optimizer_rust, int1e_z_optimizer);
+    impl_intor_optimizer!("int1e_zz", int1e_zz_optimizer_rust, cint1e_zz_optimizer_rust, int1e_zz_optimizer);
+    impl_intor_optimizer!("int1e_r", int1e_r_optimizer_rust, cint1e_r_optimizer_rust, int1e_r_optimizer);
+    impl_intor_optimizer!("int1e_r2", int1e_r2_optimizer_rust, cint1e_r2_optimizer_rust, int1e_r2_optimizer);
+    impl_intor_optimizer!("int1e_r4", int1e_r4_optimizer_rust, cint1e_r4_optimizer_rust, int1e_r4_optimizer);
+    impl_intor_optimizer!("int1e_rr", int1e_rr_optimizer_rust, cint1e_rr_optimizer_rust, int1e_rr_optimizer);
+    impl_intor_optimizer!("int1e_rrr", int1e_rrr_optimizer_rust, cint1e_rrr_optimizer_rust, int1e_rrr_optimizer);
+    impl_intor_optimizer!("int1e_rrrr", int1e_rrrr_optimizer_rust, cint1e_rrrr_optimizer_rust, int1e_rrrr_optimizer);
+    impl_intor_optimizer!("int1e_z_origj", int1e_z_origj_optimizer_rust, cint1e_z_origj_optimizer_rust, int1e_z_origj_optimizer);
+    impl_intor_optimizer!("int1e_zz_origj", int1e_zz_origj_optimizer_rust, cint1e_zz_origj_optimizer_rust, int1e_zz_origj_optimizer);
+    impl_intor_optimizer!("int1e_r_origj", int1e_r_origj_optimizer_rust, cint1e_r_origj_optimizer_rust, int1e_r_origj_optimizer);
+    impl_intor_optimizer!("int1e_rr_origj", int1e_rr_origj_optimizer_rust, cint1e_rr_origj_optimizer_rust, int1e_rr_origj_optimizer);
+    impl_intor_optimizer!("int1e_r2_origj", int1e_r2_origj_optimizer_rust, cint1e_r2_origj_optimizer_rust, int1e_r2_origj_optimizer);
+    impl_intor_optimizer!("int1e_r4_origj", int1e_r4_origj_optimizer_rust, cint1e_r4_origj_optimizer_rust, int1e_r4_origj_optimizer);
+    impl_intor_optimizer!("int1e_p4", int1e_p4_optimizer_rust, cint1e_p4_optimizer_rust, int1e_p4_optimizer);
+    impl_intor_optimizer!("int1e_prinvp", int1e_prinvp_optimizer_rust, cint1e_prinvp_optimizer_rust, int1e_prinvp_optimizer);
+    impl_intor_optimizer!("int1e_prinvxp", int1e_prinvxp_optimizer_rust, cint1e_prinvxp_optimizer_rust, int1e_prinvxp_optimizer);
+    impl_intor_optimizer!("int1e_pnucxp", int1e_pnucxp_optimizer_rust, cint1e_pnucxp_optimizer_rust, int1e_pnucxp_optimizer);
+    impl_intor_optimizer!("int1e_irp", int1e_irp_optimizer_rust, cint1e_irp_optimizer_rust, int1e_irp_optimizer);
+    impl_intor_optimizer!("int1e_irrp", int1e_irrp_optimizer_rust, cint1e_irrp_optimizer_rust, int1e_irrp_optimizer);
+    impl_intor_optimizer!("int1e_irpr", int1e_irpr_optimizer_rust, cint1e_irpr_optimizer_rust, int1e_irpr_optimizer);
+    impl_intor_optimizer!("int1e_ggovlp", int1e_ggovlp_optimizer_rust, cint1e_ggovlp_optimizer_rust, int1e_ggovlp_optimizer);
+    impl_intor_optimizer!("int1e_ggkin", int1e_ggkin_optimizer_rust, cint1e_ggkin_optimizer_rust, int1e_ggkin_optimizer);
+    impl_intor_optimizer!("int1e_ggnuc", int1e_ggnuc_optimizer_rust, cint1e_ggnuc_optimizer_rust, int1e_ggnuc_optimizer);
+    impl_intor_optimizer!("int1e_grjxp", int1e_grjxp_optimizer_rust, cint1e_grjxp_optimizer_rust, int1e_grjxp_optimizer);
+    impl_intor_optimizer!("int1e_rinv", int1e_rinv_optimizer_rust, cint1e_rinv_optimizer_rust, int1e_rinv_optimizer);
+    impl_intor_optimizer!("int1e_drinv", int1e_drinv_optimizer_rust, cint1e_drinv_optimizer_rust, int1e_drinv_optimizer);
+    impl_intor_optimizer!("int1e_sigma", int1e_sigma_optimizer_rust, cint1e_sigma_optimizer_rust, int1e_sigma_optimizer);
+    impl_intor_optimizer!("int1e_spsigmasp", int1e_spsigmasp_optimizer_rust, cint1e_spsigmasp_optimizer_rust, int1e_spsigmasp_optimizer);
+    impl_intor_optimizer!("int1e_srsr", int1e_srsr_optimizer_rust, cint1e_srsr_optimizer_rust, int1e_srsr_optimizer);
+    impl_intor_optimizer!("int1e_sr", int1e_sr_optimizer_rust, cint1e_sr_optimizer_rust, int1e_sr_optimizer);
+    impl_intor_optimizer!("int1e_srsp", int1e_srsp_optimizer_rust, cint1e_srsp_optimizer_rust, int1e_srsp_optimizer);
+    impl_intor_optimizer!("int1e_spsp", int1e_spsp_optimizer_rust, cint1e_spsp_optimizer_rust, int1e_spsp_optimizer);
+    impl_intor_optimizer!("int1e_sp", int1e_sp_optimizer_rust, cint1e_sp_optimizer_rust, int1e_sp_optimizer);
+    impl_intor_optimizer!("int1e_spnucsp", int1e_spnucsp_optimizer_rust, cint1e_spnucsp_optimizer_rust, int1e_spnucsp_optimizer);
+    impl_intor_optimizer!("int1e_sprinvsp", int1e_sprinvsp_optimizer_rust, cint1e_sprinvsp_optimizer_rust, int1e_sprinvsp_optimizer);
+    impl_intor_optimizer!("int1e_srnucsr", int1e_srnucsr_optimizer_rust, cint1e_srnucsr_optimizer_rust, int1e_srnucsr_optimizer);
+    impl_intor_optimizer!("int1e_sprsp", int1e_sprsp_optimizer_rust, cint1e_sprsp_optimizer_rust, int1e_sprsp_optimizer);
+    impl_intor_optimizer!("int1e_govlp", int1e_govlp_optimizer_rust, cint1e_govlp_optimizer_rust, int1e_govlp_optimizer);
+    impl_intor_optimizer!("int1e_gnuc", int1e_gnuc_optimizer_rust, cint1e_gnuc_optimizer_rust, int1e_gnuc_optimizer);
+    impl_intor_optimizer!("int1e_cg_sa10sa01", int1e_cg_sa10sa01_optimizer_rust, cint1e_cg_sa10sa01_optimizer_rust, int1e_cg_sa10sa01_optimizer);
+    impl_intor_optimizer!("int1e_cg_sa10sp", int1e_cg_sa10sp_optimizer_rust, cint1e_cg_sa10sp_optimizer_rust, int1e_cg_sa10sp_optimizer);
+    impl_intor_optimizer!("int1e_cg_sa10nucsp", int1e_cg_sa10nucsp_optimizer_rust, cint1e_cg_sa10nucsp_optimizer_rust, int1e_cg_sa10nucsp_optimizer);
+    impl_intor_optimizer!("int1e_giao_sa10sa01", int1e_giao_sa10sa01_optimizer_rust, cint1e_giao_sa10sa01_optimizer_rust, int1e_giao_sa10sa01_optimizer);
+    impl_intor_optimizer!("int1e_giao_sa10sp", int1e_giao_sa10sp_optimizer_rust, cint1e_giao_sa10sp_optimizer_rust, int1e_giao_sa10sp_optimizer);
+    impl_intor_optimizer!("int1e_giao_sa10nucsp", int1e_giao_sa10nucsp_optimizer_rust, cint1e_giao_sa10nucsp_optimizer_rust, int1e_giao_sa10nucsp_optimizer);
+    impl_intor_optimizer!("int1e_sa01sp", int1e_sa01sp_optimizer_rust, cint1e_sa01sp_optimizer_rust, int1e_sa01sp_optimizer);
+    impl_intor_optimizer!("int1e_spgsp", int1e_spgsp_optimizer_rust, cint1e_spgsp_optimizer_rust, int1e_spgsp_optimizer);
+    impl_intor_optimizer!("int1e_spgnucsp", int1e_spgnucsp_optimizer_rust, cint1e_spgnucsp_optimizer_rust, int1e_spgnucsp_optimizer);
+    impl_intor_optimizer!("int1e_spgsa01", int1e_spgsa01_optimizer_rust, cint1e_spgsa01_optimizer_rust, int1e_spgsa01_optimizer);
+    impl_intor_optimizer!("int2e_ig1", int2e_ig1_optimizer_rust, cint2e_ig1_optimizer_rust, int2e_ig1_optimizer);
+    impl_intor_optimizer!("int2e_gg1", int2e_gg1_optimizer_rust, cint2e_gg1_optimizer_rust, int2e_gg1_optimizer);
+    impl_intor_optimizer!("int2e_g1g2", int2e_g1g2_optimizer_rust, cint2e_g1g2_optimizer_rust, int2e_g1g2_optimizer);
+    impl_intor_optimizer!("int2e_p1vxp1", int2e_p1vxp1_optimizer_rust, cint2e_p1vxp1_optimizer_rust, int2e_p1vxp1_optimizer);
+    impl_intor_optimizer!("int2e_ip1v_rc1", int2e_ip1v_rc1_optimizer_rust, cint2e_ip1v_rc1_optimizer_rust, int2e_ip1v_rc1_optimizer);
+    impl_intor_optimizer!("int2e_ip1v_r1", int2e_ip1v_r1_optimizer_rust, cint2e_ip1v_r1_optimizer_rust, int2e_ip1v_r1_optimizer);
+    impl_intor_optimizer!("int2e_ipvg1_xp1", int2e_ipvg1_xp1_optimizer_rust, cint2e_ipvg1_xp1_optimizer_rust, int2e_ipvg1_xp1_optimizer);
+    impl_intor_optimizer!("int2e_ipvg2_xp1", int2e_ipvg2_xp1_optimizer_rust, cint2e_ipvg2_xp1_optimizer_rust, int2e_ipvg2_xp1_optimizer);
+    impl_intor_optimizer!("int1e_inuc_rcxp", int1e_inuc_rcxp_optimizer_rust, cint1e_inuc_rcxp_optimizer_rust, int1e_inuc_rcxp_optimizer);
+    impl_intor_optimizer!("int1e_inuc_rxp", int1e_inuc_rxp_optimizer_rust, cint1e_inuc_rxp_optimizer_rust, int1e_inuc_rxp_optimizer);
+    impl_intor_optimizer!("int1e_spspsp", int1e_spspsp_optimizer_rust, cint1e_spspsp_optimizer_rust, int1e_spspsp_optimizer);
+    impl_intor_optimizer!("int1e_spnuc", int1e_spnuc_optimizer_rust, cint1e_spnuc_optimizer_rust, int1e_spnuc_optimizer);
+    impl_intor_optimizer!("int2e_spv1", int2e_spv1_optimizer_rust, cint2e_spv1_optimizer_rust, int2e_spv1_optimizer);
+    impl_intor_optimizer!("int2e_vsp1", int2e_vsp1_optimizer_rust, cint2e_vsp1_optimizer_rust, int2e_vsp1_optimizer);
+    impl_intor_optimizer!("int2e_spsp2", int2e_spsp2_optimizer_rust, cint2e_spsp2_optimizer_rust, int2e_spsp2_optimizer);
+    impl_intor_optimizer!("int2e_spv1spv2", int2e_spv1spv2_optimizer_rust, cint2e_spv1spv2_optimizer_rust, int2e_spv1spv2_optimizer);
+    impl_intor_optimizer!("int2e_vsp1spv2", int2e_vsp1spv2_optimizer_rust, cint2e_vsp1spv2_optimizer_rust, int2e_vsp1spv2_optimizer);
+    impl_intor_optimizer!("int2e_spv1vsp2", int2e_spv1vsp2_optimizer_rust, cint2e_spv1vsp2_optimizer_rust, int2e_spv1vsp2_optimizer);
+    impl_intor_optimizer!("int2e_vsp1vsp2", int2e_vsp1vsp2_optimizer_rust, cint2e_vsp1vsp2_optimizer_rust, int2e_vsp1vsp2_optimizer);
+    impl_intor_optimizer!("int2e_spv1spsp2", int2e_spv1spsp2_optimizer_rust, cint2e_spv1spsp2_optimizer_rust, int2e_spv1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_vsp1spsp2", int2e_vsp1spsp2_optimizer_rust, cint2e_vsp1spsp2_optimizer_rust, int2e_vsp1spsp2_optimizer);
+    impl_intor_optimizer!("int1e_ipiprinvipip", int1e_ipiprinvipip_optimizer_rust, cint1e_ipiprinvipip_optimizer_rust, int1e_ipiprinvipip_optimizer);
+    impl_intor_optimizer!("int1e_ipipiprinvip", int1e_ipipiprinvip_optimizer_rust, cint1e_ipipiprinvip_optimizer_rust, int1e_ipipiprinvip_optimizer);
+    impl_intor_optimizer!("int1e_ipipipiprinv", int1e_ipipipiprinv_optimizer_rust, cint1e_ipipipiprinv_optimizer_rust, int1e_ipipipiprinv_optimizer);
+    impl_intor_optimizer!("int2e_spsp1", int2e_spsp1_optimizer_rust, cint2e_spsp1_optimizer_rust, int2e_spsp1_optimizer);
+    impl_intor_optimizer!("int2e_spsp1spsp2", int2e_spsp1spsp2_optimizer_rust, cint2e_spsp1spsp2_optimizer_rust, int2e_spsp1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_srsr1", int2e_srsr1_optimizer_rust, cint2e_srsr1_optimizer_rust, int2e_srsr1_optimizer);
+    impl_intor_optimizer!("int2e_srsr1srsr2", int2e_srsr1srsr2_optimizer_rust, cint2e_srsr1srsr2_optimizer_rust, int2e_srsr1srsr2_optimizer);
+    impl_intor_optimizer!("int2e_cg_sa10sp1", int2e_cg_sa10sp1_optimizer_rust, cint2e_cg_sa10sp1_optimizer_rust, int2e_cg_sa10sp1_optimizer);
+    impl_intor_optimizer!("int2e_cg_sa10sp1spsp2", int2e_cg_sa10sp1spsp2_optimizer_rust, cint2e_cg_sa10sp1spsp2_optimizer_rust, int2e_cg_sa10sp1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_giao_sa10sp1", int2e_giao_sa10sp1_optimizer_rust, cint2e_giao_sa10sp1_optimizer_rust, int2e_giao_sa10sp1_optimizer);
+    impl_intor_optimizer!("int2e_giao_sa10sp1spsp2", int2e_giao_sa10sp1spsp2_optimizer_rust, cint2e_giao_sa10sp1spsp2_optimizer_rust, int2e_giao_sa10sp1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_g1", int2e_g1_optimizer_rust, cint2e_g1_optimizer_rust, int2e_g1_optimizer);
+    impl_intor_optimizer!("int2e_spgsp1", int2e_spgsp1_optimizer_rust, cint2e_spgsp1_optimizer_rust, int2e_spgsp1_optimizer);
+    impl_intor_optimizer!("int2e_g1spsp2", int2e_g1spsp2_optimizer_rust, cint2e_g1spsp2_optimizer_rust, int2e_g1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_spgsp1spsp2", int2e_spgsp1spsp2_optimizer_rust, cint2e_spgsp1spsp2_optimizer_rust, int2e_spgsp1spsp2_optimizer);
+    impl_intor_optimizer!("int2e_pp1", int2e_pp1_optimizer_rust, cint2e_pp1_optimizer_rust, int2e_pp1_optimizer);
+    impl_intor_optimizer!("int2e_pp2", int2e_pp2_optimizer_rust, cint2e_pp2_optimizer_rust, int2e_pp2_optimizer);
+    impl_intor_optimizer!("int2e_pp1pp2", int2e_pp1pp2_optimizer_rust, cint2e_pp1pp2_optimizer_rust, int2e_pp1pp2_optimizer);
+    impl_intor_optimizer!("int1e_grids_ip", int1e_grids_ip_optimizer_rust, cint1e_grids_ip_optimizer_rust, int1e_grids_ip_optimizer);
+    impl_intor_optimizer!("int1e_grids_ipvip", int1e_grids_ipvip_optimizer_rust, cint1e_grids_ipvip_optimizer_rust, int1e_grids_ipvip_optimizer);
+    impl_intor_optimizer!("int1e_grids_spvsp", int1e_grids_spvsp_optimizer_rust, cint1e_grids_spvsp_optimizer_rust, int1e_grids_spvsp_optimizer);
+    impl_intor_optimizer!("int1e_grids_ipip", int1e_grids_ipip_optimizer_rust, cint1e_grids_ipip_optimizer_rust, int1e_grids_ipip_optimizer);
+    impl_intor_optimizer!("int3c2e_ip1", int3c2e_ip1_optimizer_rust, cint3c2e_ip1_optimizer_rust, int3c2e_ip1_optimizer);
+    impl_intor_optimizer!("int3c2e_ip2", int3c2e_ip2_optimizer_rust, cint3c2e_ip2_optimizer_rust, int3c2e_ip2_optimizer);
+    impl_intor_optimizer!("int3c2e_pvp1", int3c2e_pvp1_optimizer_rust, cint3c2e_pvp1_optimizer_rust, int3c2e_pvp1_optimizer);
+    impl_intor_optimizer!("int3c2e_pvxp1", int3c2e_pvxp1_optimizer_rust, cint3c2e_pvxp1_optimizer_rust, int3c2e_pvxp1_optimizer);
+    impl_intor_optimizer!("int2c2e_ip1", int2c2e_ip1_optimizer_rust, cint2c2e_ip1_optimizer_rust, int2c2e_ip1_optimizer);
+    impl_intor_optimizer!("int2c2e_ip2", int2c2e_ip2_optimizer_rust, cint2c2e_ip2_optimizer_rust, int2c2e_ip2_optimizer);
+    impl_intor_optimizer!("int3c2e_ig1", int3c2e_ig1_optimizer_rust, cint3c2e_ig1_optimizer_rust, int3c2e_ig1_optimizer);
+    impl_intor_optimizer!("int3c2e_spsp1", int3c2e_spsp1_optimizer_rust, cint3c2e_spsp1_optimizer_rust, int3c2e_spsp1_optimizer);
+    impl_intor_optimizer!("int3c2e_ipspsp1", int3c2e_ipspsp1_optimizer_rust, cint3c2e_ipspsp1_optimizer_rust, int3c2e_ipspsp1_optimizer);
+    impl_intor_optimizer!("int3c2e_spsp1ip2", int3c2e_spsp1ip2_optimizer_rust, cint3c2e_spsp1ip2_optimizer_rust, int3c2e_spsp1ip2_optimizer);
+    impl_intor_optimizer!("int3c2e_ipip1", int3c2e_ipip1_optimizer_rust, cint3c2e_ipip1_optimizer_rust, int3c2e_ipip1_optimizer);
+    impl_intor_optimizer!("int3c2e_ipip2", int3c2e_ipip2_optimizer_rust, cint3c2e_ipip2_optimizer_rust, int3c2e_ipip2_optimizer);
+    impl_intor_optimizer!("int3c2e_ipvip1", int3c2e_ipvip1_optimizer_rust, cint3c2e_ipvip1_optimizer_rust, int3c2e_ipvip1_optimizer);
+    impl_intor_optimizer!("int3c2e_ip1ip2", int3c2e_ip1ip2_optimizer_rust, cint3c2e_ip1ip2_optimizer_rust, int3c2e_ip1ip2_optimizer);
+    impl_intor_optimizer!("int2c2e_ipip1", int2c2e_ipip1_optimizer_rust, cint2c2e_ipip1_optimizer_rust, int2c2e_ipip1_optimizer);
+    impl_intor_optimizer!("int2c2e_ip1ip2", int2c2e_ip1ip2_optimizer_rust, cint2c2e_ip1ip2_optimizer_rust, int2c2e_ip1ip2_optimizer);
+    impl_intor_optimizer!("int1e_iprinvr", int1e_iprinvr_optimizer_rust, cint1e_iprinvr_optimizer_rust, int1e_iprinvr_optimizer);
+    impl_intor_optimizer!("int1e_iprinviprip", int1e_iprinviprip_optimizer_rust, cint1e_iprinviprip_optimizer_rust, int1e_iprinviprip_optimizer);
+    impl_intor_optimizer!("int1e_rinvipiprip", int1e_rinvipiprip_optimizer_rust, cint1e_rinvipiprip_optimizer_rust, int1e_rinvipiprip_optimizer);
+    impl_intor_optimizer!("int1e_ipiprinvrip", int1e_ipiprinvrip_optimizer_rust, cint1e_ipiprinvrip_optimizer_rust, int1e_ipiprinvrip_optimizer);
 }

@@ -170,81 +170,95 @@ pub union CINTEnvVars__bindgen_ty_3 {
     pub rl: *mut f64,
     pub grids: *mut f64,
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTlen_cart(l: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTlen_spinor(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTcgtos_cart(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTcgtos_spheric(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTcgtos_spinor(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTcgto_cart(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTcgto_spheric(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTcgto_spinor(
         bas_id: ::std::os::raw::c_int,
         bas: *const ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTtot_pgto_spheric(
         bas: *const ::std::os::raw::c_int,
         nbas: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTtot_pgto_spinor(
         bas: *const ::std::os::raw::c_int,
         nbas: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTtot_cgto_cart(
         bas: *const ::std::os::raw::c_int,
         nbas: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTtot_cgto_spheric(
         bas: *const ::std::os::raw::c_int,
         nbas: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTtot_cgto_spinor(
         bas: *const ::std::os::raw::c_int,
         nbas: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTshells_cart_offset(
         ao_loc: *mut ::std::os::raw::c_int,
@@ -252,6 +266,7 @@ extern "C" {
         nbas: ::std::os::raw::c_int,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTshells_spheric_offset(
         ao_loc: *mut ::std::os::raw::c_int,
@@ -259,6 +274,7 @@ extern "C" {
         nbas: ::std::os::raw::c_int,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTshells_spinor_offset(
         ao_loc: *mut ::std::os::raw::c_int,
@@ -266,6 +282,7 @@ extern "C" {
         nbas: ::std::os::raw::c_int,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_bra_sph(
         sph: *mut f64,
@@ -274,6 +291,7 @@ extern "C" {
         l: ::std::os::raw::c_int,
     ) -> *mut f64;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_ket_sph(
         sph: *mut f64,
@@ -282,6 +300,7 @@ extern "C" {
         l: ::std::os::raw::c_int,
     ) -> *mut f64;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_ket_sph1(
         sph: *mut f64,
@@ -291,9 +310,11 @@ extern "C" {
         l: ::std::os::raw::c_int,
     ) -> *mut f64;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTgto_norm(n: ::std::os::raw::c_int, a: f64) -> f64;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTinit_2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -304,6 +325,7 @@ extern "C" {
         env: *mut f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTinit_optimizer(
         opt: *mut *mut CINTOpt,
@@ -314,12 +336,15 @@ extern "C" {
         env: *mut f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTdel_2e_optimizer(opt: *mut *mut CINTOpt);
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTdel_optimizer(opt: *mut *mut CINTOpt);
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cart(
         opijkl: *mut f64,
@@ -332,6 +357,7 @@ extern "C" {
         opt: *mut CINTOpt,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cart_optimizer(
         opt: *mut *mut CINTOpt,
@@ -342,6 +368,7 @@ extern "C" {
         env: *mut f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sph(
         opijkl: *mut f64,
@@ -354,6 +381,7 @@ extern "C" {
         opt: *mut CINTOpt,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sph_optimizer(
         opt: *mut *mut CINTOpt,
@@ -364,6 +392,7 @@ extern "C" {
         env: *mut f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e(
         opijkl: *mut f64,
@@ -376,6 +405,7 @@ extern "C" {
         opt: *mut CINTOpt,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -386,6 +416,7 @@ extern "C" {
         env: *mut f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_ket_spinor_sf1(
         gspa: *mut __BindgenComplex<f64>,
@@ -398,6 +429,7 @@ extern "C" {
         kappa: ::std::os::raw::c_int,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_iket_spinor_sf1(
         gspa: *mut __BindgenComplex<f64>,
@@ -410,6 +442,7 @@ extern "C" {
         kappa: ::std::os::raw::c_int,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_ket_spinor_si1(
         gspa: *mut __BindgenComplex<f64>,
@@ -422,6 +455,7 @@ extern "C" {
         kappa: ::std::os::raw::c_int,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn CINTc2s_iket_spinor_si1(
         gspa: *mut __BindgenComplex<f64>,
@@ -472,6 +506,7 @@ pub type CINTIntegralFunctionComplex = ::std::option::Option<
         cache: *mut f64,
     ) -> ::std::os::raw::c_int,
 >;
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_a01gp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -482,6 +517,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_a01gp_cart(
         out: *mut f64,
@@ -496,6 +532,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_a01gp_sph(
         out: *mut f64,
@@ -510,6 +547,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_a01gp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -524,6 +562,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_a11part_optimizer(
         opt: *mut *mut CINTOpt,
@@ -534,6 +573,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_a11part_cart(
         out: *mut f64,
@@ -548,6 +588,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_a11part_sph(
         out: *mut f64,
@@ -562,6 +603,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_a11part_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -576,6 +618,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_irxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -586,6 +629,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_irxp_cart(
         out: *mut f64,
@@ -600,6 +644,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_irxp_sph(
         out: *mut f64,
@@ -614,6 +659,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_irxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -628,6 +674,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10nucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -638,6 +685,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10nucsp_cart(
         out: *mut f64,
@@ -652,6 +700,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10nucsp_sph(
         out: *mut f64,
@@ -666,6 +715,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10nucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -680,6 +730,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sa01_optimizer(
         opt: *mut *mut CINTOpt,
@@ -690,6 +741,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sa01_cart(
         out: *mut f64,
@@ -704,6 +756,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sa01_sph(
         out: *mut f64,
@@ -718,6 +771,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sa01_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -732,6 +786,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -742,6 +797,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sp_cart(
         out: *mut f64,
@@ -756,6 +812,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sp_sph(
         out: *mut f64,
@@ -770,6 +827,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_cg_sa10sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -784,6 +842,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_drinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -794,6 +853,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_drinv_cart(
         out: *mut f64,
@@ -808,6 +868,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_drinv_sph(
         out: *mut f64,
@@ -822,6 +883,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_drinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -836,6 +898,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -846,6 +909,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggkin_cart(
         out: *mut f64,
@@ -860,6 +924,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggkin_sph(
         out: *mut f64,
@@ -874,6 +939,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -888,6 +954,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -898,6 +965,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggnuc_cart(
         out: *mut f64,
@@ -912,6 +980,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggnuc_sph(
         out: *mut f64,
@@ -926,6 +995,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -940,6 +1010,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -950,6 +1021,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggovlp_cart(
         out: *mut f64,
@@ -964,6 +1036,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggovlp_sph(
         out: *mut f64,
@@ -978,6 +1051,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ggovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -992,6 +1066,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_a11part_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1002,6 +1077,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_a11part_cart(
         out: *mut f64,
@@ -1016,6 +1092,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_a11part_sph(
         out: *mut f64,
@@ -1030,6 +1107,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_a11part_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1044,6 +1122,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_irjxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1054,6 +1133,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_irjxp_cart(
         out: *mut f64,
@@ -1068,6 +1148,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_irjxp_sph(
         out: *mut f64,
@@ -1082,6 +1163,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_irjxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1096,6 +1178,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10nucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1106,6 +1189,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10nucsp_cart(
         out: *mut f64,
@@ -1120,6 +1204,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10nucsp_sph(
         out: *mut f64,
@@ -1134,6 +1219,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10nucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1148,6 +1234,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sa01_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1158,6 +1245,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sa01_cart(
         out: *mut f64,
@@ -1172,6 +1260,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sa01_sph(
         out: *mut f64,
@@ -1186,6 +1275,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sa01_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1200,6 +1290,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1210,6 +1301,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sp_cart(
         out: *mut f64,
@@ -1224,6 +1316,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sp_sph(
         out: *mut f64,
@@ -1238,6 +1331,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_giao_sa10sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1252,6 +1346,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_gnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1262,6 +1357,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_gnuc_cart(
         out: *mut f64,
@@ -1276,6 +1372,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_gnuc_sph(
         out: *mut f64,
@@ -1290,6 +1387,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_gnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1304,6 +1402,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_govlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1314,6 +1413,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_govlp_cart(
         out: *mut f64,
@@ -1328,6 +1428,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_govlp_sph(
         out: *mut f64,
@@ -1342,6 +1443,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_govlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1356,6 +1458,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1366,6 +1469,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_cart(
         out: *mut f64,
@@ -1380,6 +1484,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_sph(
         out: *mut f64,
@@ -1394,6 +1499,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1408,6 +1514,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1418,6 +1525,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ip_cart(
         out: *mut f64,
@@ -1432,6 +1540,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ip_sph(
         out: *mut f64,
@@ -1446,6 +1555,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1460,6 +1570,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1470,6 +1581,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipip_cart(
         out: *mut f64,
@@ -1484,6 +1596,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipip_sph(
         out: *mut f64,
@@ -1498,6 +1611,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1512,6 +1626,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1522,6 +1637,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipvip_cart(
         out: *mut f64,
@@ -1536,6 +1652,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipvip_sph(
         out: *mut f64,
@@ -1550,6 +1667,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_ipvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1564,6 +1682,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_spvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1574,6 +1693,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_spvsp_cart(
         out: *mut f64,
@@ -1588,6 +1708,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_spvsp_sph(
         out: *mut f64,
@@ -1602,6 +1723,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grids_spvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1616,6 +1738,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grjxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1626,6 +1749,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grjxp_cart(
         out: *mut f64,
@@ -1640,6 +1764,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grjxp_sph(
         out: *mut f64,
@@ -1654,6 +1779,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_grjxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1668,6 +1794,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ia01p_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1678,6 +1805,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ia01p_cart(
         out: *mut f64,
@@ -1692,6 +1820,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ia01p_sph(
         out: *mut f64,
@@ -1706,6 +1835,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ia01p_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1720,6 +1850,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1730,6 +1861,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igkin_cart(
         out: *mut f64,
@@ -1744,6 +1876,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igkin_sph(
         out: *mut f64,
@@ -1758,6 +1891,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1772,6 +1906,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ignuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1782,6 +1917,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ignuc_cart(
         out: *mut f64,
@@ -1796,6 +1932,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ignuc_sph(
         out: *mut f64,
@@ -1810,6 +1947,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ignuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1824,6 +1962,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1834,6 +1973,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igovlp_cart(
         out: *mut f64,
@@ -1848,6 +1988,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igovlp_sph(
         out: *mut f64,
@@ -1862,6 +2003,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_igovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1876,6 +2018,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rcxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1886,6 +2029,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rcxp_cart(
         out: *mut f64,
@@ -1900,6 +2044,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rcxp_sph(
         out: *mut f64,
@@ -1914,6 +2059,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rcxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1928,6 +2074,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1938,6 +2085,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rxp_cart(
         out: *mut f64,
@@ -1952,6 +2100,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rxp_sph(
         out: *mut f64,
@@ -1966,6 +2115,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_inuc_rxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -1980,6 +2130,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipiprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -1990,6 +2141,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipiprinv_cart(
         out: *mut f64,
@@ -2004,6 +2156,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipiprinv_sph(
         out: *mut f64,
@@ -2018,6 +2171,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipiprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2032,6 +2186,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2042,6 +2197,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipnuc_cart(
         out: *mut f64,
@@ -2056,6 +2212,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipnuc_sph(
         out: *mut f64,
@@ -2070,6 +2227,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipipnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2084,6 +2242,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2094,6 +2253,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinv_cart(
         out: *mut f64,
@@ -2108,6 +2268,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinv_sph(
         out: *mut f64,
@@ -2122,6 +2283,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2136,6 +2298,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2146,6 +2309,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinvip_cart(
         out: *mut f64,
@@ -2160,6 +2324,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinvip_sph(
         out: *mut f64,
@@ -2174,6 +2339,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipiprinvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2188,6 +2354,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2198,6 +2365,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipkin_cart(
         out: *mut f64,
@@ -2212,6 +2380,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipkin_sph(
         out: *mut f64,
@@ -2226,6 +2395,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2240,6 +2410,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2250,6 +2421,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnuc_cart(
         out: *mut f64,
@@ -2264,6 +2436,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnuc_sph(
         out: *mut f64,
@@ -2278,6 +2451,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2292,6 +2466,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnucip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2302,6 +2477,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnucip_cart(
         out: *mut f64,
@@ -2316,6 +2492,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnucip_sph(
         out: *mut f64,
@@ -2330,6 +2507,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipnucip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2344,6 +2522,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2354,6 +2533,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipovlp_cart(
         out: *mut f64,
@@ -2368,6 +2548,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipovlp_sph(
         out: *mut f64,
@@ -2382,6 +2563,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2396,6 +2578,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipippnucp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2406,6 +2589,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipippnucp_cart(
         out: *mut f64,
@@ -2420,6 +2604,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipippnucp_sph(
         out: *mut f64,
@@ -2434,6 +2619,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipippnucp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2448,6 +2634,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipprinvp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2458,6 +2645,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipprinvp_cart(
         out: *mut f64,
@@ -2472,6 +2660,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipprinvp_sph(
         out: *mut f64,
@@ -2486,6 +2675,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipprinvp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2500,6 +2690,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2510,6 +2701,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipr_cart(
         out: *mut f64,
@@ -2524,6 +2716,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipr_sph(
         out: *mut f64,
@@ -2538,6 +2731,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2552,6 +2746,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2562,6 +2757,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinv_cart(
         out: *mut f64,
@@ -2576,6 +2772,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinv_sph(
         out: *mut f64,
@@ -2590,6 +2787,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2604,6 +2802,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2614,6 +2813,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvip_cart(
         out: *mut f64,
@@ -2628,6 +2828,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvip_sph(
         out: *mut f64,
@@ -2642,6 +2843,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2656,6 +2858,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvipip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2666,6 +2869,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvipip_cart(
         out: *mut f64,
@@ -2680,6 +2884,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvipip_sph(
         out: *mut f64,
@@ -2694,6 +2899,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvipip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2708,6 +2914,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvrip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2718,6 +2925,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvrip_cart(
         out: *mut f64,
@@ -2732,6 +2940,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvrip_sph(
         out: *mut f64,
@@ -2746,6 +2955,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipiprinvrip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2760,6 +2970,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipspnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2770,6 +2981,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipspnucsp_cart(
         out: *mut f64,
@@ -2784,6 +2996,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipspnucsp_sph(
         out: *mut f64,
@@ -2798,6 +3011,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipspnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2812,6 +3026,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipsprinvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2822,6 +3037,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipsprinvsp_cart(
         out: *mut f64,
@@ -2836,6 +3052,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipsprinvsp_sph(
         out: *mut f64,
@@ -2850,6 +3067,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipipsprinvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2864,6 +3082,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2874,6 +3093,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkin_cart(
         out: *mut f64,
@@ -2888,6 +3108,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkin_sph(
         out: *mut f64,
@@ -2902,6 +3123,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2916,6 +3138,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkinip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2926,6 +3149,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkinip_cart(
         out: *mut f64,
@@ -2940,6 +3164,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkinip_sph(
         out: *mut f64,
@@ -2954,6 +3179,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipkinip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -2968,6 +3194,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -2978,6 +3205,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnuc_cart(
         out: *mut f64,
@@ -2992,6 +3220,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnuc_sph(
         out: *mut f64,
@@ -3006,6 +3235,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3020,6 +3250,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnucip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3030,6 +3261,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnucip_cart(
         out: *mut f64,
@@ -3044,6 +3276,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnucip_sph(
         out: *mut f64,
@@ -3058,6 +3291,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipnucip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3072,6 +3306,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3082,6 +3317,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlp_cart(
         out: *mut f64,
@@ -3096,6 +3332,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlp_sph(
         out: *mut f64,
@@ -3110,6 +3347,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3124,6 +3362,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3134,6 +3373,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlpip_cart(
         out: *mut f64,
@@ -3148,6 +3388,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlpip_sph(
         out: *mut f64,
@@ -3162,6 +3403,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipovlpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3176,6 +3418,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3186,6 +3429,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucp_cart(
         out: *mut f64,
@@ -3200,6 +3444,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucp_sph(
         out: *mut f64,
@@ -3214,6 +3459,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3228,6 +3474,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3238,6 +3485,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucpip_cart(
         out: *mut f64,
@@ -3252,6 +3500,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucpip_sph(
         out: *mut f64,
@@ -3266,6 +3515,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ippnucpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3280,6 +3530,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3290,6 +3541,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvp_cart(
         out: *mut f64,
@@ -3304,6 +3556,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvp_sph(
         out: *mut f64,
@@ -3318,6 +3571,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3332,6 +3586,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3342,6 +3597,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvpip_cart(
         out: *mut f64,
@@ -3356,6 +3612,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvpip_sph(
         out: *mut f64,
@@ -3370,6 +3627,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipprinvpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3384,6 +3642,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3394,6 +3653,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinv_cart(
         out: *mut f64,
@@ -3408,6 +3668,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinv_sph(
         out: *mut f64,
@@ -3422,6 +3683,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3436,6 +3698,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3446,6 +3709,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvip_cart(
         out: *mut f64,
@@ -3460,6 +3724,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvip_sph(
         out: *mut f64,
@@ -3474,6 +3739,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3488,6 +3754,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinviprip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3498,6 +3765,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinviprip_cart(
         out: *mut f64,
@@ -3512,6 +3780,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinviprip_sph(
         out: *mut f64,
@@ -3526,6 +3795,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinviprip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3540,6 +3810,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3550,6 +3821,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvr_cart(
         out: *mut f64,
@@ -3564,6 +3836,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvr_sph(
         out: *mut f64,
@@ -3578,6 +3851,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprinvr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3592,6 +3866,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3602,6 +3877,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprip_cart(
         out: *mut f64,
@@ -3616,6 +3892,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprip_sph(
         out: *mut f64,
@@ -3630,6 +3907,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_iprip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3644,6 +3922,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3654,6 +3933,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucsp_cart(
         out: *mut f64,
@@ -3668,6 +3948,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucsp_sph(
         out: *mut f64,
@@ -3682,6 +3963,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3696,6 +3978,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucspip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3706,6 +3989,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucspip_cart(
         out: *mut f64,
@@ -3720,6 +4004,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucspip_sph(
         out: *mut f64,
@@ -3734,6 +4019,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipspnucspip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3748,6 +4034,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3758,6 +4045,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvsp_cart(
         out: *mut f64,
@@ -3772,6 +4060,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvsp_sph(
         out: *mut f64,
@@ -3786,6 +4075,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3800,6 +4090,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvspip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3810,6 +4101,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvspip_cart(
         out: *mut f64,
@@ -3824,6 +4116,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvspip_sph(
         out: *mut f64,
@@ -3838,6 +4131,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ipsprinvspip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3852,6 +4146,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3862,6 +4157,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irp_cart(
         out: *mut f64,
@@ -3876,6 +4172,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irp_sph(
         out: *mut f64,
@@ -3890,6 +4187,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3904,6 +4202,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irpr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3914,6 +4213,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irpr_cart(
         out: *mut f64,
@@ -3928,6 +4228,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irpr_sph(
         out: *mut f64,
@@ -3942,6 +4243,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irpr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -3956,6 +4258,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irrp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -3966,6 +4269,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irrp_cart(
         out: *mut f64,
@@ -3980,6 +4284,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irrp_sph(
         out: *mut f64,
@@ -3994,6 +4299,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_irrp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4008,6 +4314,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4018,6 +4325,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kin_cart(
         out: *mut f64,
@@ -4032,6 +4340,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kin_sph(
         out: *mut f64,
@@ -4046,6 +4355,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4060,6 +4370,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kinip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4070,6 +4381,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kinip_cart(
         out: *mut f64,
@@ -4084,6 +4396,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kinip_sph(
         out: *mut f64,
@@ -4098,6 +4411,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_kinip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4112,6 +4426,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_nuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4122,6 +4437,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_nuc_cart(
         out: *mut f64,
@@ -4136,6 +4452,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_nuc_sph(
         out: *mut f64,
@@ -4150,6 +4467,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_nuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4164,6 +4482,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4174,6 +4493,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlp_cart(
         out: *mut f64,
@@ -4188,6 +4508,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlp_sph(
         out: *mut f64,
@@ -4202,6 +4523,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4216,6 +4538,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4226,6 +4549,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlpip_cart(
         out: *mut f64,
@@ -4240,6 +4564,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlpip_sph(
         out: *mut f64,
@@ -4254,6 +4579,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_ovlpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4268,6 +4594,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_p4_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4278,6 +4605,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_p4_cart(
         out: *mut f64,
@@ -4292,6 +4620,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_p4_sph(
         out: *mut f64,
@@ -4306,6 +4635,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_p4_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4320,6 +4650,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4330,6 +4661,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucp_cart(
         out: *mut f64,
@@ -4344,6 +4676,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucp_sph(
         out: *mut f64,
@@ -4358,6 +4691,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4372,6 +4706,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4382,6 +4717,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucxp_cart(
         out: *mut f64,
@@ -4396,6 +4732,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucxp_sph(
         out: *mut f64,
@@ -4410,6 +4747,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_pnucxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4424,6 +4762,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4434,6 +4773,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvp_cart(
         out: *mut f64,
@@ -4448,6 +4788,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvp_sph(
         out: *mut f64,
@@ -4462,6 +4803,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4476,6 +4818,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4486,6 +4829,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvxp_cart(
         out: *mut f64,
@@ -4500,6 +4844,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvxp_sph(
         out: *mut f64,
@@ -4514,6 +4859,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_prinvxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4528,6 +4874,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4538,6 +4885,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_cart(
         out: *mut f64,
@@ -4552,6 +4900,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_sph(
         out: *mut f64,
@@ -4566,6 +4915,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4580,6 +4930,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4590,6 +4941,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_cart(
         out: *mut f64,
@@ -4604,6 +4956,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_sph(
         out: *mut f64,
@@ -4618,6 +4971,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4632,6 +4986,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4642,6 +4997,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_cart(
         out: *mut f64,
@@ -4656,6 +5012,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_sph(
         out: *mut f64,
@@ -4670,6 +5027,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4684,6 +5042,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4694,6 +5053,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_ip2_cart(
         out: *mut f64,
@@ -4708,6 +5068,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_ip2_sph(
         out: *mut f64,
@@ -4722,6 +5083,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origi_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4736,6 +5098,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4746,6 +5109,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origj_cart(
         out: *mut f64,
@@ -4760,6 +5124,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origj_sph(
         out: *mut f64,
@@ -4774,6 +5139,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r2_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4788,6 +5154,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4798,6 +5165,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_cart(
         out: *mut f64,
@@ -4812,6 +5180,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_sph(
         out: *mut f64,
@@ -4826,6 +5195,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4840,6 +5210,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4850,6 +5221,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_cart(
         out: *mut f64,
@@ -4864,6 +5236,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_sph(
         out: *mut f64,
@@ -4878,6 +5251,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4892,6 +5266,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4902,6 +5277,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_ip2_cart(
         out: *mut f64,
@@ -4916,6 +5292,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_ip2_sph(
         out: *mut f64,
@@ -4930,6 +5307,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origi_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4944,6 +5322,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -4954,6 +5333,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origj_cart(
         out: *mut f64,
@@ -4968,6 +5348,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origj_sph(
         out: *mut f64,
@@ -4982,6 +5363,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r4_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -4996,6 +5378,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5006,6 +5389,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_origj_cart(
         out: *mut f64,
@@ -5020,6 +5404,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_origj_sph(
         out: *mut f64,
@@ -5034,6 +5419,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_r_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5048,6 +5434,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5058,6 +5445,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinv_cart(
         out: *mut f64,
@@ -5072,6 +5460,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinv_sph(
         out: *mut f64,
@@ -5086,6 +5475,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5100,6 +5490,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinvipiprip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5110,6 +5501,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinvipiprip_cart(
         out: *mut f64,
@@ -5124,6 +5516,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinvipiprip_sph(
         out: *mut f64,
@@ -5138,6 +5531,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rinvipiprip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5152,6 +5546,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5162,6 +5557,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_cart(
         out: *mut f64,
@@ -5176,6 +5572,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_sph(
         out: *mut f64,
@@ -5190,6 +5587,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5204,6 +5602,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5214,6 +5613,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_origj_cart(
         out: *mut f64,
@@ -5228,6 +5628,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_origj_sph(
         out: *mut f64,
@@ -5242,6 +5643,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rr_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5256,6 +5658,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5266,6 +5669,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrr_cart(
         out: *mut f64,
@@ -5280,6 +5684,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrr_sph(
         out: *mut f64,
@@ -5294,6 +5699,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5308,6 +5714,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrrr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5318,6 +5725,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrrr_cart(
         out: *mut f64,
@@ -5332,6 +5740,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrrr_sph(
         out: *mut f64,
@@ -5346,6 +5755,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_rrrr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5360,6 +5770,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sa01sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5370,6 +5781,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sa01sp_cart(
         out: *mut f64,
@@ -5384,6 +5796,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sa01sp_sph(
         out: *mut f64,
@@ -5398,6 +5811,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sa01sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5412,6 +5826,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sigma_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5422,6 +5837,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sigma_cart(
         out: *mut f64,
@@ -5436,6 +5852,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sigma_sph(
         out: *mut f64,
@@ -5450,6 +5867,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sigma_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5464,6 +5882,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5474,6 +5893,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sp_cart(
         out: *mut f64,
@@ -5488,6 +5908,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sp_sph(
         out: *mut f64,
@@ -5502,6 +5923,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5516,6 +5938,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5526,6 +5949,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgnucsp_cart(
         out: *mut f64,
@@ -5540,6 +5964,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgnucsp_sph(
         out: *mut f64,
@@ -5554,6 +5979,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5568,6 +5994,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsa01_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5578,6 +6005,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsa01_cart(
         out: *mut f64,
@@ -5592,6 +6020,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsa01_sph(
         out: *mut f64,
@@ -5606,6 +6035,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsa01_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5620,6 +6050,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5630,6 +6061,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsp_cart(
         out: *mut f64,
@@ -5644,6 +6076,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsp_sph(
         out: *mut f64,
@@ -5658,6 +6091,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spgsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5672,6 +6106,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5682,6 +6117,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnuc_cart(
         out: *mut f64,
@@ -5696,6 +6132,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnuc_sph(
         out: *mut f64,
@@ -5710,6 +6147,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5724,6 +6162,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5734,6 +6173,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnucsp_cart(
         out: *mut f64,
@@ -5748,6 +6188,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnucsp_sph(
         out: *mut f64,
@@ -5762,6 +6203,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5776,6 +6218,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprinvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5786,6 +6229,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprinvsp_cart(
         out: *mut f64,
@@ -5800,6 +6244,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprinvsp_sph(
         out: *mut f64,
@@ -5814,6 +6259,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprinvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5828,6 +6274,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5838,6 +6285,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprsp_cart(
         out: *mut f64,
@@ -5852,6 +6300,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprsp_sph(
         out: *mut f64,
@@ -5866,6 +6315,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sprsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5880,6 +6330,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsigmasp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5890,6 +6341,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsigmasp_cart(
         out: *mut f64,
@@ -5904,6 +6356,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsigmasp_sph(
         out: *mut f64,
@@ -5918,6 +6371,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsigmasp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5932,6 +6386,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5942,6 +6397,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsp_cart(
         out: *mut f64,
@@ -5956,6 +6412,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsp_sph(
         out: *mut f64,
@@ -5970,6 +6427,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -5984,6 +6442,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spspsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -5994,6 +6453,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spspsp_cart(
         out: *mut f64,
@@ -6008,6 +6468,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spspsp_sph(
         out: *mut f64,
@@ -6022,6 +6483,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_spspsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6036,6 +6498,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6046,6 +6509,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sr_cart(
         out: *mut f64,
@@ -6060,6 +6524,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sr_sph(
         out: *mut f64,
@@ -6074,6 +6539,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_sr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6088,6 +6554,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srnucsr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6098,6 +6565,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srnucsr_cart(
         out: *mut f64,
@@ -6112,6 +6580,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srnucsr_sph(
         out: *mut f64,
@@ -6126,6 +6595,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srnucsr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6140,6 +6610,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6150,6 +6621,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsp_cart(
         out: *mut f64,
@@ -6164,6 +6636,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsp_sph(
         out: *mut f64,
@@ -6178,6 +6651,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6192,6 +6666,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6202,6 +6677,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsr_cart(
         out: *mut f64,
@@ -6216,6 +6692,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsr_sph(
         out: *mut f64,
@@ -6230,6 +6707,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_srsr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6244,6 +6722,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6254,6 +6733,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_cart(
         out: *mut f64,
@@ -6268,6 +6748,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_sph(
         out: *mut f64,
@@ -6282,6 +6763,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6296,6 +6778,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6306,6 +6789,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_origj_cart(
         out: *mut f64,
@@ -6320,6 +6804,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_origj_sph(
         out: *mut f64,
@@ -6334,6 +6819,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_z_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6348,6 +6834,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6358,6 +6845,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_cart(
         out: *mut f64,
@@ -6372,6 +6860,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_sph(
         out: *mut f64,
@@ -6386,6 +6875,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6400,6 +6890,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6410,6 +6901,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_origj_cart(
         out: *mut f64,
@@ -6424,6 +6916,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_origj_sph(
         out: *mut f64,
@@ -6438,6 +6931,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int1e_zz_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6452,6 +6946,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6462,6 +6957,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_cart(
         out: *mut f64,
@@ -6476,6 +6972,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_sph(
         out: *mut f64,
@@ -6490,6 +6987,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6504,6 +7002,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6514,6 +7013,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1_cart(
         out: *mut f64,
@@ -6528,6 +7028,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1_sph(
         out: *mut f64,
@@ -6542,6 +7043,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6556,6 +7058,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6566,6 +7069,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1ip2_cart(
         out: *mut f64,
@@ -6580,6 +7084,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1ip2_sph(
         out: *mut f64,
@@ -6594,6 +7099,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6608,6 +7114,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6618,6 +7125,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip2_cart(
         out: *mut f64,
@@ -6632,6 +7140,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip2_sph(
         out: *mut f64,
@@ -6646,6 +7155,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6660,6 +7170,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6670,6 +7181,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ipip1_cart(
         out: *mut f64,
@@ -6684,6 +7196,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ipip1_sph(
         out: *mut f64,
@@ -6698,6 +7211,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2c2e_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6712,6 +7226,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6722,6 +7237,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cart(
         out: *mut f64,
@@ -6736,6 +7252,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sph(
         out: *mut f64,
@@ -6750,6 +7267,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6764,6 +7282,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r1p2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6774,6 +7293,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r1p2_cart(
         out: *mut f64,
@@ -6788,6 +7308,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r1p2_sph(
         out: *mut f64,
@@ -6802,6 +7323,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r1p2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6816,6 +7338,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r2p2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6826,6 +7349,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r2p2_cart(
         out: *mut f64,
@@ -6840,6 +7364,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r2p2_sph(
         out: *mut f64,
@@ -6854,6 +7379,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_breit_r2p2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6868,6 +7394,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6878,6 +7405,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1_cart(
         out: *mut f64,
@@ -6892,6 +7420,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1_sph(
         out: *mut f64,
@@ -6906,6 +7435,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6920,6 +7450,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6930,6 +7461,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1spsp2_cart(
         out: *mut f64,
@@ -6944,6 +7476,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1spsp2_sph(
         out: *mut f64,
@@ -6958,6 +7491,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_sa10sp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -6972,6 +7506,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_ssa10ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -6982,6 +7517,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_ssa10ssp2_cart(
         out: *mut f64,
@@ -6996,6 +7532,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_ssa10ssp2_sph(
         out: *mut f64,
@@ -7010,6 +7547,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_cg_ssa10ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7024,6 +7562,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7034,6 +7573,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1_cart(
         out: *mut f64,
@@ -7048,6 +7588,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1_sph(
         out: *mut f64,
@@ -7062,6 +7603,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7076,6 +7618,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1g2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7086,6 +7629,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1g2_cart(
         out: *mut f64,
@@ -7100,6 +7644,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1g2_sph(
         out: *mut f64,
@@ -7114,6 +7659,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1g2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7128,6 +7674,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7138,6 +7685,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1spsp2_cart(
         out: *mut f64,
@@ -7152,6 +7700,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1spsp2_sph(
         out: *mut f64,
@@ -7166,6 +7715,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_g1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7180,6 +7730,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7190,6 +7741,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1sps2_cart(
         out: *mut f64,
@@ -7204,6 +7756,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1sps2_sph(
         out: *mut f64,
@@ -7218,6 +7771,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7232,6 +7786,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7242,6 +7797,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1ssp2_cart(
         out: *mut f64,
@@ -7256,6 +7812,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1ssp2_sph(
         out: *mut f64,
@@ -7270,6 +7827,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_sps1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7284,6 +7842,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7294,6 +7853,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1sps2_cart(
         out: *mut f64,
@@ -7308,6 +7868,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1sps2_sph(
         out: *mut f64,
@@ -7322,6 +7883,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7336,6 +7898,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7346,6 +7909,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1ssp2_cart(
         out: *mut f64,
@@ -7360,6 +7924,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1ssp2_sph(
         out: *mut f64,
@@ -7374,6 +7939,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r1_ssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7388,6 +7954,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7398,6 +7965,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1sps2_cart(
         out: *mut f64,
@@ -7412,6 +7980,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1sps2_sph(
         out: *mut f64,
@@ -7426,6 +7995,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7440,6 +8010,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7450,6 +8021,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1ssp2_cart(
         out: *mut f64,
@@ -7464,6 +8036,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1ssp2_sph(
         out: *mut f64,
@@ -7478,6 +8051,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_sps1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7492,6 +8066,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7502,6 +8077,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1sps2_cart(
         out: *mut f64,
@@ -7516,6 +8092,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1sps2_sph(
         out: *mut f64,
@@ -7530,6 +8107,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7544,6 +8122,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7554,6 +8133,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1ssp2_cart(
         out: *mut f64,
@@ -7568,6 +8148,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1ssp2_sph(
         out: *mut f64,
@@ -7582,6 +8163,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gauge_r2_ssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7596,6 +8178,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gg1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7606,6 +8189,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gg1_cart(
         out: *mut f64,
@@ -7620,6 +8204,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gg1_sph(
         out: *mut f64,
@@ -7634,6 +8219,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gg1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7648,6 +8234,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7658,6 +8245,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1_cart(
         out: *mut f64,
@@ -7672,6 +8260,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1_sph(
         out: *mut f64,
@@ -7686,6 +8275,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7700,6 +8290,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7710,6 +8301,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1spsp2_cart(
         out: *mut f64,
@@ -7724,6 +8316,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1spsp2_sph(
         out: *mut f64,
@@ -7738,6 +8331,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_sa10sp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7752,6 +8346,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_ssa10ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7762,6 +8357,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_ssa10ssp2_cart(
         out: *mut f64,
@@ -7776,6 +8372,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_ssa10ssp2_sph(
         out: *mut f64,
@@ -7790,6 +8387,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_giao_ssa10ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7804,6 +8402,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7814,6 +8413,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gssp1ssp2_cart(
         out: *mut f64,
@@ -7828,6 +8428,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gssp1ssp2_sph(
         out: *mut f64,
@@ -7842,6 +8443,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_gssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7856,6 +8458,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ig1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7866,6 +8469,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ig1_cart(
         out: *mut f64,
@@ -7880,6 +8484,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ig1_sph(
         out: *mut f64,
@@ -7894,6 +8499,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ig1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7908,6 +8514,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7918,6 +8525,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1_cart(
         out: *mut f64,
@@ -7932,6 +8540,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1_sph(
         out: *mut f64,
@@ -7946,6 +8555,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -7960,6 +8570,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -7970,6 +8581,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1ip2_cart(
         out: *mut f64,
@@ -7984,6 +8596,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1ip2_sph(
         out: *mut f64,
@@ -7998,6 +8611,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8012,6 +8626,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8022,6 +8637,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1spsp2_cart(
         out: *mut f64,
@@ -8036,6 +8652,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1spsp2_sph(
         out: *mut f64,
@@ -8050,6 +8667,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8064,6 +8682,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1srsr2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8074,6 +8693,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1srsr2_cart(
         out: *mut f64,
@@ -8088,6 +8708,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1srsr2_sph(
         out: *mut f64,
@@ -8102,6 +8723,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1srsr2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8116,6 +8738,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_r1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8126,6 +8749,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_r1_cart(
         out: *mut f64,
@@ -8140,6 +8764,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_r1_sph(
         out: *mut f64,
@@ -8154,6 +8779,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_r1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8168,6 +8794,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_rc1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8178,6 +8805,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_rc1_cart(
         out: *mut f64,
@@ -8192,6 +8820,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_rc1_sph(
         out: *mut f64,
@@ -8206,6 +8835,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip1v_rc1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8220,6 +8850,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8230,6 +8861,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip2_cart(
         out: *mut f64,
@@ -8244,6 +8876,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip2_sph(
         out: *mut f64,
@@ -8258,6 +8891,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8272,6 +8906,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8282,6 +8917,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1_cart(
         out: *mut f64,
@@ -8296,6 +8932,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1_sph(
         out: *mut f64,
@@ -8310,6 +8947,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8324,6 +8962,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1ipip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8334,6 +8973,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1ipip2_cart(
         out: *mut f64,
@@ -8348,6 +8988,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1ipip2_sph(
         out: *mut f64,
@@ -8362,6 +9003,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipip1ipip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8376,6 +9018,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8386,6 +9029,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1_cart(
         out: *mut f64,
@@ -8400,6 +9044,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1_sph(
         out: *mut f64,
@@ -8414,6 +9059,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8428,6 +9074,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8438,6 +9085,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1spsp2_cart(
         out: *mut f64,
@@ -8452,6 +9100,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1spsp2_sph(
         out: *mut f64,
@@ -8466,6 +9115,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipspsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8480,6 +9130,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8490,6 +9141,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1_cart(
         out: *mut f64,
@@ -8504,6 +9156,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1_sph(
         out: *mut f64,
@@ -8518,6 +9171,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8532,6 +9186,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1srsr2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8542,6 +9197,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1srsr2_cart(
         out: *mut f64,
@@ -8556,6 +9212,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1srsr2_sph(
         out: *mut f64,
@@ -8570,6 +9227,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipsrsr1srsr2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8584,6 +9242,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg1_xp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8594,6 +9253,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg1_xp1_cart(
         out: *mut f64,
@@ -8608,6 +9268,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg1_xp1_sph(
         out: *mut f64,
@@ -8622,6 +9283,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg1_xp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8636,6 +9298,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg2_xp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8646,6 +9309,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg2_xp1_cart(
         out: *mut f64,
@@ -8660,6 +9324,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg2_xp1_sph(
         out: *mut f64,
@@ -8674,6 +9339,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvg2_xp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8688,6 +9354,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8698,6 +9365,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1_cart(
         out: *mut f64,
@@ -8712,6 +9380,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1_sph(
         out: *mut f64,
@@ -8726,6 +9395,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8740,6 +9410,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1ipvip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8750,6 +9421,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1ipvip2_cart(
         out: *mut f64,
@@ -8764,6 +9436,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1ipvip2_sph(
         out: *mut f64,
@@ -8778,6 +9451,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ipvip1ipvip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8792,6 +9466,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_p1vxp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8802,6 +9477,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_p1vxp1_cart(
         out: *mut f64,
@@ -8816,6 +9492,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_p1vxp1_sph(
         out: *mut f64,
@@ -8830,6 +9507,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_p1vxp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8844,6 +9522,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8854,6 +9533,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1_cart(
         out: *mut f64,
@@ -8868,6 +9548,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1_sph(
         out: *mut f64,
@@ -8882,6 +9563,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8896,6 +9578,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1pp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8906,6 +9589,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1pp2_cart(
         out: *mut f64,
@@ -8920,6 +9604,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1pp2_sph(
         out: *mut f64,
@@ -8934,6 +9619,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp1pp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -8948,6 +9634,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -8958,6 +9645,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp2_cart(
         out: *mut f64,
@@ -8972,6 +9660,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp2_sph(
         out: *mut f64,
@@ -8986,6 +9675,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_pp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9000,6 +9690,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9010,6 +9701,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1_cart(
         out: *mut f64,
@@ -9024,6 +9716,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1_sph(
         out: *mut f64,
@@ -9038,6 +9731,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9052,6 +9746,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9062,6 +9757,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1spsp2_cart(
         out: *mut f64,
@@ -9076,6 +9772,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1spsp2_sph(
         out: *mut f64,
@@ -9090,6 +9787,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spgsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9104,6 +9802,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9114,6 +9813,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1sps2_cart(
         out: *mut f64,
@@ -9128,6 +9828,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1sps2_sph(
         out: *mut f64,
@@ -9142,6 +9843,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9156,6 +9858,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9166,6 +9869,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1ssp2_cart(
         out: *mut f64,
@@ -9180,6 +9884,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1ssp2_sph(
         out: *mut f64,
@@ -9194,6 +9899,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_sps1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9208,6 +9914,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9218,6 +9925,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1_cart(
         out: *mut f64,
@@ -9232,6 +9940,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1_sph(
         out: *mut f64,
@@ -9246,6 +9955,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9260,6 +9970,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9270,6 +9981,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1spsp2_cart(
         out: *mut f64,
@@ -9284,6 +9996,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1spsp2_sph(
         out: *mut f64,
@@ -9298,6 +10011,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9312,6 +10026,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9322,6 +10037,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp2_cart(
         out: *mut f64,
@@ -9336,6 +10052,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp2_sph(
         out: *mut f64,
@@ -9350,6 +10067,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9364,6 +10082,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9374,6 +10093,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1_cart(
         out: *mut f64,
@@ -9388,6 +10108,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1_sph(
         out: *mut f64,
@@ -9402,6 +10123,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9416,6 +10138,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9426,6 +10149,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spsp2_cart(
         out: *mut f64,
@@ -9440,6 +10164,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spsp2_sph(
         out: *mut f64,
@@ -9454,6 +10179,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9468,6 +10194,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spv2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9478,6 +10205,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spv2_cart(
         out: *mut f64,
@@ -9492,6 +10220,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spv2_sph(
         out: *mut f64,
@@ -9506,6 +10235,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1spv2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9520,6 +10250,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1vsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9530,6 +10261,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1vsp2_cart(
         out: *mut f64,
@@ -9544,6 +10276,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1vsp2_sph(
         out: *mut f64,
@@ -9558,6 +10291,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_spv1vsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9572,6 +10306,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9582,6 +10317,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1_cart(
         out: *mut f64,
@@ -9596,6 +10332,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1_sph(
         out: *mut f64,
@@ -9610,6 +10347,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9624,6 +10362,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1srsr2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9634,6 +10373,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1srsr2_cart(
         out: *mut f64,
@@ -9648,6 +10388,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1srsr2_sph(
         out: *mut f64,
@@ -9662,6 +10403,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_srsr1srsr2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9676,6 +10418,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9686,6 +10429,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1sps2_cart(
         out: *mut f64,
@@ -9700,6 +10444,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1sps2_sph(
         out: *mut f64,
@@ -9714,6 +10459,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9728,6 +10474,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9738,6 +10485,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1ssp2_cart(
         out: *mut f64,
@@ -9752,6 +10500,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1ssp2_sph(
         out: *mut f64,
@@ -9766,6 +10515,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_ssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9780,6 +10530,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9790,6 +10541,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_cart(
         out: *mut f64,
@@ -9804,6 +10556,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_sph(
         out: *mut f64,
@@ -9818,6 +10571,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9832,6 +10586,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9842,6 +10597,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1_cart(
         out: *mut f64,
@@ -9856,6 +10612,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1_sph(
         out: *mut f64,
@@ -9870,6 +10627,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9884,6 +10642,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9894,6 +10653,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1ip2_cart(
         out: *mut f64,
@@ -9908,6 +10668,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1ip2_sph(
         out: *mut f64,
@@ -9922,6 +10683,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9936,6 +10698,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9946,6 +10709,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipip1_cart(
         out: *mut f64,
@@ -9960,6 +10724,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipip1_sph(
         out: *mut f64,
@@ -9974,6 +10739,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -9988,6 +10754,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -9998,6 +10765,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipvip1_cart(
         out: *mut f64,
@@ -10012,6 +10780,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipvip1_sph(
         out: *mut f64,
@@ -10026,6 +10795,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_stg_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10040,6 +10810,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10050,6 +10821,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1_cart(
         out: *mut f64,
@@ -10064,6 +10836,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1_sph(
         out: *mut f64,
@@ -10078,6 +10851,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10092,6 +10866,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10102,6 +10877,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spsp2_cart(
         out: *mut f64,
@@ -10116,6 +10892,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spsp2_sph(
         out: *mut f64,
@@ -10130,6 +10907,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10144,6 +10922,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spv2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10154,6 +10933,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spv2_cart(
         out: *mut f64,
@@ -10168,6 +10948,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spv2_sph(
         out: *mut f64,
@@ -10182,6 +10963,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1spv2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10196,6 +10978,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1vsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10206,6 +10989,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1vsp2_cart(
         out: *mut f64,
@@ -10220,6 +11004,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1vsp2_sph(
         out: *mut f64,
@@ -10234,6 +11019,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_vsp1vsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10248,6 +11034,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10258,6 +11045,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_cart(
         out: *mut f64,
@@ -10272,6 +11060,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_sph(
         out: *mut f64,
@@ -10286,6 +11075,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10300,6 +11090,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10310,6 +11101,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1_cart(
         out: *mut f64,
@@ -10324,6 +11116,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1_sph(
         out: *mut f64,
@@ -10338,6 +11131,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10352,6 +11146,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10362,6 +11157,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1ip2_cart(
         out: *mut f64,
@@ -10376,6 +11172,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1ip2_sph(
         out: *mut f64,
@@ -10390,6 +11187,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10404,6 +11202,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10414,6 +11213,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipip1_cart(
         out: *mut f64,
@@ -10428,6 +11228,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipip1_sph(
         out: *mut f64,
@@ -10442,6 +11243,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10456,6 +11258,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10466,6 +11269,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipvip1_cart(
         out: *mut f64,
@@ -10480,6 +11284,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipvip1_sph(
         out: *mut f64,
@@ -10494,6 +11299,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int2e_yp_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10508,6 +11314,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10518,6 +11325,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_cart(
         out: *mut f64,
@@ -10532,6 +11340,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_sph(
         out: *mut f64,
@@ -10546,6 +11355,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10560,6 +11370,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10570,6 +11381,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_cart(
         out: *mut f64,
@@ -10584,6 +11396,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_sph(
         out: *mut f64,
@@ -10598,6 +11411,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10612,6 +11426,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r2_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10622,6 +11437,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r2_origk_cart(
         out: *mut f64,
@@ -10636,6 +11452,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r2_origk_sph(
         out: *mut f64,
@@ -10650,6 +11467,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r2_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10664,6 +11482,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r4_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10674,6 +11493,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r4_origk_cart(
         out: *mut f64,
@@ -10688,6 +11508,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r4_origk_sph(
         out: *mut f64,
@@ -10702,6 +11523,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r4_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10716,6 +11538,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r6_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10726,6 +11549,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r6_origk_cart(
         out: *mut f64,
@@ -10740,6 +11564,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r6_origk_sph(
         out: *mut f64,
@@ -10754,6 +11579,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_ip1_r6_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10768,6 +11594,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_iprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10778,6 +11605,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_iprinv_cart(
         out: *mut f64,
@@ -10792,6 +11620,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_iprinv_sph(
         out: *mut f64,
@@ -10806,6 +11635,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_iprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10820,6 +11650,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_p2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10830,6 +11661,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_p2_cart(
         out: *mut f64,
@@ -10844,6 +11676,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_p2_sph(
         out: *mut f64,
@@ -10858,6 +11691,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_p2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10872,6 +11706,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r2_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10882,6 +11717,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r2_origk_cart(
         out: *mut f64,
@@ -10896,6 +11732,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r2_origk_sph(
         out: *mut f64,
@@ -10910,6 +11747,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r2_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10924,6 +11762,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r4_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10934,6 +11773,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r4_origk_cart(
         out: *mut f64,
@@ -10948,6 +11788,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r4_origk_sph(
         out: *mut f64,
@@ -10962,6 +11803,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r4_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -10976,6 +11818,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r6_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -10986,6 +11829,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r6_origk_cart(
         out: *mut f64,
@@ -11000,6 +11844,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r6_origk_sph(
         out: *mut f64,
@@ -11014,6 +11859,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_r6_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11028,6 +11874,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_rinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11038,6 +11885,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_rinv_cart(
         out: *mut f64,
@@ -11052,6 +11900,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_rinv_sph(
         out: *mut f64,
@@ -11066,6 +11915,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c1e_rinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11080,6 +11930,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11090,6 +11941,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_cart(
         out: *mut f64,
@@ -11104,6 +11956,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_sph(
         out: *mut f64,
@@ -11118,6 +11971,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11132,6 +11986,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ig1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11142,6 +11997,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ig1_cart(
         out: *mut f64,
@@ -11156,6 +12012,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ig1_sph(
         out: *mut f64,
@@ -11170,6 +12027,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ig1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11184,6 +12042,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11194,6 +12053,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1_cart(
         out: *mut f64,
@@ -11208,6 +12068,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1_sph(
         out: *mut f64,
@@ -11222,6 +12083,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11236,6 +12098,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11246,6 +12109,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1ip2_cart(
         out: *mut f64,
@@ -11260,6 +12124,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1ip2_sph(
         out: *mut f64,
@@ -11274,6 +12139,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11288,6 +12154,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11298,6 +12165,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip2_cart(
         out: *mut f64,
@@ -11312,6 +12180,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip2_sph(
         out: *mut f64,
@@ -11326,6 +12195,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11340,6 +12210,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11350,6 +12221,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip1_cart(
         out: *mut f64,
@@ -11364,6 +12236,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip1_sph(
         out: *mut f64,
@@ -11378,6 +12251,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11392,6 +12266,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11402,6 +12277,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip2_cart(
         out: *mut f64,
@@ -11416,6 +12292,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip2_sph(
         out: *mut f64,
@@ -11430,6 +12307,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11444,6 +12322,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipspsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11454,6 +12333,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipspsp1_cart(
         out: *mut f64,
@@ -11468,6 +12348,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipspsp1_sph(
         out: *mut f64,
@@ -11482,6 +12363,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipspsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11496,6 +12378,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11506,6 +12389,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipvip1_cart(
         out: *mut f64,
@@ -11520,6 +12404,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipvip1_sph(
         out: *mut f64,
@@ -11534,6 +12419,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11548,6 +12434,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11558,6 +12445,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvp1_cart(
         out: *mut f64,
@@ -11572,6 +12460,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvp1_sph(
         out: *mut f64,
@@ -11586,6 +12475,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11600,6 +12490,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvxp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11610,6 +12501,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvxp1_cart(
         out: *mut f64,
@@ -11624,6 +12516,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvxp1_sph(
         out: *mut f64,
@@ -11638,6 +12531,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_pvxp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11652,6 +12546,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11662,6 +12557,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1_cart(
         out: *mut f64,
@@ -11676,6 +12572,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1_sph(
         out: *mut f64,
@@ -11690,6 +12587,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11704,6 +12602,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11714,6 +12613,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1ip2_cart(
         out: *mut f64,
@@ -11728,6 +12628,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1ip2_sph(
         out: *mut f64,
@@ -11742,6 +12643,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int3c2e_spsp1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11756,6 +12658,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int4c1e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11766,6 +12669,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int4c1e_cart(
         out: *mut f64,
@@ -11780,6 +12684,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int4c1e_sph(
         out: *mut f64,
@@ -11794,6 +12699,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn int4c1e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11808,6 +12714,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_a01gp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11818,6 +12725,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_a01gp_cart(
         out: *mut f64,
@@ -11832,6 +12740,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_a01gp_sph(
         out: *mut f64,
@@ -11846,6 +12755,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_a01gp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11860,6 +12770,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_a11part_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11870,6 +12781,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_a11part_cart(
         out: *mut f64,
@@ -11884,6 +12796,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_a11part_sph(
         out: *mut f64,
@@ -11898,6 +12811,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_a11part_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11912,6 +12826,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_irxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11922,6 +12837,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_irxp_cart(
         out: *mut f64,
@@ -11936,6 +12852,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_irxp_sph(
         out: *mut f64,
@@ -11950,6 +12867,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_irxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -11964,6 +12882,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10nucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -11974,6 +12893,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10nucsp_cart(
         out: *mut f64,
@@ -11988,6 +12908,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10nucsp_sph(
         out: *mut f64,
@@ -12002,6 +12923,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10nucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12016,6 +12938,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sa01_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12026,6 +12949,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sa01_cart(
         out: *mut f64,
@@ -12040,6 +12964,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sa01_sph(
         out: *mut f64,
@@ -12054,6 +12979,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sa01_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12068,6 +12994,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12078,6 +13005,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sp_cart(
         out: *mut f64,
@@ -12092,6 +13020,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sp_sph(
         out: *mut f64,
@@ -12106,6 +13035,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_cg_sa10sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12120,6 +13050,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_drinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12130,6 +13061,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_drinv_cart(
         out: *mut f64,
@@ -12144,6 +13076,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_drinv_sph(
         out: *mut f64,
@@ -12158,6 +13091,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_drinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12172,6 +13106,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12182,6 +13117,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggkin_cart(
         out: *mut f64,
@@ -12196,6 +13132,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggkin_sph(
         out: *mut f64,
@@ -12210,6 +13147,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12224,6 +13162,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12234,6 +13173,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggnuc_cart(
         out: *mut f64,
@@ -12248,6 +13188,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggnuc_sph(
         out: *mut f64,
@@ -12262,6 +13203,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12276,6 +13218,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12286,6 +13229,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggovlp_cart(
         out: *mut f64,
@@ -12300,6 +13244,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggovlp_sph(
         out: *mut f64,
@@ -12314,6 +13259,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ggovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12328,6 +13274,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_a11part_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12338,6 +13285,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_a11part_cart(
         out: *mut f64,
@@ -12352,6 +13300,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_a11part_sph(
         out: *mut f64,
@@ -12366,6 +13315,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_a11part_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12380,6 +13330,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_irjxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12390,6 +13341,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_irjxp_cart(
         out: *mut f64,
@@ -12404,6 +13356,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_irjxp_sph(
         out: *mut f64,
@@ -12418,6 +13371,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_irjxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12432,6 +13386,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10nucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12442,6 +13397,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10nucsp_cart(
         out: *mut f64,
@@ -12456,6 +13412,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10nucsp_sph(
         out: *mut f64,
@@ -12470,6 +13427,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10nucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12484,6 +13442,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sa01_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12494,6 +13453,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sa01_cart(
         out: *mut f64,
@@ -12508,6 +13468,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sa01_sph(
         out: *mut f64,
@@ -12522,6 +13483,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sa01_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12536,6 +13498,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12546,6 +13509,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sp_cart(
         out: *mut f64,
@@ -12560,6 +13524,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sp_sph(
         out: *mut f64,
@@ -12574,6 +13539,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_giao_sa10sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12588,6 +13554,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_gnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12598,6 +13565,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_gnuc_cart(
         out: *mut f64,
@@ -12612,6 +13580,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_gnuc_sph(
         out: *mut f64,
@@ -12626,6 +13595,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_gnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12640,6 +13610,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_govlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12650,6 +13621,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_govlp_cart(
         out: *mut f64,
@@ -12664,6 +13636,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_govlp_sph(
         out: *mut f64,
@@ -12678,6 +13651,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_govlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12692,6 +13666,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12702,6 +13677,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_cart(
         out: *mut f64,
@@ -12716,6 +13692,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_sph(
         out: *mut f64,
@@ -12730,6 +13707,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12744,6 +13722,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12754,6 +13733,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ip_cart(
         out: *mut f64,
@@ -12768,6 +13748,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ip_sph(
         out: *mut f64,
@@ -12782,6 +13763,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12796,6 +13778,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12806,6 +13789,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipip_cart(
         out: *mut f64,
@@ -12820,6 +13804,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipip_sph(
         out: *mut f64,
@@ -12834,6 +13819,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12848,6 +13834,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12858,6 +13845,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipvip_cart(
         out: *mut f64,
@@ -12872,6 +13860,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipvip_sph(
         out: *mut f64,
@@ -12886,6 +13875,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_ipvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12900,6 +13890,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_spvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12910,6 +13901,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_spvsp_cart(
         out: *mut f64,
@@ -12924,6 +13916,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_spvsp_sph(
         out: *mut f64,
@@ -12938,6 +13931,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grids_spvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -12952,6 +13946,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grjxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -12962,6 +13957,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grjxp_cart(
         out: *mut f64,
@@ -12976,6 +13972,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grjxp_sph(
         out: *mut f64,
@@ -12990,6 +13987,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_grjxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13004,6 +14002,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ia01p_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13014,6 +14013,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ia01p_cart(
         out: *mut f64,
@@ -13028,6 +14028,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ia01p_sph(
         out: *mut f64,
@@ -13042,6 +14043,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ia01p_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13056,6 +14058,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13066,6 +14069,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igkin_cart(
         out: *mut f64,
@@ -13080,6 +14084,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igkin_sph(
         out: *mut f64,
@@ -13094,6 +14099,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13108,6 +14114,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ignuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13118,6 +14125,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ignuc_cart(
         out: *mut f64,
@@ -13132,6 +14140,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ignuc_sph(
         out: *mut f64,
@@ -13146,6 +14155,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ignuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13160,6 +14170,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13170,6 +14181,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igovlp_cart(
         out: *mut f64,
@@ -13184,6 +14196,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igovlp_sph(
         out: *mut f64,
@@ -13198,6 +14211,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_igovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13212,6 +14226,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rcxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13222,6 +14237,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rcxp_cart(
         out: *mut f64,
@@ -13236,6 +14252,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rcxp_sph(
         out: *mut f64,
@@ -13250,6 +14267,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rcxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13264,6 +14282,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13274,6 +14293,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rxp_cart(
         out: *mut f64,
@@ -13288,6 +14308,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rxp_sph(
         out: *mut f64,
@@ -13302,6 +14323,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_inuc_rxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13316,6 +14338,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipiprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13326,6 +14349,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipiprinv_cart(
         out: *mut f64,
@@ -13340,6 +14364,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipiprinv_sph(
         out: *mut f64,
@@ -13354,6 +14379,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipiprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13368,6 +14394,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13378,6 +14405,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipnuc_cart(
         out: *mut f64,
@@ -13392,6 +14420,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipnuc_sph(
         out: *mut f64,
@@ -13406,6 +14435,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipipnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13420,6 +14450,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13430,6 +14461,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinv_cart(
         out: *mut f64,
@@ -13444,6 +14476,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinv_sph(
         out: *mut f64,
@@ -13458,6 +14491,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13472,6 +14506,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13482,6 +14517,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinvip_cart(
         out: *mut f64,
@@ -13496,6 +14532,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinvip_sph(
         out: *mut f64,
@@ -13510,6 +14547,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipiprinvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13524,6 +14562,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13534,6 +14573,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipkin_cart(
         out: *mut f64,
@@ -13548,6 +14588,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipkin_sph(
         out: *mut f64,
@@ -13562,6 +14603,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13576,6 +14618,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13586,6 +14629,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnuc_cart(
         out: *mut f64,
@@ -13600,6 +14644,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnuc_sph(
         out: *mut f64,
@@ -13614,6 +14659,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13628,6 +14674,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnucip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13638,6 +14685,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnucip_cart(
         out: *mut f64,
@@ -13652,6 +14700,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnucip_sph(
         out: *mut f64,
@@ -13666,6 +14715,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipnucip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13680,6 +14730,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13690,6 +14741,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipovlp_cart(
         out: *mut f64,
@@ -13704,6 +14756,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipovlp_sph(
         out: *mut f64,
@@ -13718,6 +14771,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13732,6 +14786,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipippnucp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13742,6 +14797,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipippnucp_cart(
         out: *mut f64,
@@ -13756,6 +14812,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipippnucp_sph(
         out: *mut f64,
@@ -13770,6 +14827,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipippnucp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13784,6 +14842,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipprinvp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13794,6 +14853,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipprinvp_cart(
         out: *mut f64,
@@ -13808,6 +14868,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipprinvp_sph(
         out: *mut f64,
@@ -13822,6 +14883,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipprinvp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13836,6 +14898,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13846,6 +14909,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipr_cart(
         out: *mut f64,
@@ -13860,6 +14924,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipr_sph(
         out: *mut f64,
@@ -13874,6 +14939,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13888,6 +14954,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13898,6 +14965,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinv_cart(
         out: *mut f64,
@@ -13912,6 +14980,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinv_sph(
         out: *mut f64,
@@ -13926,6 +14995,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13940,6 +15010,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -13950,6 +15021,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvip_cart(
         out: *mut f64,
@@ -13964,6 +15036,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvip_sph(
         out: *mut f64,
@@ -13978,6 +15051,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -13992,6 +15066,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvipip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14002,6 +15077,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvipip_cart(
         out: *mut f64,
@@ -14016,6 +15092,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvipip_sph(
         out: *mut f64,
@@ -14030,6 +15107,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvipip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14044,6 +15122,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvrip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14054,6 +15133,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvrip_cart(
         out: *mut f64,
@@ -14068,6 +15148,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvrip_sph(
         out: *mut f64,
@@ -14082,6 +15163,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipiprinvrip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14096,6 +15178,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipspnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14106,6 +15189,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipspnucsp_cart(
         out: *mut f64,
@@ -14120,6 +15204,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipspnucsp_sph(
         out: *mut f64,
@@ -14134,6 +15219,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipspnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14148,6 +15234,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipsprinvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14158,6 +15245,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipsprinvsp_cart(
         out: *mut f64,
@@ -14172,6 +15260,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipsprinvsp_sph(
         out: *mut f64,
@@ -14186,6 +15275,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipipsprinvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14200,6 +15290,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14210,6 +15301,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkin_cart(
         out: *mut f64,
@@ -14224,6 +15316,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkin_sph(
         out: *mut f64,
@@ -14238,6 +15331,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14252,6 +15346,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkinip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14262,6 +15357,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkinip_cart(
         out: *mut f64,
@@ -14276,6 +15372,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkinip_sph(
         out: *mut f64,
@@ -14290,6 +15387,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipkinip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14304,6 +15402,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14314,6 +15413,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnuc_cart(
         out: *mut f64,
@@ -14328,6 +15428,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnuc_sph(
         out: *mut f64,
@@ -14342,6 +15443,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14356,6 +15458,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnucip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14366,6 +15469,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnucip_cart(
         out: *mut f64,
@@ -14380,6 +15484,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnucip_sph(
         out: *mut f64,
@@ -14394,6 +15499,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipnucip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14408,6 +15514,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14418,6 +15525,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlp_cart(
         out: *mut f64,
@@ -14432,6 +15540,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlp_sph(
         out: *mut f64,
@@ -14446,6 +15555,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14460,6 +15570,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14470,6 +15581,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlpip_cart(
         out: *mut f64,
@@ -14484,6 +15596,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlpip_sph(
         out: *mut f64,
@@ -14498,6 +15611,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipovlpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14512,6 +15626,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14522,6 +15637,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucp_cart(
         out: *mut f64,
@@ -14536,6 +15652,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucp_sph(
         out: *mut f64,
@@ -14550,6 +15667,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14564,6 +15682,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14574,6 +15693,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucpip_cart(
         out: *mut f64,
@@ -14588,6 +15708,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucpip_sph(
         out: *mut f64,
@@ -14602,6 +15723,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ippnucpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14616,6 +15738,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14626,6 +15749,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvp_cart(
         out: *mut f64,
@@ -14640,6 +15764,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvp_sph(
         out: *mut f64,
@@ -14654,6 +15779,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14668,6 +15794,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14678,6 +15805,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvpip_cart(
         out: *mut f64,
@@ -14692,6 +15820,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvpip_sph(
         out: *mut f64,
@@ -14706,6 +15835,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipprinvpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14720,6 +15850,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14730,6 +15861,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinv_cart(
         out: *mut f64,
@@ -14744,6 +15876,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinv_sph(
         out: *mut f64,
@@ -14758,6 +15891,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14772,6 +15906,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14782,6 +15917,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvip_cart(
         out: *mut f64,
@@ -14796,6 +15932,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvip_sph(
         out: *mut f64,
@@ -14810,6 +15947,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14824,6 +15962,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinviprip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14834,6 +15973,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinviprip_cart(
         out: *mut f64,
@@ -14848,6 +15988,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinviprip_sph(
         out: *mut f64,
@@ -14862,6 +16003,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinviprip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14876,6 +16018,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14886,6 +16029,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvr_cart(
         out: *mut f64,
@@ -14900,6 +16044,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvr_sph(
         out: *mut f64,
@@ -14914,6 +16059,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprinvr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14928,6 +16074,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14938,6 +16085,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprip_cart(
         out: *mut f64,
@@ -14952,6 +16100,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprip_sph(
         out: *mut f64,
@@ -14966,6 +16115,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_iprip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -14980,6 +16130,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -14990,6 +16141,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucsp_cart(
         out: *mut f64,
@@ -15004,6 +16156,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucsp_sph(
         out: *mut f64,
@@ -15018,6 +16171,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15032,6 +16186,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucspip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15042,6 +16197,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucspip_cart(
         out: *mut f64,
@@ -15056,6 +16212,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucspip_sph(
         out: *mut f64,
@@ -15070,6 +16227,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipspnucspip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15084,6 +16242,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15094,6 +16253,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvsp_cart(
         out: *mut f64,
@@ -15108,6 +16268,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvsp_sph(
         out: *mut f64,
@@ -15122,6 +16283,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15136,6 +16298,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvspip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15146,6 +16309,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvspip_cart(
         out: *mut f64,
@@ -15160,6 +16324,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvspip_sph(
         out: *mut f64,
@@ -15174,6 +16339,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ipsprinvspip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15188,6 +16354,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15198,6 +16365,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irp_cart(
         out: *mut f64,
@@ -15212,6 +16380,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irp_sph(
         out: *mut f64,
@@ -15226,6 +16395,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15240,6 +16410,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irpr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15250,6 +16421,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irpr_cart(
         out: *mut f64,
@@ -15264,6 +16436,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irpr_sph(
         out: *mut f64,
@@ -15278,6 +16451,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irpr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15292,6 +16466,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irrp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15302,6 +16477,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irrp_cart(
         out: *mut f64,
@@ -15316,6 +16492,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irrp_sph(
         out: *mut f64,
@@ -15330,6 +16507,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_irrp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15344,6 +16522,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kin_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15354,6 +16533,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kin_cart(
         out: *mut f64,
@@ -15368,6 +16548,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kin_sph(
         out: *mut f64,
@@ -15382,6 +16563,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kin_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15396,6 +16578,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kinip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15406,6 +16589,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kinip_cart(
         out: *mut f64,
@@ -15420,6 +16604,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kinip_sph(
         out: *mut f64,
@@ -15434,6 +16619,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_kinip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15448,6 +16634,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_nuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15458,6 +16645,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_nuc_cart(
         out: *mut f64,
@@ -15472,6 +16660,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_nuc_sph(
         out: *mut f64,
@@ -15486,6 +16675,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_nuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15500,6 +16690,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15510,6 +16701,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlp_cart(
         out: *mut f64,
@@ -15524,6 +16716,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlp_sph(
         out: *mut f64,
@@ -15538,6 +16731,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15552,6 +16746,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlpip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15562,6 +16757,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlpip_cart(
         out: *mut f64,
@@ -15576,6 +16772,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlpip_sph(
         out: *mut f64,
@@ -15590,6 +16787,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_ovlpip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15604,6 +16802,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_p4_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15614,6 +16813,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_p4_cart(
         out: *mut f64,
@@ -15628,6 +16828,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_p4_sph(
         out: *mut f64,
@@ -15642,6 +16843,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_p4_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15656,6 +16858,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15666,6 +16869,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucp_cart(
         out: *mut f64,
@@ -15680,6 +16884,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucp_sph(
         out: *mut f64,
@@ -15694,6 +16899,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15708,6 +16914,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15718,6 +16925,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucxp_cart(
         out: *mut f64,
@@ -15732,6 +16940,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucxp_sph(
         out: *mut f64,
@@ -15746,6 +16955,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_pnucxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15760,6 +16970,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15770,6 +16981,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvp_cart(
         out: *mut f64,
@@ -15784,6 +16996,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvp_sph(
         out: *mut f64,
@@ -15798,6 +17011,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15812,6 +17026,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvxp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15822,6 +17037,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvxp_cart(
         out: *mut f64,
@@ -15836,6 +17052,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvxp_sph(
         out: *mut f64,
@@ -15850,6 +17067,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_prinvxp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15864,6 +17082,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15874,6 +17093,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_cart(
         out: *mut f64,
@@ -15888,6 +17108,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_sph(
         out: *mut f64,
@@ -15902,6 +17123,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15916,6 +17138,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15926,6 +17149,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_cart(
         out: *mut f64,
@@ -15940,6 +17164,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_sph(
         out: *mut f64,
@@ -15954,6 +17179,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -15968,6 +17194,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_optimizer(
         opt: *mut *mut CINTOpt,
@@ -15978,6 +17205,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_cart(
         out: *mut f64,
@@ -15992,6 +17220,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_sph(
         out: *mut f64,
@@ -16006,6 +17235,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16020,6 +17250,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16030,6 +17261,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_ip2_cart(
         out: *mut f64,
@@ -16044,6 +17276,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_ip2_sph(
         out: *mut f64,
@@ -16058,6 +17291,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origi_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16072,6 +17306,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16082,6 +17317,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origj_cart(
         out: *mut f64,
@@ -16096,6 +17332,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origj_sph(
         out: *mut f64,
@@ -16110,6 +17347,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r2_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16124,6 +17362,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16134,6 +17373,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_cart(
         out: *mut f64,
@@ -16148,6 +17388,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_sph(
         out: *mut f64,
@@ -16162,6 +17403,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16176,6 +17418,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16186,6 +17429,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_cart(
         out: *mut f64,
@@ -16200,6 +17444,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_sph(
         out: *mut f64,
@@ -16214,6 +17459,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16228,6 +17474,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16238,6 +17485,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_ip2_cart(
         out: *mut f64,
@@ -16252,6 +17500,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_ip2_sph(
         out: *mut f64,
@@ -16266,6 +17515,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origi_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16280,6 +17530,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16290,6 +17541,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origj_cart(
         out: *mut f64,
@@ -16304,6 +17556,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origj_sph(
         out: *mut f64,
@@ -16318,6 +17571,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r4_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16332,6 +17586,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16342,6 +17597,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_origj_cart(
         out: *mut f64,
@@ -16356,6 +17612,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_origj_sph(
         out: *mut f64,
@@ -16370,6 +17627,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_r_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16384,6 +17642,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16394,6 +17653,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinv_cart(
         out: *mut f64,
@@ -16408,6 +17668,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinv_sph(
         out: *mut f64,
@@ -16422,6 +17683,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16436,6 +17698,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinvipiprip_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16446,6 +17709,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinvipiprip_cart(
         out: *mut f64,
@@ -16460,6 +17724,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinvipiprip_sph(
         out: *mut f64,
@@ -16474,6 +17739,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rinvipiprip_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16488,6 +17754,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16498,6 +17765,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_cart(
         out: *mut f64,
@@ -16512,6 +17780,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_sph(
         out: *mut f64,
@@ -16526,6 +17795,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16540,6 +17810,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16550,6 +17821,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_origj_cart(
         out: *mut f64,
@@ -16564,6 +17836,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_origj_sph(
         out: *mut f64,
@@ -16578,6 +17851,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rr_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16592,6 +17866,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16602,6 +17877,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrr_cart(
         out: *mut f64,
@@ -16616,6 +17892,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrr_sph(
         out: *mut f64,
@@ -16630,6 +17907,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16644,6 +17922,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrrr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16654,6 +17933,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrrr_cart(
         out: *mut f64,
@@ -16668,6 +17948,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrrr_sph(
         out: *mut f64,
@@ -16682,6 +17963,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_rrrr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16696,6 +17978,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sa01sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16706,6 +17989,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sa01sp_cart(
         out: *mut f64,
@@ -16720,6 +18004,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sa01sp_sph(
         out: *mut f64,
@@ -16734,6 +18019,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sa01sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16748,6 +18034,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sigma_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16758,6 +18045,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sigma_cart(
         out: *mut f64,
@@ -16772,6 +18060,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sigma_sph(
         out: *mut f64,
@@ -16786,6 +18075,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sigma_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16800,6 +18090,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16810,6 +18101,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sp_cart(
         out: *mut f64,
@@ -16824,6 +18116,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sp_sph(
         out: *mut f64,
@@ -16838,6 +18131,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16852,6 +18146,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16862,6 +18157,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgnucsp_cart(
         out: *mut f64,
@@ -16876,6 +18172,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgnucsp_sph(
         out: *mut f64,
@@ -16890,6 +18187,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16904,6 +18202,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsa01_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16914,6 +18213,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsa01_cart(
         out: *mut f64,
@@ -16928,6 +18228,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsa01_sph(
         out: *mut f64,
@@ -16942,6 +18243,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsa01_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -16956,6 +18258,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -16966,6 +18269,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsp_cart(
         out: *mut f64,
@@ -16980,6 +18284,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsp_sph(
         out: *mut f64,
@@ -16994,6 +18299,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spgsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17008,6 +18314,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnuc_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17018,6 +18325,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnuc_cart(
         out: *mut f64,
@@ -17032,6 +18340,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnuc_sph(
         out: *mut f64,
@@ -17046,6 +18355,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnuc_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17060,6 +18370,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnucsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17070,6 +18381,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnucsp_cart(
         out: *mut f64,
@@ -17084,6 +18396,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnucsp_sph(
         out: *mut f64,
@@ -17098,6 +18411,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spnucsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17112,6 +18426,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprinvsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17122,6 +18437,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprinvsp_cart(
         out: *mut f64,
@@ -17136,6 +18452,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprinvsp_sph(
         out: *mut f64,
@@ -17150,6 +18467,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprinvsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17164,6 +18482,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17174,6 +18493,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprsp_cart(
         out: *mut f64,
@@ -17188,6 +18508,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprsp_sph(
         out: *mut f64,
@@ -17202,6 +18523,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sprsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17216,6 +18538,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsigmasp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17226,6 +18549,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsigmasp_cart(
         out: *mut f64,
@@ -17240,6 +18564,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsigmasp_sph(
         out: *mut f64,
@@ -17254,6 +18579,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsigmasp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17268,6 +18594,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17278,6 +18605,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsp_cart(
         out: *mut f64,
@@ -17292,6 +18620,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsp_sph(
         out: *mut f64,
@@ -17306,6 +18635,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17320,6 +18650,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spspsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17330,6 +18661,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spspsp_cart(
         out: *mut f64,
@@ -17344,6 +18676,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spspsp_sph(
         out: *mut f64,
@@ -17358,6 +18691,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_spspsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17372,6 +18706,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17382,6 +18717,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sr_cart(
         out: *mut f64,
@@ -17396,6 +18732,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sr_sph(
         out: *mut f64,
@@ -17410,6 +18747,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_sr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17424,6 +18762,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srnucsr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17434,6 +18773,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srnucsr_cart(
         out: *mut f64,
@@ -17448,6 +18788,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srnucsr_sph(
         out: *mut f64,
@@ -17462,6 +18803,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srnucsr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17476,6 +18818,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17486,6 +18829,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsp_cart(
         out: *mut f64,
@@ -17500,6 +18844,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsp_sph(
         out: *mut f64,
@@ -17514,6 +18859,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17528,6 +18874,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsr_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17538,6 +18885,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsr_cart(
         out: *mut f64,
@@ -17552,6 +18900,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsr_sph(
         out: *mut f64,
@@ -17566,6 +18915,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_srsr_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17580,6 +18930,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17590,6 +18941,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_cart(
         out: *mut f64,
@@ -17604,6 +18956,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_sph(
         out: *mut f64,
@@ -17618,6 +18971,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17632,6 +18986,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17642,6 +18997,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_origj_cart(
         out: *mut f64,
@@ -17656,6 +19012,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_origj_sph(
         out: *mut f64,
@@ -17670,6 +19027,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_z_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17684,6 +19042,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17694,6 +19053,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_cart(
         out: *mut f64,
@@ -17708,6 +19068,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_sph(
         out: *mut f64,
@@ -17722,6 +19083,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17736,6 +19098,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_origj_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17746,6 +19109,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_origj_cart(
         out: *mut f64,
@@ -17760,6 +19124,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_origj_sph(
         out: *mut f64,
@@ -17774,6 +19139,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint1e_zz_origj_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17788,6 +19154,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17798,6 +19165,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_cart(
         out: *mut f64,
@@ -17812,6 +19180,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_sph(
         out: *mut f64,
@@ -17826,6 +19195,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17840,6 +19210,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17850,6 +19221,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1_cart(
         out: *mut f64,
@@ -17864,6 +19236,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1_sph(
         out: *mut f64,
@@ -17878,6 +19251,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17892,6 +19266,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17902,6 +19277,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1ip2_cart(
         out: *mut f64,
@@ -17916,6 +19292,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1ip2_sph(
         out: *mut f64,
@@ -17930,6 +19307,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17944,6 +19322,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -17954,6 +19333,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip2_cart(
         out: *mut f64,
@@ -17968,6 +19348,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip2_sph(
         out: *mut f64,
@@ -17982,6 +19363,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -17996,6 +19378,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18006,6 +19389,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ipip1_cart(
         out: *mut f64,
@@ -18020,6 +19404,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ipip1_sph(
         out: *mut f64,
@@ -18034,6 +19419,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2c2e_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18048,6 +19434,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r1p2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18058,6 +19445,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r1p2_cart(
         out: *mut f64,
@@ -18072,6 +19460,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r1p2_sph(
         out: *mut f64,
@@ -18086,6 +19475,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r1p2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18100,6 +19490,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r2p2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18110,6 +19501,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r2p2_cart(
         out: *mut f64,
@@ -18124,6 +19516,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r2p2_sph(
         out: *mut f64,
@@ -18138,6 +19531,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_breit_r2p2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18152,6 +19546,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18162,6 +19557,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1_cart(
         out: *mut f64,
@@ -18176,6 +19572,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1_sph(
         out: *mut f64,
@@ -18190,6 +19587,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18204,6 +19602,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18214,6 +19613,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1spsp2_cart(
         out: *mut f64,
@@ -18228,6 +19628,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1spsp2_sph(
         out: *mut f64,
@@ -18242,6 +19643,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_sa10sp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18256,6 +19658,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_ssa10ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18266,6 +19669,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_ssa10ssp2_cart(
         out: *mut f64,
@@ -18280,6 +19684,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_ssa10ssp2_sph(
         out: *mut f64,
@@ -18294,6 +19699,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_cg_ssa10ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18308,6 +19714,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18318,6 +19725,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1_cart(
         out: *mut f64,
@@ -18332,6 +19740,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1_sph(
         out: *mut f64,
@@ -18346,6 +19755,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18360,6 +19770,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1g2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18370,6 +19781,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1g2_cart(
         out: *mut f64,
@@ -18384,6 +19796,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1g2_sph(
         out: *mut f64,
@@ -18398,6 +19811,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1g2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18412,6 +19826,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18422,6 +19837,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1spsp2_cart(
         out: *mut f64,
@@ -18436,6 +19852,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1spsp2_sph(
         out: *mut f64,
@@ -18450,6 +19867,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_g1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18464,6 +19882,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18474,6 +19893,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1sps2_cart(
         out: *mut f64,
@@ -18488,6 +19908,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1sps2_sph(
         out: *mut f64,
@@ -18502,6 +19923,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18516,6 +19938,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18526,6 +19949,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1ssp2_cart(
         out: *mut f64,
@@ -18540,6 +19964,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1ssp2_sph(
         out: *mut f64,
@@ -18554,6 +19979,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_sps1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18568,6 +19994,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18578,6 +20005,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1sps2_cart(
         out: *mut f64,
@@ -18592,6 +20020,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1sps2_sph(
         out: *mut f64,
@@ -18606,6 +20035,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18620,6 +20050,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18630,6 +20061,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1ssp2_cart(
         out: *mut f64,
@@ -18644,6 +20076,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1ssp2_sph(
         out: *mut f64,
@@ -18658,6 +20091,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r1_ssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18672,6 +20106,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18682,6 +20117,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1sps2_cart(
         out: *mut f64,
@@ -18696,6 +20132,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1sps2_sph(
         out: *mut f64,
@@ -18710,6 +20147,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18724,6 +20162,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18734,6 +20173,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1ssp2_cart(
         out: *mut f64,
@@ -18748,6 +20188,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1ssp2_sph(
         out: *mut f64,
@@ -18762,6 +20203,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_sps1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18776,6 +20218,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18786,6 +20229,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1sps2_cart(
         out: *mut f64,
@@ -18800,6 +20244,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1sps2_sph(
         out: *mut f64,
@@ -18814,6 +20259,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18828,6 +20274,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18838,6 +20285,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1ssp2_cart(
         out: *mut f64,
@@ -18852,6 +20300,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1ssp2_sph(
         out: *mut f64,
@@ -18866,6 +20315,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gauge_r2_ssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18880,6 +20330,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gg1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18890,6 +20341,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gg1_cart(
         out: *mut f64,
@@ -18904,6 +20356,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gg1_sph(
         out: *mut f64,
@@ -18918,6 +20371,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gg1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18932,6 +20386,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18942,6 +20397,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1_cart(
         out: *mut f64,
@@ -18956,6 +20412,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1_sph(
         out: *mut f64,
@@ -18970,6 +20427,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -18984,6 +20442,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -18994,6 +20453,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1spsp2_cart(
         out: *mut f64,
@@ -19008,6 +20468,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1spsp2_sph(
         out: *mut f64,
@@ -19022,6 +20483,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_sa10sp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19036,6 +20498,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_ssa10ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19046,6 +20509,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_ssa10ssp2_cart(
         out: *mut f64,
@@ -19060,6 +20524,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_ssa10ssp2_sph(
         out: *mut f64,
@@ -19074,6 +20539,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_giao_ssa10ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19088,6 +20554,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19098,6 +20565,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gssp1ssp2_cart(
         out: *mut f64,
@@ -19112,6 +20580,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gssp1ssp2_sph(
         out: *mut f64,
@@ -19126,6 +20595,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_gssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19140,6 +20610,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ig1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19150,6 +20621,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ig1_cart(
         out: *mut f64,
@@ -19164,6 +20636,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ig1_sph(
         out: *mut f64,
@@ -19178,6 +20651,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ig1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19192,6 +20666,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19202,6 +20677,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1_cart(
         out: *mut f64,
@@ -19216,6 +20692,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1_sph(
         out: *mut f64,
@@ -19230,6 +20707,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19244,6 +20722,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19254,6 +20733,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1ip2_cart(
         out: *mut f64,
@@ -19268,6 +20748,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1ip2_sph(
         out: *mut f64,
@@ -19282,6 +20763,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19296,6 +20778,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19306,6 +20789,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1spsp2_cart(
         out: *mut f64,
@@ -19320,6 +20804,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1spsp2_sph(
         out: *mut f64,
@@ -19334,6 +20819,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19348,6 +20834,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1srsr2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19358,6 +20845,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1srsr2_cart(
         out: *mut f64,
@@ -19372,6 +20860,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1srsr2_sph(
         out: *mut f64,
@@ -19386,6 +20875,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1srsr2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19400,6 +20890,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_r1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19410,6 +20901,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_r1_cart(
         out: *mut f64,
@@ -19424,6 +20916,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_r1_sph(
         out: *mut f64,
@@ -19438,6 +20931,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_r1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19452,6 +20946,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_rc1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19462,6 +20957,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_rc1_cart(
         out: *mut f64,
@@ -19476,6 +20972,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_rc1_sph(
         out: *mut f64,
@@ -19490,6 +20987,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip1v_rc1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19504,6 +21002,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19514,6 +21013,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip2_cart(
         out: *mut f64,
@@ -19528,6 +21028,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip2_sph(
         out: *mut f64,
@@ -19542,6 +21043,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19556,6 +21058,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19566,6 +21069,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1_cart(
         out: *mut f64,
@@ -19580,6 +21084,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1_sph(
         out: *mut f64,
@@ -19594,6 +21099,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19608,6 +21114,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1ipip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19618,6 +21125,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1ipip2_cart(
         out: *mut f64,
@@ -19632,6 +21140,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1ipip2_sph(
         out: *mut f64,
@@ -19646,6 +21155,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipip1ipip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19660,6 +21170,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19670,6 +21181,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1_cart(
         out: *mut f64,
@@ -19684,6 +21196,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1_sph(
         out: *mut f64,
@@ -19698,6 +21211,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19712,6 +21226,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19722,6 +21237,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1spsp2_cart(
         out: *mut f64,
@@ -19736,6 +21252,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1spsp2_sph(
         out: *mut f64,
@@ -19750,6 +21267,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipspsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19764,6 +21282,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19774,6 +21293,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1_cart(
         out: *mut f64,
@@ -19788,6 +21308,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1_sph(
         out: *mut f64,
@@ -19802,6 +21323,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19816,6 +21338,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1srsr2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19826,6 +21349,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1srsr2_cart(
         out: *mut f64,
@@ -19840,6 +21364,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1srsr2_sph(
         out: *mut f64,
@@ -19854,6 +21379,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipsrsr1srsr2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19868,6 +21394,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg1_xp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19878,6 +21405,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg1_xp1_cart(
         out: *mut f64,
@@ -19892,6 +21420,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg1_xp1_sph(
         out: *mut f64,
@@ -19906,6 +21435,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg1_xp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19920,6 +21450,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg2_xp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19930,6 +21461,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg2_xp1_cart(
         out: *mut f64,
@@ -19944,6 +21476,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg2_xp1_sph(
         out: *mut f64,
@@ -19958,6 +21491,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvg2_xp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -19972,6 +21506,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -19982,6 +21517,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1_cart(
         out: *mut f64,
@@ -19996,6 +21532,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1_sph(
         out: *mut f64,
@@ -20010,6 +21547,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20024,6 +21562,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1ipvip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20034,6 +21573,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1ipvip2_cart(
         out: *mut f64,
@@ -20048,6 +21588,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1ipvip2_sph(
         out: *mut f64,
@@ -20062,6 +21603,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ipvip1ipvip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20076,6 +21618,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_p1vxp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20086,6 +21629,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_p1vxp1_cart(
         out: *mut f64,
@@ -20100,6 +21644,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_p1vxp1_sph(
         out: *mut f64,
@@ -20114,6 +21659,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_p1vxp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20128,6 +21674,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20138,6 +21685,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1_cart(
         out: *mut f64,
@@ -20152,6 +21700,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1_sph(
         out: *mut f64,
@@ -20166,6 +21715,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20180,6 +21730,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1pp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20190,6 +21741,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1pp2_cart(
         out: *mut f64,
@@ -20204,6 +21756,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1pp2_sph(
         out: *mut f64,
@@ -20218,6 +21771,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp1pp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20232,6 +21786,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20242,6 +21797,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp2_cart(
         out: *mut f64,
@@ -20256,6 +21812,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp2_sph(
         out: *mut f64,
@@ -20270,6 +21827,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_pp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20284,6 +21842,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20294,6 +21853,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1_cart(
         out: *mut f64,
@@ -20308,6 +21868,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1_sph(
         out: *mut f64,
@@ -20322,6 +21883,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20336,6 +21898,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20346,6 +21909,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1spsp2_cart(
         out: *mut f64,
@@ -20360,6 +21924,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1spsp2_sph(
         out: *mut f64,
@@ -20374,6 +21939,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spgsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20388,6 +21954,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20398,6 +21965,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1sps2_cart(
         out: *mut f64,
@@ -20412,6 +21980,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1sps2_sph(
         out: *mut f64,
@@ -20426,6 +21995,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20440,6 +22010,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20450,6 +22021,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1ssp2_cart(
         out: *mut f64,
@@ -20464,6 +22036,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1ssp2_sph(
         out: *mut f64,
@@ -20478,6 +22051,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_sps1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20492,6 +22066,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20502,6 +22077,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1_cart(
         out: *mut f64,
@@ -20516,6 +22092,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1_sph(
         out: *mut f64,
@@ -20530,6 +22107,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20544,6 +22122,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20554,6 +22133,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1spsp2_cart(
         out: *mut f64,
@@ -20568,6 +22148,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1spsp2_sph(
         out: *mut f64,
@@ -20582,6 +22163,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20596,6 +22178,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20606,6 +22189,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp2_cart(
         out: *mut f64,
@@ -20620,6 +22204,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp2_sph(
         out: *mut f64,
@@ -20634,6 +22219,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20648,6 +22234,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20658,6 +22245,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1_cart(
         out: *mut f64,
@@ -20672,6 +22260,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1_sph(
         out: *mut f64,
@@ -20686,6 +22275,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20700,6 +22290,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20710,6 +22301,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spsp2_cart(
         out: *mut f64,
@@ -20724,6 +22316,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spsp2_sph(
         out: *mut f64,
@@ -20738,6 +22331,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20752,6 +22346,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spv2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20762,6 +22357,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spv2_cart(
         out: *mut f64,
@@ -20776,6 +22372,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spv2_sph(
         out: *mut f64,
@@ -20790,6 +22387,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1spv2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20804,6 +22402,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1vsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20814,6 +22413,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1vsp2_cart(
         out: *mut f64,
@@ -20828,6 +22428,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1vsp2_sph(
         out: *mut f64,
@@ -20842,6 +22443,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_spv1vsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20856,6 +22458,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20866,6 +22469,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1_cart(
         out: *mut f64,
@@ -20880,6 +22484,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1_sph(
         out: *mut f64,
@@ -20894,6 +22499,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20908,6 +22514,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1srsr2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20918,6 +22525,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1srsr2_cart(
         out: *mut f64,
@@ -20932,6 +22540,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1srsr2_sph(
         out: *mut f64,
@@ -20946,6 +22555,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_srsr1srsr2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -20960,6 +22570,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1sps2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -20970,6 +22581,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1sps2_cart(
         out: *mut f64,
@@ -20984,6 +22596,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1sps2_sph(
         out: *mut f64,
@@ -20998,6 +22611,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1sps2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21012,6 +22626,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1ssp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21022,6 +22637,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1ssp2_cart(
         out: *mut f64,
@@ -21036,6 +22652,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1ssp2_sph(
         out: *mut f64,
@@ -21050,6 +22667,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_ssp1ssp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21064,6 +22682,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21074,6 +22693,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_cart(
         out: *mut f64,
@@ -21088,6 +22708,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_sph(
         out: *mut f64,
@@ -21102,6 +22723,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21116,6 +22738,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21126,6 +22749,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1_cart(
         out: *mut f64,
@@ -21140,6 +22764,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1_sph(
         out: *mut f64,
@@ -21154,6 +22779,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21168,6 +22794,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21178,6 +22805,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1ip2_cart(
         out: *mut f64,
@@ -21192,6 +22820,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1ip2_sph(
         out: *mut f64,
@@ -21206,6 +22835,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21220,6 +22850,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21230,6 +22861,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipip1_cart(
         out: *mut f64,
@@ -21244,6 +22876,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipip1_sph(
         out: *mut f64,
@@ -21258,6 +22891,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21272,6 +22906,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21282,6 +22917,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipvip1_cart(
         out: *mut f64,
@@ -21296,6 +22932,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipvip1_sph(
         out: *mut f64,
@@ -21310,6 +22947,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_stg_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21324,6 +22962,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21334,6 +22973,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1_cart(
         out: *mut f64,
@@ -21348,6 +22988,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1_sph(
         out: *mut f64,
@@ -21362,6 +23003,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21376,6 +23018,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21386,6 +23029,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spsp2_cart(
         out: *mut f64,
@@ -21400,6 +23044,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spsp2_sph(
         out: *mut f64,
@@ -21414,6 +23059,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21428,6 +23074,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spv2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21438,6 +23085,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spv2_cart(
         out: *mut f64,
@@ -21452,6 +23100,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spv2_sph(
         out: *mut f64,
@@ -21466,6 +23115,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1spv2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21480,6 +23130,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1vsp2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21490,6 +23141,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1vsp2_cart(
         out: *mut f64,
@@ -21504,6 +23156,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1vsp2_sph(
         out: *mut f64,
@@ -21518,6 +23171,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_vsp1vsp2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21532,6 +23186,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21542,6 +23197,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_cart(
         out: *mut f64,
@@ -21556,6 +23212,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_sph(
         out: *mut f64,
@@ -21570,6 +23227,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21584,6 +23242,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21594,6 +23253,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1_cart(
         out: *mut f64,
@@ -21608,6 +23268,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1_sph(
         out: *mut f64,
@@ -21622,6 +23283,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21636,6 +23298,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21646,6 +23309,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1ip2_cart(
         out: *mut f64,
@@ -21660,6 +23324,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1ip2_sph(
         out: *mut f64,
@@ -21674,6 +23339,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21688,6 +23354,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21698,6 +23365,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipip1_cart(
         out: *mut f64,
@@ -21712,6 +23380,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipip1_sph(
         out: *mut f64,
@@ -21726,6 +23395,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21740,6 +23410,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21750,6 +23421,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipvip1_cart(
         out: *mut f64,
@@ -21764,6 +23436,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipvip1_sph(
         out: *mut f64,
@@ -21778,6 +23451,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint2e_yp_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21792,6 +23466,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21802,6 +23477,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_cart(
         out: *mut f64,
@@ -21816,6 +23492,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_sph(
         out: *mut f64,
@@ -21830,6 +23507,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21844,6 +23522,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21854,6 +23533,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_cart(
         out: *mut f64,
@@ -21868,6 +23548,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_sph(
         out: *mut f64,
@@ -21882,6 +23563,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21896,6 +23578,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r2_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21906,6 +23589,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r2_origk_cart(
         out: *mut f64,
@@ -21920,6 +23604,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r2_origk_sph(
         out: *mut f64,
@@ -21934,6 +23619,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r2_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -21948,6 +23634,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r4_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -21958,6 +23645,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r4_origk_cart(
         out: *mut f64,
@@ -21972,6 +23660,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r4_origk_sph(
         out: *mut f64,
@@ -21986,6 +23675,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r4_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22000,6 +23690,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r6_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22010,6 +23701,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r6_origk_cart(
         out: *mut f64,
@@ -22024,6 +23716,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r6_origk_sph(
         out: *mut f64,
@@ -22038,6 +23731,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_ip1_r6_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22052,6 +23746,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_iprinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22062,6 +23757,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_iprinv_cart(
         out: *mut f64,
@@ -22076,6 +23772,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_iprinv_sph(
         out: *mut f64,
@@ -22090,6 +23787,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_iprinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22104,6 +23802,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_p2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22114,6 +23813,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_p2_cart(
         out: *mut f64,
@@ -22128,6 +23828,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_p2_sph(
         out: *mut f64,
@@ -22142,6 +23843,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_p2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22156,6 +23858,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r2_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22166,6 +23869,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r2_origk_cart(
         out: *mut f64,
@@ -22180,6 +23884,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r2_origk_sph(
         out: *mut f64,
@@ -22194,6 +23899,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r2_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22208,6 +23914,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r4_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22218,6 +23925,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r4_origk_cart(
         out: *mut f64,
@@ -22232,6 +23940,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r4_origk_sph(
         out: *mut f64,
@@ -22246,6 +23955,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r4_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22260,6 +23970,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r6_origk_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22270,6 +23981,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r6_origk_cart(
         out: *mut f64,
@@ -22284,6 +23996,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r6_origk_sph(
         out: *mut f64,
@@ -22298,6 +24011,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_r6_origk_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22312,6 +24026,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_rinv_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22322,6 +24037,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_rinv_cart(
         out: *mut f64,
@@ -22336,6 +24052,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_rinv_sph(
         out: *mut f64,
@@ -22350,6 +24067,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c1e_rinv_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22364,6 +24082,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22374,6 +24093,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_cart(
         out: *mut f64,
@@ -22388,6 +24108,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_sph(
         out: *mut f64,
@@ -22402,6 +24123,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22416,6 +24138,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ig1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22426,6 +24149,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ig1_cart(
         out: *mut f64,
@@ -22440,6 +24164,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ig1_sph(
         out: *mut f64,
@@ -22454,6 +24179,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ig1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22468,6 +24194,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22478,6 +24205,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1_cart(
         out: *mut f64,
@@ -22492,6 +24220,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1_sph(
         out: *mut f64,
@@ -22506,6 +24235,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22520,6 +24250,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22530,6 +24261,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1ip2_cart(
         out: *mut f64,
@@ -22544,6 +24276,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1ip2_sph(
         out: *mut f64,
@@ -22558,6 +24291,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22572,6 +24306,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22582,6 +24317,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip2_cart(
         out: *mut f64,
@@ -22596,6 +24332,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip2_sph(
         out: *mut f64,
@@ -22610,6 +24347,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22624,6 +24362,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22634,6 +24373,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip1_cart(
         out: *mut f64,
@@ -22648,6 +24388,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip1_sph(
         out: *mut f64,
@@ -22662,6 +24403,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22676,6 +24418,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22686,6 +24429,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip2_cart(
         out: *mut f64,
@@ -22700,6 +24444,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip2_sph(
         out: *mut f64,
@@ -22714,6 +24459,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22728,6 +24474,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipspsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22738,6 +24485,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipspsp1_cart(
         out: *mut f64,
@@ -22752,6 +24500,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipspsp1_sph(
         out: *mut f64,
@@ -22766,6 +24515,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipspsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22780,6 +24530,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipvip1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22790,6 +24541,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipvip1_cart(
         out: *mut f64,
@@ -22804,6 +24556,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipvip1_sph(
         out: *mut f64,
@@ -22818,6 +24571,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_ipvip1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22832,6 +24586,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22842,6 +24597,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvp1_cart(
         out: *mut f64,
@@ -22856,6 +24612,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvp1_sph(
         out: *mut f64,
@@ -22870,6 +24627,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22884,6 +24642,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvxp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22894,6 +24653,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvxp1_cart(
         out: *mut f64,
@@ -22908,6 +24668,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvxp1_sph(
         out: *mut f64,
@@ -22922,6 +24683,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_pvxp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22936,6 +24698,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22946,6 +24709,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1_cart(
         out: *mut f64,
@@ -22960,6 +24724,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1_sph(
         out: *mut f64,
@@ -22974,6 +24739,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -22988,6 +24754,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1ip2_optimizer(
         opt: *mut *mut CINTOpt,
@@ -22998,6 +24765,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1ip2_cart(
         out: *mut f64,
@@ -23012,6 +24780,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1ip2_sph(
         out: *mut f64,
@@ -23026,6 +24795,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint3c2e_spsp1ip2_spinor(
         out: *mut __BindgenComplex<f64>,
@@ -23040,6 +24810,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint4c1e_optimizer(
         opt: *mut *mut CINTOpt,
@@ -23050,6 +24821,7 @@ extern "C" {
         env: *const f64,
     );
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint4c1e_cart(
         out: *mut f64,
@@ -23064,6 +24836,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint4c1e_sph(
         out: *mut f64,
@@ -23078,6 +24851,7 @@ extern "C" {
         cache: *mut f64,
     ) -> ::std::os::raw::c_int;
 }
+#[link(name = "cint")]
 extern "C" {
     pub fn cint4c1e_spinor(
         out: *mut __BindgenComplex<f64>,

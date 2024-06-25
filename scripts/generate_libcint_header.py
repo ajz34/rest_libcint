@@ -383,8 +383,18 @@ use crate::CINTR2CDATA;
 
 /// optimizer macro rules
 macro_rules! impl_intor_optimizer {
-    ($name:expr, $optim_rust:ident, $optim_cint:ident) => {
+    ($name:expr, $optim_rust:ident, $coptim_rust:ident, $optim_cint:ident) => {
         pub fn $optim_rust(&mut self){
+            self.cint_del_optimizer_rust();
+            unsafe {
+                cint::$optim_cint(
+                    &mut self.c_opt,
+                    self.c_atm.as_mut_ptr(), self.c_natm,
+                    self.c_bas.as_mut_ptr(), self.c_nbas,
+                    self.c_env.as_mut_ptr());
+            }
+        }
+        pub fn $coptim_rust(&mut self){
             self.cint_del_optimizer_rust();
             unsafe {
                 cint::$optim_cint(
@@ -403,7 +413,7 @@ SUBSTITUTE_OPTIMIZER_FN
 """
 
 token_sub = "\n".join([
-    "    impl_intor_optimizer!(\"INTOR\", INTOR_optimizer_rust, INTOR_optimizer);".replace("INTOR", intor)
+    "    impl_intor_optimizer!(\"INTOR\", INTOR_optimizer_rust, cINTOR_optimizer_rust, INTOR_optimizer);".replace("INTOR", intor)
     for intor in actual_intor
 ])
 token_optimizer = token_optimizer.replace("SUBSTITUTE_OPTIMIZER_FN", token_sub)
