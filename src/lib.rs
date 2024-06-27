@@ -104,8 +104,8 @@ use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
 use itertools::Itertools;
 
-mod cint;
-mod cecp;
+pub mod cint;
+pub mod cecp;
 mod utilities;
 pub mod cint_wrapper;
 pub mod cecp_wrapper;
