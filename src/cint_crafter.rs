@@ -139,7 +139,7 @@ impl CINTR2CDATA {
 
     /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
     /// for specified slice of shell.
-    pub fn cgto_loc_slices_relative(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+    pub fn cgto_loc_slices_relative(&self, shl_slices: &[[i32; 2]]) -> Vec<Vec<usize>> {
         return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect();
     }
 
@@ -147,7 +147,7 @@ impl CINTR2CDATA {
 
     /* #region shl_slices sanity check */
 
-    pub fn check_shl_slices<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<(), String>
+    pub fn check_shl_slices<T> (&self, shl_slices: &[[i32; 2]]) -> Result<(), String>
     where
         T: Integrator
     {
@@ -191,7 +191,7 @@ impl CINTR2CDATA {
     /* #region cgto shape and buffer size */
 
     /// Shape of integral (in atomic orbital basis), for specified slices of shell.
-    pub fn cgto_shape<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    pub fn cgto_shape<T> (&self, shl_slices: &[[i32; 2]]) -> Vec<usize>
     where
         T: Integrator
     {
@@ -203,7 +203,7 @@ impl CINTR2CDATA {
         return shape;
     }
 
-    pub fn cgto_shape_s2ij<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<Vec<usize>, String>
+    pub fn cgto_shape_s2ij<T> (&self, shl_slices: &[[i32; 2]]) -> Result<Vec<usize>, String>
     where
         T: Integrator
     {
@@ -247,7 +247,7 @@ impl CINTR2CDATA {
     /// // maximum cache for the whole molecule
     /// println!("{:?}", cint_data.max_cache_size::<int2e>(&vec![]));
     /// ```
-    pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
+    pub fn size_of_cache<T> (&mut self, shls_slice: &[[i32; 2]]) -> usize
     where
         T: Integrator
     {
@@ -283,7 +283,7 @@ impl CINTR2CDATA {
     }
 
     // Obtain buffer size for integral.
-    pub fn size_of_buffer<T> (&self, shl_slices: &Vec<[i32; 2]>) -> usize
+    pub fn size_of_buffer<T> (&self, shl_slices: &[[i32; 2]]) -> usize
     where
         T: Integrator
     {
@@ -356,7 +356,7 @@ impl CINTR2CDATA {
     /// 
     /// This function a low-level API, which is not intended to be called by user.
     /// This function only works for f-contiguous integral (PySCF convention).
-    pub fn integral_s1_inplace<T, F> (&mut self, out: &mut Vec<F>, shl_slices: &Vec<[i32; 2]>)
+    pub fn integral_s1_inplace<T, F> (&mut self, out: &mut Vec<F>, shl_slices: &[[i32; 2]])
     where
         T: Integrator, F: FF64
     {
@@ -464,14 +464,14 @@ impl CINTR2CDATA {
         /* #endregion */
     }
 
-    pub fn integral_s1_inner<T, F> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<F>, Vec<usize>)
+    pub fn integral_s1_inner<T, F> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<F>, Vec<usize>)
     where
         T: Integrator, F: FF64
     {
         // specify shl_slices
         let shl_slices = match shl_slices {
-            Some(shl_slices) => shl_slices.clone(),
-            None => vec![[0, self.c_nbas]; T::n_center()],
+            Some(shl_slices) => shl_slices,
+            None => &vec![[0, self.c_nbas]; T::n_center()],
         };
         // specify and allocate output
         let mut out_shape = self.cgto_shape::<T>(&shl_slices);
@@ -484,7 +484,7 @@ impl CINTR2CDATA {
         return (out, out_shape);
     }
 
-    pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_s1<T> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<f64>, Vec<usize>)
     where
         T: Integrator
     {
@@ -494,7 +494,7 @@ impl CINTR2CDATA {
         return self.integral_s1_inner::<T, f64>(shl_slices);
     }
 
-    pub fn integral_spinor_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<Complex<f64>>, Vec<usize>)
+    pub fn integral_spinor_s1<T> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<Complex<f64>>, Vec<usize>)
     where
         T: Integrator
     {
@@ -505,7 +505,7 @@ impl CINTR2CDATA {
         return result;
     }
     
-    pub fn integral_s2ij_inplace<T, F> (&mut self, out: &mut Vec<F>, shl_slices: &Vec<[i32; 2]>)
+    pub fn integral_s2ij_inplace<T, F> (&mut self, out: &mut Vec<F>, shl_slices: &[[i32; 2]])
     where
         T: Integrator, F: FF64
     {
@@ -659,13 +659,13 @@ impl CINTR2CDATA {
         /* #endregion */
     }
 
-    pub fn integral_s2ij_inner<T, F> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<F>, Vec<usize>)
+    pub fn integral_s2ij_inner<T, F> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<F>, Vec<usize>)
     where
         T: Integrator, F: FF64
     {
         let shl_slices = match shl_slices {
-            Some(shl_slices) => shl_slices.clone(),
-            None => vec![[0, self.c_nbas]; T::n_center()],
+            Some(shl_slices) => shl_slices,
+            None => &vec![[0, self.c_nbas]; T::n_center()],
         };
         let mut out_shape = self.cgto_shape_s2ij::<T>(&shl_slices).unwrap();
         if T::n_comp() > 1 { out_shape.push(T::n_comp()); }
@@ -676,7 +676,7 @@ impl CINTR2CDATA {
         return (out, out_shape);
     }
 
-    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_s2ij<T> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<f64>, Vec<usize>)
     where
         T: Integrator
     {
@@ -686,7 +686,7 @@ impl CINTR2CDATA {
         return self.integral_s2ij_inner::<T, f64>(shl_slices);
     }
 
-    pub fn integral_spinor_s2ij<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<Complex<f64>>, Vec<usize>)
+    pub fn integral_spinor_s2ij<T> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<Complex<f64>>, Vec<usize>)
     where
         T: Integrator
     {

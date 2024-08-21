@@ -121,7 +121,8 @@ impl ECPData {
 
     /// Location of atomic orbitals, for basis configuration of the current molecule.
     pub fn cgto_loc(&self) -> Vec<usize> {
-        let size_vec = (0..self.c_nbas).map(|idx| self.cgto_size(idx)).collect::<Vec<usize>>();
+        let nbas_without_ecp = self.c_env[AS_ECPBAS_OFFSET as usize] as i32;
+        let size_vec = (0..nbas_without_ecp).map(|idx| self.cgto_size(idx)).collect::<Vec<usize>>();
         let mut loc = vec![0; size_vec.len() + 1];
         for idx in (0..size_vec.len() as usize) {
             loc[idx + 1] = loc[idx] + size_vec[idx]; 
@@ -136,7 +137,7 @@ impl ECPData {
     }
 
     /// Location of atomic orbitals, for specified slices of shell.
-    pub fn cgto_loc_slices(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+    pub fn cgto_loc_slices(&self, shl_slices: &[[i32; 2]]) -> Vec<Vec<usize>> {
         return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice(shl_slice)).collect();
     }
 
@@ -149,7 +150,7 @@ impl ECPData {
 
     /// Location of atomic orbitals, relative to the first AO index (start index to be 0),
     /// for specified slice of shell.
-    pub fn cgto_loc_slices_relative(&self, shl_slices: &Vec<[i32; 2]>) -> Vec<Vec<usize>> {
+    pub fn cgto_loc_slices_relative(&self, shl_slices: &[[i32; 2]]) -> Vec<Vec<usize>> {
         return shl_slices.iter().map(|shl_slice| self.cgto_loc_slice_relative(shl_slice)).collect();
     }
 
@@ -157,7 +158,7 @@ impl ECPData {
 
     /* #region shl_slices sanity check */
 
-    pub fn check_shl_slices<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Result<(), String>
+    pub fn check_shl_slices<T> (&self, shl_slices: &[[i32; 2]]) -> Result<(), String>
     where
         T: ECPIntegrator
     {
@@ -183,7 +184,7 @@ impl ECPData {
     /* #region cgto shape and buffer size */
 
     /// Shape of integral (in atomic orbital basis), for specified slices of shell.
-    pub fn cgto_shape<T> (&self, shl_slices: &Vec<[i32; 2]>) -> Vec<usize>
+    pub fn cgto_shape<T> (&self, shl_slices: &[[i32; 2]]) -> Vec<usize>
     where
         T: ECPIntegrator
     {
@@ -202,7 +203,7 @@ impl ECPData {
     /// If the shell slice is not known to you currently (molecule information has passed into
     /// `ECPData`), just pass empty `shls_slice = vec![]`, then it should give the maximum
     /// cache size for this molecule/intor.
-    pub fn size_of_cache<T> (&mut self, shls_slice: &Vec<[i32; 2]>) -> usize
+    pub fn size_of_cache<T> (&mut self, shls_slice: &[[i32; 2]]) -> usize
     where
         T: ECPIntegrator
     {
@@ -232,7 +233,7 @@ impl ECPData {
     }
 
     // Obtain buffer size for integral.
-    pub fn size_of_buffer<T> (&self, shl_slices: &Vec<[i32; 2]>) -> usize
+    pub fn size_of_buffer<T> (&self, shl_slices: &[[i32; 2]]) -> usize
     where
         T: ECPIntegrator
     {
@@ -292,7 +293,7 @@ impl ECPData {
     /// 
     /// This function a low-level API, which is not intended to be called by user.
     /// This function only works for f-contiguous integral (PySCF convention).
-    pub fn integral_s1_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &Vec<[i32; 2]>)
+    pub fn integral_s1_inplace<T> (&mut self, out: &mut Vec<f64>, shl_slices: &[[i32; 2]])
     where
         T: ECPIntegrator
     {
@@ -361,15 +362,15 @@ impl ECPData {
         /* #endregion */
     }
 
-    pub fn integral_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_s1<T> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<f64>, Vec<usize>)
     where
         T: ECPIntegrator
     {
         let shl_slices = match shl_slices {
-            Some(shl_slices) => shl_slices.clone(),
+            Some(shl_slices) => shl_slices,
             None => {
                 let nbas = self.c_env[AS_ECPBAS_OFFSET as usize] as i32;
-                vec![[0, nbas]; 2]
+                &vec![[0, nbas]; 2]
             },
         };
         let mut out_shape = self.cgto_shape::<T>(&shl_slices);
@@ -384,7 +385,7 @@ impl ECPData {
 }
 
 impl CINTR2CDATA {
-    pub fn integral_ecp_s1<T> (&mut self, shl_slices: Option<&Vec<[i32; 2]>>) -> (Vec<f64>, Vec<usize>)
+    pub fn integral_ecp_s1<T> (&mut self, shl_slices: Option<&[[i32; 2]]>) -> (Vec<f64>, Vec<usize>)
     where
         T: ECPIntegrator
     {
