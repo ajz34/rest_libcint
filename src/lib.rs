@@ -102,7 +102,7 @@ use std::collections::btree_map::Range;
 use std::process::exit;
 use std::{os::raw::c_int, ptr::null, ptr::null_mut};
 use std::mem::ManuallyDrop;
-use cint::PTR_COMMON_ORIG;
+use cint::{PTR_COMMON_ORIG, PTR_RINV_ORIG};
 use itertools::Itertools;
 
 pub mod cint;
@@ -175,8 +175,16 @@ impl CINTR2CDATA {
         self.c_env[PTR_COMMON_ORIG as usize..PTR_COMMON_ORIG as usize+3].iter_mut().zip(comm_orig.iter()).for_each(|(a,b)| {*a = *b});
     }
 
-    pub fn get_common_origin(&self) -> Vec<f64> {
-        self.c_env[PTR_COMMON_ORIG as usize..PTR_COMMON_ORIG as usize+3].iter().map(|i| *i).collect::<Vec<f64>>().try_into().unwrap()
+    pub fn get_common_origin(&self) -> [f64;3] {
+        self.c_env[PTR_COMMON_ORIG as usize..PTR_COMMON_ORIG as usize+3].try_into().unwrap()
+    }
+
+    pub fn set_rinv_origin(&mut self, comm_orig: &[f64]) {
+        self.c_env[PTR_RINV_ORIG as usize..PTR_RINV_ORIG as usize+3].iter_mut().zip(comm_orig.iter()).for_each(|(a,b)| {*a = *b});
+    }
+
+    pub fn get_rinv_origin(&self) -> [f64;3] {
+        self.c_env[PTR_RINV_ORIG as usize..PTR_RINV_ORIG as usize+3].try_into().unwrap()
     }
 
     pub fn set_cint_type(&mut self, ctype: &CintType) {
