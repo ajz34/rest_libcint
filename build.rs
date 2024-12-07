@@ -45,7 +45,7 @@ fn main() {
 /// Builds the `libcint` library from the provided path.
 fn build_cint() {
     // search dirs
-    for key in ["CINT_DIR", "REST_EXT_DIR"].iter() {
+    for key in ["CINT_DIR", "REST_EXT_DIR", "LD_LIBRARY_PATH"].iter() {
         println!("cargo:rerun-if-env-changed={}", key);
     }
     let lib_paths = generate_link_search_paths(&[
@@ -53,7 +53,7 @@ fn build_cint() {
         std::env::var("REST_EXT_DIR"),
         std::env::var("LD_LIBRARY_PATH"),
     ]);
-    if let Some(path) = check_library_found("cint", &lib_paths, &["a".to_string()]) {
+    if let Some(path) = check_library_found("cint", &lib_paths, &["a".to_string(), "so".to_string()]) {
         let path = std::fs::canonicalize(path).unwrap();
         let path = path.parent().unwrap().display();
         println!("cargo:rustc-link-search=native={}", path);
